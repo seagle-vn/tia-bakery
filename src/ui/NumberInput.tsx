@@ -1,25 +1,26 @@
-import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Input,
+  useNumberInput,
+  NumberInputProps,
+} from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 
-interface NumberInputProps {
-  step: number;
-  defaultValue: number;
-  min: number;
-  max: number;
-}
-export const NumberInput: FunctionComponent<NumberInputProps> = ({
-  step,
-  defaultValue,
-  min,
-  max,
-}) => {
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-      step,
-      defaultValue,
-      min,
-      max,
-    });
+export const NumberInput: FunctionComponent<
+  NumberInputProps & { onChange: (value: number) => void }
+> = ({ step, defaultValue, min, max, onChange }) => {
+  const {
+    getInputProps,
+    getIncrementButtonProps,
+    getDecrementButtonProps,
+    value,
+  } = useNumberInput({
+    step,
+    defaultValue,
+    min,
+    max,
+  });
 
   const inc = getIncrementButtonProps();
   const dec = getDecrementButtonProps();
@@ -27,9 +28,31 @@ export const NumberInput: FunctionComponent<NumberInputProps> = ({
 
   return (
     <HStack maxW='320px'>
-      <Button {...inc}>+</Button>
-      <Input {...input} />
-      <Button {...dec}>-</Button>
+      <Button
+        {...inc}
+        onClick={(e) => {
+          inc.onClick?.(e);
+          onChange(Number(value));
+        }}
+      >
+        +
+      </Button>
+      <Input
+        {...input}
+        onChange={(e) => {
+          input.onChange?.(e);
+          onChange(Number(e.target.value));
+        }}
+      />
+      <Button
+        {...dec}
+        onClick={(e) => {
+          inc.onClick?.(e);
+          onChange(Number(value));
+        }}
+      >
+        -
+      </Button>
     </HStack>
   );
 };

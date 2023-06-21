@@ -32,6 +32,7 @@ export default function ShopePage() {
             image={product.image.url}
             price={product.price}
             slug={product.slug}
+            id={product.id}
           />
         ))}
       </SimpleGrid>

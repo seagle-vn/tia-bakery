@@ -18,9 +18,21 @@ const colors = {
   },
 };
 
-const amaticSc = Amatic_SC({ subsets: ['latin'], weight: ['400', '700'] });
-const roboto = Roboto_Condensed({ subsets: ['latin'], weight: '300' });
-const grandiflora = Grandiflora_One({ subsets: ['latin'], weight: '400' });
+const amaticSc = Amatic_SC({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+});
+const roboto = Roboto_Condensed({
+  subsets: ['latin'],
+  weight: '300',
+  display: 'swap',
+});
+const grandiflora = Grandiflora_One({
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+});
 
 export const theme = extendTheme({
   colors,

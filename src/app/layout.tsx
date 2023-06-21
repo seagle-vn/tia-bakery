@@ -2,6 +2,7 @@ import './globals.css';
 
 import { ClientLayout } from './ClientLayout';
 import { ApolloWrapper } from './ApolloWrapper';
+import CartProvider from './CartProvider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,7 +18,9 @@ export default function RootLayout({
     <html lang='en'>
       <body>
         <ApolloWrapper delay={1000}>
-          <ClientLayout>{children}</ClientLayout>
+          <CartProvider>
+            <ClientLayout>{children}</ClientLayout>
+          </CartProvider>
         </ApolloWrapper>
       </body>
     </html>

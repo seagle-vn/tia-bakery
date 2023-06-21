@@ -3,7 +3,6 @@
 import { gql, useSuspenseQuery } from '@apollo/client';
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -14,6 +13,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { NumberInput } from '../../../ui/NumberInput';
+import { AddToCartButton } from '../../../ui/AddToCartButton';
+import { useState } from 'react';
 
 const query = gql`
   query PageProduct($slug: String) {
@@ -38,7 +39,8 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   const { product } = data as any;
 
-  console.log({ product });
+  const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState('small');
 
   return (
     <SimpleGrid
@@ -47,7 +49,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       columns={2}
       sx={{ paddingLeft: '15%', paddingRight: '15%' }}
     >
-      <Box>
+      <Box borderRadius='1rem'>
         <Image src={product.image.url} alt={product.name} />
       </Box>
       <Box>
@@ -66,26 +68,36 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <HStack mt='2rem' width='100%' spacing='15%'>
             <FormControl id='quantity'>
               <FormLabel>Quantity</FormLabel>
-              <NumberInput defaultValue={1} step={1} min={1} max={100} />
+              <NumberInput
+                onChange={(value) => {
+                  setQuantity(Number(value));
+                }}
+                defaultValue={1}
+                step={1}
+                min={1}
+                max={100}
+              />
             </FormControl>
             <FormControl id='quantity'>
               <FormLabel>Select size</FormLabel>
-              <Select>
-                <option value='option1'>Big size</option>
-                <option value='option2'>Small size</option>
+              <Select onChange={(e) => setSize(e.target.value)}>
+                <option value='small'>Big size</option>
+                <option value='big'>Small size</option>
               </Select>
             </FormControl>
           </HStack>
-          <Button
-            px='3rem'
-            mt='3rem'
-            maxW='80%'
-            bg='primary.200'
-            color='white'
-            textTransform='uppercase'
-          >
-            Add to cart
-          </Button>
+          <AddToCartButton
+            product={{
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image: product.image.url,
+              size
+            }}
+            quantity={quantity}
+            mt='2rem'
+            px='4rem'
+          />
         </VStack>
       </Box>
     </SimpleGrid>

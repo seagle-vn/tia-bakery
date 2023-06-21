@@ -1,0 +1,73 @@
+import {
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  Input,
+  DrawerFooter,
+  Button,
+  DrawerProps,
+  Heading,
+  Stack,
+  Divider,
+} from '@chakra-ui/react';
+import { FunctionComponent } from 'react';
+import { useCart } from 'react-use-cart';
+import { CartItem } from '../CartItem';
+import { CartOrderSummary } from '../CartOrderSummary';
+
+export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
+  isOpen,
+  onClose,
+  finalFocusRef,
+  ...props
+}) => {
+  const { items } = useCart();
+
+  return (
+    <Drawer
+      isOpen={isOpen}
+      placement='right'
+      onClose={onClose}
+      finalFocusRef={finalFocusRef}
+      size='md'
+      {...props}
+    >
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />
+
+        <DrawerBody>
+          <Stack spacing={{ base: '8', md: '10' }} flex='2'>
+            <Heading fontSize='2xl' mt='4rem' fontWeight='extrabold'>
+              Shopping Cart ({items.length} items)
+            </Heading>
+
+            <Stack spacing='6'>
+              {items.map((item) => (
+                <CartItem
+                  key={item.id}
+                  {...item}
+                  imageUrl={item.image}
+                  description={`Size ${item.size}`}
+                  name={item.name}
+                  quantity={item.quantity ?? 0}
+                />
+              ))}
+            </Stack>
+          </Stack>
+          <Divider my='2rem' />
+          <CartOrderSummary />
+        </DrawerBody>
+
+        <DrawerFooter>
+          <Button w='100%' colorScheme='blue' onClick={onClose}>
+            Submit Order
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+};
