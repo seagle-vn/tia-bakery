@@ -1,6 +1,7 @@
 'use client';
-import { Box, Center, Text } from '@chakra-ui/react';
+import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react';
 import styles from './page.module.css';
+import { Category } from '../components/home/Category';
 
 export default function Home() {
   return (
@@ -22,24 +23,40 @@ export default function Home() {
         className={styles.banner}
         position='relative'
       >
-        <Text
-          fontFamily='amatic'
-          fontWeight='700'
-          fontSize='4rem'
-          color='primary.200'
-          lineHeight='1.1'
-          letterSpacing={1}
-          borderTop='3px solid'
-          borderTopColor='primary.200'
-          py='2rem'
-          textAlign='center'
-          maxWidth='35rem'
-          position='relative'
-          className={styles.bannerText}
-        >
-          Fresh. Seasonal. Handmade. Philly&apos;s new craft bake shop.
-        </Text>
+        <VStack>
+          <Text
+            fontFamily='amatic'
+            fontWeight='700'
+            fontSize='4rem'
+            color='primary.200'
+            lineHeight='1.1'
+            letterSpacing={1}
+            borderTop='3px solid'
+            borderTopColor='primary.200'
+            py='2rem'
+            textAlign='center'
+            maxWidth='35rem'
+            position='relative'
+            className={styles.bannerText}
+          >
+            Fresh. Seasonal. Handmade. Philly&apos;s new craft bake shop.
+          </Text>
+          <Text
+            fontFamily='roboto'
+            fontSize='3rem'
+            color='primary.200'
+            textTransform='uppercase'
+            className={styles.descriptionText}
+          >
+            BAKERY - CAFÉ - BYOB
+          </Text>
+        </VStack>
       </Center>
+      <VStack>
+        <Category title='Birthday cakes' link='/' />
+        <Category title='Bake goods' link='/' />
+        <Category title='Feature products' link='/' />
+      </VStack>
     </main>
   );
 }
