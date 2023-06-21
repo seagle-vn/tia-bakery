@@ -55,8 +55,8 @@ export const Navbar: FunctionComponent = () => {
           backgroundPosition='center'
           backgroundSize='cover'
           backgroundRepeat='no-repeat'
-          width='10rem'
-          height='10rem'
+          width='13rem'
+          height='13rem'
           borderRadius='50%'
         >
           <Link href='/'></Link>

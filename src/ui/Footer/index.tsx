@@ -70,7 +70,14 @@ const SocialButton = ({
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
-    <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
+    <Text
+      fontFamily='roboto'
+      fontWeight={'600'}
+      textTransform='uppercase'
+      letterSpacing={1}
+      fontSize={'lg'}
+      mb={2}
+    >
       {children}
     </Text>
   );
@@ -81,12 +88,12 @@ export function Footer() {
     <Box backgroundColor='#FBD4D7'>
       <Container as={Stack} maxW={'80%'} py={10}>
         <Flex w='100%' justifyContent='space-between' gap={8}>
-          <Stack spacing={6}>
+          <Stack alignItems='center' spacing={6}>
             <HStack>
               <Image
                 borderRadius='50%'
-                width='8rem'
-                height='8rem'
+                width='13rem'
+                height='13rem'
                 src='/logo.png'
                 alt='Logo'
               />
@@ -104,15 +111,26 @@ export function Footer() {
               </SocialButton>
             </Stack>
           </Stack>
-          <Stack mt='1rem' align={'flex-start'}>
-            <Text fontSize={'lg'}>London, Ontario, Canada</Text>
-            <Text fontSize={'lg'}>+00 226 700 3943</Text>
-            <Text fontSize={'lg'}>tia.bakery@gmail.com</Text>
+          <Stack fontFamily='grandiflora' mt='1rem' align={'flex-start'}>
+            <ListHeader>Visit our store</ListHeader>
+            <Text fontWeight='700' fontSize={'lg'}>
+              London, Ontario, Canada
+            </Text>
+            <Text fontWeight='700' fontSize={'lg'}>
+              +00 226 700 3943
+            </Text>
+            <Text fontWeight='700' fontSize={'lg'}>
+              tia.bakery@gmail.com
+            </Text>
           </Stack>
-          <Stack mt='1rem' align={'flex-end'}>
-            <Text fontSize={'lg'}>Open times</Text>
-            <Text fontSize={'lg'}>Mon - Fri: 09:00 AM - 10:00 PM</Text>
-            <Text fontSize={'lg'}>Sat - Sun: 09:00 AM - 11:30 PM</Text>
+          <Stack fontFamily='grandiflora' mt='1rem' align={'flex-end'}>
+            <ListHeader>Open times</ListHeader>
+            <Text fontWeight='700' fontSize={'lg'}>
+              Mon - Fri: 09:00 AM - 10:00 PM
+            </Text>
+            <Text fontWeight='700' fontSize={'lg'}>
+              Sat - Sun: 09:00 AM - 11:30 PM
+            </Text>
           </Stack>
         </Flex>
       </Container>

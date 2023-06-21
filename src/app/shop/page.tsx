@@ -21,7 +21,6 @@ export default function ShopePage() {
   const { data } = useSuspenseQuery(query, {
     fetchPolicy: 'cache-first',
   });
-  console.log(JSON.stringify(data, null, 4));
 
   return (
     <Box py='4rem' backgroundImage="url('/banner_text_background.png')">
@@ -32,7 +31,7 @@ export default function ShopePage() {
             name={product.name}
             image={product.image.url}
             price={product.price}
-            slug={product.name}
+            slug={product.slug}
           />
         ))}
       </SimpleGrid>
