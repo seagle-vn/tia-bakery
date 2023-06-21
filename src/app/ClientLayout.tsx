@@ -1,0 +1,52 @@
+'use client';
+
+import {
+  ChakraProvider,
+  Container,
+  Spinner,
+  extendTheme,
+} from '@chakra-ui/react';
+import { Suspense } from 'react';
+import { CacheProvider } from '@chakra-ui/next-js';
+import { Amatic_SC, Roboto_Condensed } from 'next/font/google';
+import { Navbar } from '../ui/Navbar';
+import { Footer } from '../ui/Footer';
+
+const colors = {
+  primary: {
+    200: '#53B7D1',
+  },
+};
+
+const amaticSc = Amatic_SC({ subsets: ['latin'], weight: ['400', '700'] });
+const roboto = Roboto_Condensed({ subsets: ['latin'], weight: '300' });
+
+export const theme = extendTheme({
+  colors,
+  fonts: {
+    amatic: 'var(--font-amatic)',
+    roboto: 'var(--font-roboto)',
+  },
+});
+
+export function ClientLayout({ children }: React.PropsWithChildren) {
+  return (
+    <>
+      <style jsx global>
+        {`
+          :root {
+            --font-amatic: ${amaticSc.style.fontFamily};
+            --font-roboto: ${roboto.style.fontFamily};
+          }
+        `}
+      </style>
+      <CacheProvider>
+        <ChakraProvider theme={theme}>
+          <Navbar />
+          <Suspense fallback={<Spinner />}>{children}</Suspense>
+          <Footer />
+        </ChakraProvider>
+      </CacheProvider>
+    </>
+  );
+}

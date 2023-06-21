@@ -1,9 +1,7 @@
-'use client';
-import { Footer } from '../ui/Footer';
-import { Navbar } from '../ui/Navbar';
 import './globals.css';
 
-import { Providers } from './providers';
+import { ClientLayout } from './ClientLayout';
+import { ApolloWrapper } from './ApolloWrapper';
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,11 +16,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <Providers>
-          <Navbar />
-          {children}
-          <Footer />
-        </Providers>
+        <ApolloWrapper delay={1000}>
+          <ClientLayout>{children}</ClientLayout>
+        </ApolloWrapper>
       </body>
     </html>
   );

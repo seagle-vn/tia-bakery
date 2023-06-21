@@ -42,7 +42,7 @@ export const Navbar: FunctionComponent = () => {
           </Box>
           <Box>
             <Link
-              href='/about'
+              href='/shop'
               className={styles.link}
               _hover={{ color: 'primary.200' }}
             >

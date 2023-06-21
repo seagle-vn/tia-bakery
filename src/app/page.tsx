@@ -1,5 +1,5 @@
 'use client';
-import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, Center, Text, VStack } from '@chakra-ui/react';
 import styles from './page.module.css';
 import { Category } from '../components/home/Category';
 
