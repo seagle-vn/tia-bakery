@@ -5,23 +5,26 @@ import {
   Text,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
+import { useCart } from 'react-use-cart';
 import { QuantitySelect } from './QuantitySelect';
 
 export type CartProductMetaProps = {
   name: string;
   description: string;
   image: string;
-  onChangeQuantity?: (quantity: number) => void;
   quantity: number;
+  id: string;
 };
 
 export const CartProductMeta = ({
   image,
   name,
   description,
-  onChangeQuantity,
   quantity,
+  id,
 }: CartProductMetaProps) => {
+  const { updateItemQuantity } = useCart();
+
   return (
     <Stack direction='row' spacing='5' width='full'>
       <Image
@@ -41,10 +44,10 @@ export const CartProductMeta = ({
             {description}
           </Text>
           <QuantitySelect
-            value={quantity}
-            onChange={(e) => {
-              onChangeQuantity?.(+e.currentTarget.value);
+            onChange={(value) => {
+              updateItemQuantity(id, value);
             }}
+            defaultValue={quantity}
           />
         </Stack>
       </Box>

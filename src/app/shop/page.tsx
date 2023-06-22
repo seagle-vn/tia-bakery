@@ -1,9 +1,9 @@
 'use client';
 
-import { Box, SimpleGrid } from '@chakra-ui/react';
 import { gql } from '@apollo/client';
-import { ProductCard } from '../../components/shop/ProductCard';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { Box, SimpleGrid } from '@chakra-ui/react';
+import { ProductCard } from '../../components/shop/ProductCard';
 
 const query = gql`
   query ShopPage {
@@ -23,7 +23,7 @@ export default function ShopePage() {
   });
 
   return (
-    <Box py='4rem' backgroundImage="url('/banner_text_background.png')">
+    <Box py='4rem'>
       <SimpleGrid width='80%' margin='0 auto' columns={[1, 4]} spacing='4rem'>
         {(data as any).products.map((product: any) => (
           <ProductCard

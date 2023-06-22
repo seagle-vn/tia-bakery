@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   GridItem,
   HStack,
@@ -14,10 +15,35 @@ import {
   chakra,
 } from '@chakra-ui/react';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+type FormValues = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  city: string;
+  postal_code: string;
+  date: string;
+  notes: string;
+  whenToPay: string;
+  paymentMethod: string;
+};
 
 export const CheckoutForm: FunctionComponent = () => {
-  const [date, setDate] = useState(new Date());
+  const {
+    handleSubmit,
+    register,
+    control,
+    setValue,
+    getValues,
+    formState: { errors, isSubmitting, isValid, isDirty },
+  } = useForm<FormValues>({ mode: 'onChange' });
+
+  function onSubmit(values: FormValues) {
+    console.log(values);
+  }
 
   return (
     <GridItem
@@ -28,7 +54,7 @@ export const CheckoutForm: FunctionComponent = () => {
       bg='white'
     >
       <chakra.form
-        method='POST'
+        onSubmit={handleSubmit(onSubmit)}
         shadow='base'
         rounded={[null, 'md']}
         overflow={{
@@ -50,11 +76,14 @@ export const CheckoutForm: FunctionComponent = () => {
             Shipping Information
           </Text>
           <SimpleGrid columns={6} spacing={6}>
-            <FormControl as={GridItem} colSpan={[6]}>
+            <FormControl
+              isInvalid={errors.name != null}
+              as={GridItem}
+              colSpan={[6]}
+            >
               <FormLabel
                 fontSize='sm'
                 htmlFor='name'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
@@ -63,42 +92,52 @@ export const CheckoutForm: FunctionComponent = () => {
                 Full Name
               </FormLabel>
               <Input
-                type='text'
-                name='name'
                 id='name'
-                autoComplete='name'
                 mt={1}
-                rounded='md'
+                {...register('name', {
+                  required: 'This field is required',
+                })}
               />
+              <FormErrorMessage>
+                {errors.name && errors.name.message}
+              </FormErrorMessage>
             </FormControl>
 
-            <FormControl as={GridItem} colSpan={[6, 3]}>
+            <FormControl
+              isInvalid={errors.phone != null}
+              as={GridItem}
+              colSpan={[6, 3]}
+            >
               <FormLabel
                 fontSize='sm'
                 htmlFor='phone'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
                 }}
               >
-                First name
+                Phone number
               </FormLabel>
               <Input
-                type='text'
-                name='phone'
                 id='phone'
-                autoComplete='phone'
                 mt={1}
-                rounded='md'
+                {...register('phone', {
+                  required: 'This field is required',
+                })}
               />
+              <FormErrorMessage>
+                {errors.phone && errors.phone.message}
+              </FormErrorMessage>
             </FormControl>
 
-            <FormControl as={GridItem} colSpan={[6, 3]}>
+            <FormControl
+              isInvalid={errors.email != null}
+              as={GridItem}
+              colSpan={[6, 3]}
+            >
               <FormLabel
-                htmlFor='email_address'
+                htmlFor='email'
                 fontSize='sm'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
@@ -107,20 +146,26 @@ export const CheckoutForm: FunctionComponent = () => {
                 Email address
               </FormLabel>
               <Input
-                type='text'
-                name='email_address'
-                id='email_address'
+                id='email'
                 autoComplete='email'
                 mt={1}
-                rounded='md'
+                {...register('email', {
+                  required: 'This field is required',
+                })}
               />
+              <FormErrorMessage>
+                {errors.email && errors.email.message}
+              </FormErrorMessage>
             </FormControl>
 
-            <FormControl as={GridItem} colSpan={6}>
+            <FormControl
+              isInvalid={errors.address != null}
+              as={GridItem}
+              colSpan={6}
+            >
               <FormLabel
-                htmlFor='street_address'
+                htmlFor='address'
                 fontSize='sm'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
@@ -129,20 +174,26 @@ export const CheckoutForm: FunctionComponent = () => {
                 Street address
               </FormLabel>
               <Input
-                type='text'
-                name='street_address'
-                id='street_address'
-                autoComplete='street-address'
+                id='address'
                 mt={1}
                 rounded='md'
+                {...register('address', {
+                  required: 'This field is required',
+                })}
               />
+              <FormErrorMessage>
+                {errors.address && errors.address.message}
+              </FormErrorMessage>
             </FormControl>
 
-            <FormControl as={GridItem} colSpan={[6, 3]}>
+            <FormControl
+              isInvalid={errors.city != null}
+              as={GridItem}
+              colSpan={[6, 3]}
+            >
               <FormLabel
                 htmlFor='city'
                 fontSize='sm'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
@@ -151,35 +202,44 @@ export const CheckoutForm: FunctionComponent = () => {
                 City
               </FormLabel>
               <Input
-                type='text'
-                name='city'
                 id='city'
-                autoComplete='city'
                 mt={1}
                 rounded='md'
+                {...register('city', {
+                  required: 'This field is required',
+                })}
               />
+              <FormErrorMessage>
+                {errors.city && errors.city.message}
+              </FormErrorMessage>
             </FormControl>
 
-            <FormControl as={GridItem} colSpan={[6, 3]}>
+            <FormControl
+              isInvalid={errors.postal_code != null}
+              as={GridItem}
+              colSpan={[6, 3]}
+            >
               <FormLabel
                 htmlFor='postal_code'
                 fontSize='sm'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
                 }}
               >
-                ZIP / Postal
+                ZIP / Postal code
               </FormLabel>
               <Input
-                type='text'
-                name='postal_code'
                 id='postal_code'
-                autoComplete='postal-code'
                 mt={1}
                 rounded='md'
+                {...register('postal_code', {
+                  required: 'This field is required',
+                })}
               />
+              <FormErrorMessage>
+                {errors.postal_code && errors.postal_code.message}
+              </FormErrorMessage>
             </FormControl>
           </SimpleGrid>
 
@@ -193,30 +253,56 @@ export const CheckoutForm: FunctionComponent = () => {
             Order details
           </Text>
           <SimpleGrid columns={6} spacing={6}>
-            <FormControl as={GridItem} colSpan={[6]}>
+            <FormControl
+              isInvalid={errors.date != null}
+              as={GridItem}
+              colSpan={[6]}
+            >
               <FormLabel
                 fontSize='sm'
                 htmlFor='date'
-                fontWeight='md'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
                 }}
               >
-                Date of shipping
+                Date of delivery
               </FormLabel>
-              <SingleDatepicker
-                id='date'
+              <Controller
                 name='date'
-                date={date}
-                onDateChange={setDate}
+                control={control}
+                render={({ field }) => (
+                  <SingleDatepicker
+                    {...field}
+                    id='date'
+                    date={
+                      getValues('date') != null
+                        ? new Date(getValues('date'))
+                        : undefined
+                    }
+                    onDateChange={(date) =>
+                      setValue('date', date.toISOString())
+                    }
+                    propsConfigs={{
+                      inputProps: {
+                        placeholder: 'yyyy-mm-dd',
+                      },
+                    }}
+                  />
+                )}
               />
+              <FormErrorMessage>
+                {errors.date && errors.date.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl as={GridItem} colSpan={[6]}>
+            <FormControl
+              isInvalid={errors.notes != null}
+              as={GridItem}
+              colSpan={[6]}
+            >
               <FormLabel
                 fontSize='sm'
-                htmlFor='note'
-                fontWeight='md'
+                htmlFor='notes'
                 color='gray.700'
                 _dark={{
                   color: 'gray.50',
@@ -224,13 +310,7 @@ export const CheckoutForm: FunctionComponent = () => {
               >
                 Order Notes
               </FormLabel>
-              <Textarea
-                name='note'
-                id='note'
-                autoComplete='postal-note'
-                mt={1}
-                shadow='sm'
-              />
+              <Textarea id='notes' mt={1} shadow='sm' {...register('notes')} />
             </FormControl>
           </SimpleGrid>
 
@@ -243,16 +323,24 @@ export const CheckoutForm: FunctionComponent = () => {
           >
             How to pay
           </Text>
-          <RadioGroup name='whenToPay'>
-            <HStack gap='4rem' direction='row'>
-              <Radio width='50%' value='advanced'>
-                Pay in advanced
-              </Radio>
-              <Radio width='50%' value='payAtPickUp'>
-                Pay at pick up
-              </Radio>
-            </HStack>
-          </RadioGroup>
+          <FormControl>
+            <Controller
+              name='whenToPay'
+              control={control}
+              render={({ field }) => (
+                <RadioGroup {...field}>
+                  <HStack gap='4rem' direction='row'>
+                    <Radio width='50%' value='advanced'>
+                      Pay in advanced
+                    </Radio>
+                    <Radio width='50%' value='payAtPickUp'>
+                      Pay at pick up
+                    </Radio>
+                  </HStack>
+                </RadioGroup>
+              )}
+            />
+          </FormControl>
 
           <Text
             fontSize='xl'
@@ -263,18 +351,31 @@ export const CheckoutForm: FunctionComponent = () => {
           >
             Payment method
           </Text>
-          <RadioGroup name='paymentMethod'>
-            <HStack gap='4rem' direction='row'>
-              <Radio width='50%' value='transfer'>
-                E-transfer
-              </Radio>
-              <Radio width='50%' value='cash'>
-                Cash
-              </Radio>
-            </HStack>
-          </RadioGroup>
+          <Controller
+            name='paymentMethod'
+            control={control}
+            render={({ field }) => (
+              <RadioGroup {...field}>
+                <HStack gap='4rem' direction='row'>
+                  <Radio width='50%' value='transfer'>
+                    E-transfer
+                  </Radio>
+                  <Radio width='50%' value='cash'>
+                    Cash
+                  </Radio>
+                </HStack>
+              </RadioGroup>
+            )}
+          />
 
-          <Button textTransform='uppercase' colorScheme='blue' mt='2rem'>
+          <Button
+            textTransform='uppercase'
+            colorScheme='blue'
+            mt='2rem'
+            type='submit'
+            isLoading={isSubmitting}
+            isDisabled={!isDirty || !isValid}
+          >
             Place order
           </Button>
         </Stack>

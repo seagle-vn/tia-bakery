@@ -24,7 +24,7 @@ export const CartItem = ({
   price,
   displayRemoveButton = true,
 }: CartItemProps) => {
-  const { removeItem } = useCart();
+  const { removeItem, updateItemQuantity } = useCart();
 
   return (
     <Flex
@@ -33,11 +33,11 @@ export const CartItem = ({
       align='center'
     >
       <CartProductMeta
-        onChangeQuantity={() => console.group('changed')}
         quantity={quantity}
         name={name}
         description={description}
         image={imageUrl}
+        id={id}
       />
 
       {/* Desktop */}
@@ -71,11 +71,10 @@ export const CartItem = ({
           Delete
         </Link>
         <QuantitySelect
-          value={quantity}
-          onChange={(e) => {
-            // onChangeQuantity?.(+e.currentTarget.value);
-            console.log('quantity changed');
+          onChange={(value) => {
+            updateItemQuantity(id, value);
           }}
+          defaultValue={quantity}
         />
         <PriceTag price={price} currency='CAD' />
       </Flex>

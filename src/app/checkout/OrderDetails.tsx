@@ -5,7 +5,6 @@ import { CartItem } from '../../ui/CartItem';
 import { formatPrice } from '../../ui/CartItem/PriceTag';
 import { OrderSummaryItem } from '../../ui/OrderSummaryItem';
 
-const shipping = 5;
 export const OrderDetails: FunctionComponent = () => {
   const { items, cartTotal } = useCart();
 
@@ -31,14 +30,13 @@ export const OrderDetails: FunctionComponent = () => {
 
       <Stack spacing='6'>
         <OrderSummaryItem label='Subtotal' value={formatPrice(cartTotal)} />
-        <OrderSummaryItem label='Shipping' value={formatPrice(shipping)} />
         <Divider />
         <Flex justify='space-between'>
           <Text fontSize='lg' fontWeight='semibold'>
             Total
           </Text>
           <Text fontSize='xl' fontWeight='extrabold'>
-            {formatPrice(cartTotal + shipping)}
+            {formatPrice(cartTotal)}
           </Text>
         </Flex>
       </Stack>

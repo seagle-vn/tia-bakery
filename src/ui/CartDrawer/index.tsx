@@ -1,3 +1,4 @@
+import { Link } from '@chakra-ui/next-js';
 import {
   Button,
   Divider,
@@ -61,9 +62,11 @@ export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
         </DrawerBody>
 
         <DrawerFooter>
-          <Button w='100%' colorScheme='blue' onClick={onClose}>
-            Submit Order
-          </Button>
+          <Link w='100%' href='/checkout'>
+            <Button w='100%' colorScheme='blue' onClick={onClose}>
+              Submit Order
+            </Button>
+          </Link>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
