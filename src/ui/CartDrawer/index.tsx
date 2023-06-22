@@ -1,22 +1,20 @@
 import {
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  Input,
-  DrawerFooter,
   Button,
+  Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerOverlay,
   DrawerProps,
   Heading,
   Stack,
-  Divider,
 } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 import { useCart } from 'react-use-cart';
 import { CartItem } from '../CartItem';
-import { CartOrderSummary } from '../CartOrderSummary';
+import { OrderSummary } from './OrderSummary';
 
 export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
   isOpen,
@@ -59,7 +57,7 @@ export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
             </Stack>
           </Stack>
           <Divider my='2rem' />
-          <CartOrderSummary />
+          <OrderSummary />
         </DrawerBody>
 
         <DrawerFooter>

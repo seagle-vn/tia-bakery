@@ -1,15 +1,9 @@
-import {
-  Button,
-  Flex,
-  Link,
-  Select,
-  SelectProps,
-  useColorModeValue,
-} from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { PriceTag } from './PriceTag';
-import { CartProductMeta } from './CartProductMeta';
+import { Button, Flex, Link } from '@chakra-ui/react';
 import { useCart } from 'react-use-cart';
+import { CartProductMeta } from './CartProductMeta';
+import { PriceTag } from './PriceTag';
+import { QuantitySelect } from './QuantitySelect';
 
 type CartItemProps = {
   id: string;
@@ -18,23 +12,7 @@ type CartItemProps = {
   quantity: number;
   price: number;
   imageUrl: string;
-  onChangeQuantity?: (quantity: number) => void;
-};
-
-const QuantitySelect = (props: SelectProps) => {
-  return (
-    <Select
-      maxW='64px'
-      aria-label='Select quantity'
-      focusBorderColor={useColorModeValue('blue.500', 'blue.200')}
-      {...props}
-    >
-      <option value='1'>1</option>
-      <option value='2'>2</option>
-      <option value='3'>3</option>
-      <option value='4'>4</option>
-    </Select>
-  );
+  displayRemoveButton?: boolean;
 };
 
 export const CartItem = ({
@@ -44,7 +22,7 @@ export const CartItem = ({
   quantity,
   imageUrl,
   price,
-  onChangeQuantity,
+  displayRemoveButton = true,
 }: CartItemProps) => {
   const { removeItem } = useCart();
 
@@ -54,28 +32,31 @@ export const CartItem = ({
       justify='space-between'
       align='center'
     >
-      <CartProductMeta name={name} description={description} image={imageUrl} />
+      <CartProductMeta
+        onChangeQuantity={() => console.group('changed')}
+        quantity={quantity}
+        name={name}
+        description={description}
+        image={imageUrl}
+      />
 
       {/* Desktop */}
       <Flex
-        width='full'
-        justify='space-between'
+        width={{ md: '40%' }}
+        mt={{ md: '-4rem' }}
+        justify='flex-end'
         display={{ base: 'none', md: 'flex' }}
       >
-        <QuantitySelect
-          value={quantity}
-          onChange={(e) => {
-            onChangeQuantity?.(+e.currentTarget.value);
-          }}
-        />
         <PriceTag price={price} currency='CAD' />
-        <Button
-          onClick={() => removeItem(id)}
-          variant='ghost'
-          colorScheme='red'
-        >
-          <DeleteIcon />
-        </Button>
+        {displayRemoveButton ? (
+          <Button
+            onClick={() => removeItem(id)}
+            variant='ghost'
+            colorScheme='red'
+          >
+            <DeleteIcon />
+          </Button>
+        ) : null}
       </Flex>
 
       {/* Mobile */}
@@ -92,7 +73,8 @@ export const CartItem = ({
         <QuantitySelect
           value={quantity}
           onChange={(e) => {
-            onChangeQuantity?.(+e.currentTarget.value);
+            // onChangeQuantity?.(+e.currentTarget.value);
+            console.log('quantity changed');
           }}
         />
         <PriceTag price={price} currency='CAD' />

@@ -37,7 +37,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
     <Button
       {...props}
       variant='solid'
-      colorScheme='pink'
+      colorScheme='blue'
       onClick={handleClick}
       isLoading={loading}
     >

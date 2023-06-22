@@ -1,8 +1,7 @@
 import { Link } from '@chakra-ui/next-js';
-import { Card, Flex, VStack, Text } from '@chakra-ui/react';
+import { Card, Flex, Text, VStack } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 import styles from './ProductCard.module.css';
-import { AddToCartButton } from '../../../ui/AddToCartButton';
 
 interface ProductCardProps {
   slug: string;
@@ -25,11 +24,6 @@ export const ProductCard: FunctionComponent<ProductCardProps> = ({
           <div
             className={styles.image}
             style={{ backgroundImage: `url(${image})` }}
-          />
-          <AddToCartButton
-            className={styles.btn}
-            product={{ id, name, price, image, size: 'small' }}
-            quantity={1}
           />
         </Link>
       </Card>
