@@ -24,6 +24,7 @@ export const OrderDetails: FunctionComponent = () => {
             name={item.name}
             quantity={item.quantity ?? 0}
             displayRemoveButton={false}
+            slug={item.slug}
           />
         ))}
       </Stack>

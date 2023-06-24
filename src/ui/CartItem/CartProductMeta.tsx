@@ -1,6 +1,7 @@
 import {
   Box,
   Image,
+  Link,
   Stack,
   Text,
   useColorModeValue as mode,
@@ -14,6 +15,7 @@ export type CartProductMetaProps = {
   image: string;
   quantity: number;
   id: string;
+  link: string;
 };
 
 export const CartProductMeta = ({
@@ -22,21 +24,24 @@ export const CartProductMeta = ({
   description,
   quantity,
   id,
+  link,
 }: CartProductMetaProps) => {
   const { updateItemQuantity } = useCart();
 
   return (
     <Stack direction='row' spacing='5' width='full'>
-      <Image
-        rounded='lg'
-        width='120px'
-        height='120px'
-        fit='cover'
-        src={image}
-        alt={name}
-        draggable='false'
-        loading='lazy'
-      />
+      <Link href={link}>
+        <Image
+          rounded='lg'
+          width='120px'
+          height='120px'
+          fit='cover'
+          src={image}
+          alt={name}
+          draggable='false'
+          loading='lazy'
+        />
+      </Link>
       <Box pt='4'>
         <Stack spacing='2'>
           <Text fontWeight='medium'>{name}</Text>

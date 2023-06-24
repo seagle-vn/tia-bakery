@@ -2,34 +2,25 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   GridItem,
   HStack,
-  Input,
   Radio,
   RadioGroup,
   SimpleGrid,
   Stack,
-  Text,
   Textarea,
   chakra,
 } from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+import { useRouter } from 'next/navigation';
 import { FunctionComponent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-
-type FormValues = {
-  name: string;
-  phone: string;
-  email: string;
-  address: string;
-  city: string;
-  postal_code: string;
-  date: string;
-  notes: string;
-  whenToPay: string;
-  paymentMethod: string;
-};
+import { useCart } from 'react-use-cart';
+import { FormHeading } from './FormHeading';
+import { CheckoutFormLabel } from './FormLabel';
+import { TextInput } from './TextInput';
+import { FormValues, schema } from './types';
 
 export const CheckoutForm: FunctionComponent = () => {
   const {
@@ -39,10 +30,31 @@ export const CheckoutForm: FunctionComponent = () => {
     setValue,
     getValues,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<FormValues>({ mode: 'onChange' });
+  } = useForm<FormValues>({ mode: 'onChange', resolver: zodResolver(schema) });
+  const { items, cartTotal } = useCart();
+  const router = useRouter();
 
-  function onSubmit(values: FormValues) {
-    console.log(values);
+  async function onSubmit(values: FormValues) {
+    try {
+      await fetch('/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          products: items,
+          ...values,
+          total: cartTotal,
+        }),
+      });
+      alert(
+        'We already received your message! We will contact you as soon as possible'
+      );
+      // router.push('/');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -55,8 +67,6 @@ export const CheckoutForm: FunctionComponent = () => {
     >
       <chakra.form
         onSubmit={handleSubmit(onSubmit)}
-        shadow='base'
-        rounded={[null, 'md']}
         overflow={{
           sm: 'hidden',
         }}
@@ -72,202 +82,78 @@ export const CheckoutForm: FunctionComponent = () => {
           }}
           spacing={6}
         >
-          <Text fontSize='xl' mb='1rem' fontWeight={700} lineHeight={1.2}>
-            Shipping Information
-          </Text>
+          <FormHeading mt={0}>Shipping Information</FormHeading>
           <SimpleGrid columns={6} spacing={6}>
-            <FormControl
+            <TextInput
+              htmlFor='name'
               isInvalid={errors.name != null}
-              as={GridItem}
+              errorMessage={errors.name?.message}
               colSpan={[6]}
-            >
-              <FormLabel
-                fontSize='sm'
-                htmlFor='name'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                Full Name
-              </FormLabel>
-              <Input
-                id='name'
-                mt={1}
-                {...register('name', {
-                  required: 'This field is required',
-                })}
-              />
-              <FormErrorMessage>
-                {errors.name && errors.name.message}
-              </FormErrorMessage>
-            </FormControl>
+              label={'Full name'}
+              register={register}
+              name='name'
+            />
 
-            <FormControl
+            <TextInput
+              htmlFor='phone'
               isInvalid={errors.phone != null}
-              as={GridItem}
+              errorMessage={errors.phone?.message}
               colSpan={[6, 3]}
-            >
-              <FormLabel
-                fontSize='sm'
-                htmlFor='phone'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                Phone number
-              </FormLabel>
-              <Input
-                id='phone'
-                mt={1}
-                {...register('phone', {
-                  required: 'This field is required',
-                })}
-              />
-              <FormErrorMessage>
-                {errors.phone && errors.phone.message}
-              </FormErrorMessage>
-            </FormControl>
+              register={register}
+              name='phone'
+              label='Phone number'
+            />
 
-            <FormControl
+            <TextInput
+              htmlFor='email'
               isInvalid={errors.email != null}
-              as={GridItem}
+              errorMessage={errors.email?.message}
               colSpan={[6, 3]}
-            >
-              <FormLabel
-                htmlFor='email'
-                fontSize='sm'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                Email address
-              </FormLabel>
-              <Input
-                id='email'
-                autoComplete='email'
-                mt={1}
-                {...register('email', {
-                  required: 'This field is required',
-                })}
-              />
-              <FormErrorMessage>
-                {errors.email && errors.email.message}
-              </FormErrorMessage>
-            </FormControl>
+              register={register}
+              name='email'
+              label='Email address'
+              registerOptions={{}}
+            />
 
-            <FormControl
+            <TextInput
+              htmlFor='address'
               isInvalid={errors.address != null}
-              as={GridItem}
-              colSpan={6}
-            >
-              <FormLabel
-                htmlFor='address'
-                fontSize='sm'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                Street address
-              </FormLabel>
-              <Input
-                id='address'
-                mt={1}
-                rounded='md'
-                {...register('address', {
-                  required: 'This field is required',
-                })}
-              />
-              <FormErrorMessage>
-                {errors.address && errors.address.message}
-              </FormErrorMessage>
-            </FormControl>
+              errorMessage={errors.address?.message}
+              colSpan={[6]}
+              register={register}
+              name='address'
+              label='Street address'
+            />
 
-            <FormControl
+            <TextInput
+              htmlFor='city'
               isInvalid={errors.city != null}
-              as={GridItem}
+              errorMessage={errors.city?.message}
               colSpan={[6, 3]}
-            >
-              <FormLabel
-                htmlFor='city'
-                fontSize='sm'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                City
-              </FormLabel>
-              <Input
-                id='city'
-                mt={1}
-                rounded='md'
-                {...register('city', {
-                  required: 'This field is required',
-                })}
-              />
-              <FormErrorMessage>
-                {errors.city && errors.city.message}
-              </FormErrorMessage>
-            </FormControl>
+              register={register}
+              name='city'
+              label='City'
+            />
 
-            <FormControl
+            <TextInput
+              htmlFor='postal_code'
               isInvalid={errors.postal_code != null}
-              as={GridItem}
+              errorMessage={errors.postal_code?.message}
               colSpan={[6, 3]}
-            >
-              <FormLabel
-                htmlFor='postal_code'
-                fontSize='sm'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                ZIP / Postal code
-              </FormLabel>
-              <Input
-                id='postal_code'
-                mt={1}
-                rounded='md'
-                {...register('postal_code', {
-                  required: 'This field is required',
-                })}
-              />
-              <FormErrorMessage>
-                {errors.postal_code && errors.postal_code.message}
-              </FormErrorMessage>
-            </FormControl>
+              register={register}
+              name='postal_code'
+              label='ZIP / Postal code'
+            />
           </SimpleGrid>
 
-          <Text
-            fontSize='xl'
-            fontWeight={700}
-            mt='2rem'
-            mb='1rem'
-            lineHeight={1.2}
-          >
-            Order details
-          </Text>
+          <FormHeading>Order details</FormHeading>
           <SimpleGrid columns={6} spacing={6}>
             <FormControl
               isInvalid={errors.date != null}
               as={GridItem}
               colSpan={[6]}
             >
-              <FormLabel
-                fontSize='sm'
-                htmlFor='date'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                Date of delivery
-              </FormLabel>
+              <CheckoutFormLabel>Date of delivery</CheckoutFormLabel>
               <Controller
                 name='date'
                 control={control}
@@ -275,6 +161,7 @@ export const CheckoutForm: FunctionComponent = () => {
                   <SingleDatepicker
                     {...field}
                     id='date'
+                    minDate={new Date()}
                     date={
                       getValues('date') != null
                         ? new Date(getValues('date'))
@@ -286,6 +173,16 @@ export const CheckoutForm: FunctionComponent = () => {
                     propsConfigs={{
                       inputProps: {
                         placeholder: 'yyyy-mm-dd',
+                      },
+                      dayOfMonthBtnProps: {
+                        selectedBtnProps: {
+                          backgroundColor: 'blue.200',
+                        },
+                        defaultBtnProps: {
+                          _hover: {
+                            background: 'blue.400',
+                          },
+                        },
                       },
                     }}
                   />
@@ -300,31 +197,17 @@ export const CheckoutForm: FunctionComponent = () => {
               as={GridItem}
               colSpan={[6]}
             >
-              <FormLabel
-                fontSize='sm'
-                htmlFor='notes'
-                color='gray.700'
-                _dark={{
-                  color: 'gray.50',
-                }}
-              >
-                Order Notes
-              </FormLabel>
+              <CheckoutFormLabel>Order Notes</CheckoutFormLabel>
               <Textarea id='notes' mt={1} shadow='sm' {...register('notes')} />
             </FormControl>
           </SimpleGrid>
 
-          <Text
-            fontSize='xl'
-            fontWeight={700}
-            mt='2rem'
-            mb='1rem'
-            lineHeight={1.2}
-          >
-            How to pay
-          </Text>
+          <FormHeading>How to pay</FormHeading>
           <FormControl>
             <Controller
+              rules={{
+                required: 'This field is required',
+              }}
               name='whenToPay'
               control={control}
               render={({ field }) => (
@@ -342,18 +225,13 @@ export const CheckoutForm: FunctionComponent = () => {
             />
           </FormControl>
 
-          <Text
-            fontSize='xl'
-            fontWeight={700}
-            mt='2rem'
-            mb='1rem'
-            lineHeight={1.2}
-          >
-            Payment method
-          </Text>
+          <FormHeading>Payment method</FormHeading>
           <Controller
             name='paymentMethod'
             control={control}
+            rules={{
+              required: 'This field is required',
+            }}
             render={({ field }) => (
               <RadioGroup {...field}>
                 <HStack gap='4rem' direction='row'>

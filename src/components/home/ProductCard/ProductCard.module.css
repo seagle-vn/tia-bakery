@@ -1,6 +1,11 @@
 .card {
   position: relative;
   height: 19rem;
+  overflow: hidden;
+}
+
+.card:hover .image {
+  transform: scale(1.1);
 }
 
 .image {

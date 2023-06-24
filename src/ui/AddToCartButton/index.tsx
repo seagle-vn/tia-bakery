@@ -11,6 +11,7 @@ type AddToCartButtonProps = ButtonProps & {
     price: number;
     image: string;
     size: string;
+    slug: string;
   };
   quantity: number;
 };

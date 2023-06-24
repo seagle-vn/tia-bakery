@@ -13,7 +13,7 @@ export default function CheckoutPage() {
       px='10%'
       py='4rem'
     >
-      <Box bg='gray.50' mt={[10, 0]}>
+      <Box shadow='lg' rounded='md' bg='gray.50' mt={[10, 0]}>
         <SimpleGrid
           display={{
             base: 'initial',

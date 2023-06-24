@@ -1,17 +1,17 @@
 import { Link } from '@chakra-ui/next-js';
 import {
-  HStack,
-  VStack,
-  Text,
+  Badge,
   Box,
   Button,
+  HStack,
+  Text,
+  VStack,
   useDisclosure,
-  Badge,
 } from '@chakra-ui/react';
-import { useRef, FunctionComponent } from 'react';
-import styles from './Navbar.module.css';
-import { CartDrawer } from '../CartDrawer';
+import { FunctionComponent, useRef } from 'react';
 import { useCart } from 'react-use-cart';
+import { CartDrawer } from '../CartDrawer';
+import styles from './Navbar.module.css';
 
 export const Navbar: FunctionComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -20,7 +20,7 @@ export const Navbar: FunctionComponent = () => {
 
   return (
     <>
-      <VStack justifyContent='center' backgroundColor='#FBD4D7' pb='2rem'>
+      <VStack justifyContent='center' backgroundColor='#FBD4D7' pb='1rem'>
         <VStack>
           <Text
             fontSize='5.5rem'
@@ -57,17 +57,17 @@ export const Navbar: FunctionComponent = () => {
               </Link>
             </Box>
           </HStack>
-          <Box
-            backgroundImage='/logo.png'
-            backgroundPosition='center'
-            backgroundSize='cover'
-            backgroundRepeat='no-repeat'
-            width='13rem'
-            height='13rem'
-            borderRadius='50%'
-          >
-            <Link href='/'></Link>
-          </Box>
+          <Link href='/'>
+            <Box
+              backgroundImage='/logo.png'
+              backgroundPosition='center'
+              backgroundSize='cover'
+              backgroundRepeat='no-repeat'
+              width='13rem'
+              height='13rem'
+              borderRadius='50%'
+            ></Box>
+          </Link>
           <HStack spacing='3rem' width='8rem' justifyContent='space-around'>
             <Box>
               <Link

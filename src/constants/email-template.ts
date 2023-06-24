@@ -336,8 +336,7 @@ export const emailTemplate = `<!DOCTYPE html>
   </head>
   <body>
     <span class="preheader"
-      >This is preheader text. Some clients will show this text as a
-      preview.</span
+      >Tia bakery có 1 order mới.</span
     >
     <table
       role="presentation"
@@ -365,11 +364,17 @@ export const emailTemplate = `<!DOCTYPE html>
                       <td>
                         <p>You have an order:</p>
                         <p>Name: $$name$$</p>
+                        <p>Telephone: $$phone$$</p>
                         <p>Email: $$email$$</p>
-                        <p>Telephone: $$tel$$</p>
                         <p>Address: $$address$$</p>
-                        <p>Additional message: $$message$$</p>
+                        <p>City: $$city$$</p>
+                        <p>Postal code: $$postal_code$$</p>
+                        <p>Date of delivery: $$date$$</p>
+                        <p>Order notes: $$notes$$</p>
+                        <p>When to pay: $$whenToPay$$</p>
+                        <p>Payment method: $$paymentMethod$$</p>
                         <p>Products: $$products$$</p>
+                        <p>Total amount: $$total$$</p>
                       </td>
                     </tr>
                   </table>

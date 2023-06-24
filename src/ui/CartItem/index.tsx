@@ -12,6 +12,7 @@ type CartItemProps = {
   quantity: number;
   price: number;
   imageUrl: string;
+  slug: string;
   displayRemoveButton?: boolean;
 };
 
@@ -22,6 +23,7 @@ export const CartItem = ({
   quantity,
   imageUrl,
   price,
+  slug,
   displayRemoveButton = true,
 }: CartItemProps) => {
   const { removeItem, updateItemQuantity } = useCart();
@@ -38,6 +40,7 @@ export const CartItem = ({
         description={description}
         image={imageUrl}
         id={id}
+        link={`/products/${slug}`}
       />
 
       {/* Desktop */}

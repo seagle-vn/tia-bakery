@@ -12,9 +12,9 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { NumberInput } from '../../../ui/NumberInput';
-import { AddToCartButton } from '../../../ui/AddToCartButton';
 import { useState } from 'react';
+import { AddToCartButton } from '../../../ui/AddToCartButton';
+import { NumberInput } from '../../../ui/NumberInput';
 
 const query = gql`
   query PageProduct($slug: String) {
@@ -92,7 +92,8 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               name: product.name,
               price: product.price,
               image: product.image.url,
-              size
+              slug: product.slug,
+              size,
             }}
             quantity={quantity}
             mt='2rem'

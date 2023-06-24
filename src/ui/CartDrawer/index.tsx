@@ -53,6 +53,7 @@ export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
                   description={`Size ${item.size}`}
                   name={item.name}
                   quantity={item.quantity ?? 0}
+                  slug={item.slug}
                 />
               ))}
             </Stack>
