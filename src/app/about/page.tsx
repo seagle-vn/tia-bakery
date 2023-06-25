@@ -1,52 +1,90 @@
 'use client';
+import { gql, useSuspenseQuery } from '@apollo/client';
+import { Box, Center, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import styles from './page.module.css';
 
-import { Box, HStack, Skeleton, SkeletonText, VStack } from '@chakra-ui/react';
+const query = gql`
+  query AboutPage($slug: String) {
+    page(where: { slug: $slug }) {
+      heroBackground
+      heroText
+      heroTitle
+      id
+      name
+      description {
+        html
+      }
+      descriptionImage
+    }
+  }
+`;
 
 export default function AboutPage() {
+  const { data } = useSuspenseQuery(query, {
+    fetchPolicy: 'cache-first',
+    variables: {
+      slug: 'about',
+    },
+  });
+  const { page } = data as any;
+
   return (
-    <Box px='10%' py='4rem'>
-      <HStack alignItems='start' width='100%'>
-        <VStack alignItems='start' width='65%' spacing='4rem'>
-          <VStack spacing='1rem' width='full' alignItems='start'>
-            <Skeleton width='50%' height='1rem' />
-            <SkeletonText noOfLines={4} width='80%' />
-          </VStack>
-          <VStack spacing='1rem' width='full' alignItems='start'>
-            <Skeleton width='50%' height='1rem' />
-            <SkeletonText noOfLines={4} width='80%' />
-          </VStack>
-          <VStack spacing='1rem' width='full' alignItems='start'>
-            <Skeleton width='50%' height='1rem' />
-            <SkeletonText noOfLines={4} width='80%' />
-          </VStack>
-          <VStack spacing='1rem' width='full' alignItems='start'>
-            <Skeleton width='50%' height='1rem' />
-            <SkeletonText noOfLines={4} width='80%' />
-          </VStack>
+    <main>
+      <Box
+        backgroundImage={`url('${page.heroBackground.url}')`}
+        backgroundPosition='center'
+        backgroundRepeat='no-repeat'
+        backgroundSize='cover'
+        height='425px'
+        width='100%'
+      />
+      <Center
+        backgroundImage="url('/banner_text_background.png')"
+        backgroundPosition='center'
+        backgroundRepeat='no-repeat'
+        backgroundSize='cover'
+        py='4rem'
+        className={styles.banner}
+        position='relative'
+      >
+        <VStack>
+          <Text
+            fontFamily='amatic'
+            fontWeight='700'
+            fontSize='4rem'
+            color='primary.200'
+            lineHeight='1.1'
+            letterSpacing={1}
+            borderTop='3px solid'
+            borderTopColor='primary.200'
+            py='2rem'
+            textAlign='center'
+            maxWidth='80%'
+            position='relative'
+            className={styles.bannerText}
+          >
+            {page.heroTitle}
+          </Text>
+          <Text
+            fontFamily='roboto'
+            fontSize='3rem'
+            color='primary.200'
+            textTransform='uppercase'
+            className={styles.descriptionText}
+          >
+            {page.heroText}
+          </Text>
         </VStack>
-        <VStack width='35%'>
-          <HStack width='100%'>
-            <Skeleton width='33%' height='4rem' />
-            <SkeletonText noOfLines={3} width='33%' />
-          </HStack>
-          <HStack width='100%'>
-            <Skeleton width='33%' height='4rem' />
-            <SkeletonText noOfLines={3} width='33%' />
-          </HStack>
-          <HStack width='100%'>
-            <Skeleton width='33%' height='4rem' />
-            <SkeletonText noOfLines={3} width='33%' />
-          </HStack>
-        </VStack>
+      </Center>
+      <HStack py='4rem' spacing='4rem' width='80%' margin='0 auto'>
+        <Image
+          borderRadius='50%'
+          src={page.descriptionImage.url}
+          alt='about image'
+          width='20rem'
+        />
+        <div dangerouslySetInnerHTML={{ __html: page.description.html }}></div>
       </HStack>
-      {/* <VStack width='80%' margin='0 auto' spacing='4rem'>
-        {new Array(4).fill(0).map((_, index) => (
-          <VStack key={index}>
-            <Skeleton borderRadius='xl' width='full' height='10rem' />
-            <SkeletonText noOfLines={3} width='full' height='2rem' />
-          </VStack>
-        ))}
-      </VStack> */}
-    </Box>
+    </main>
   );
 }

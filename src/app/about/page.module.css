@@ -1,0 +1,73 @@
+.banner::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 15px;
+  width: 100%;
+  background: url(/dashes.png) repeat-x;
+}
+.banner::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15px;
+  width: 100%;
+  background: url(/dashes.png) repeat-x;
+}
+
+.bannerText::before {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: url(/burst-left.png) no-repeat top left;
+  position: absolute;
+  left: -70px;
+  top: -20px;
+}
+
+.bannerText::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: url(/burst-left.png) no-repeat top left;
+  transform: rotate(180deg);
+  position: absolute;
+  right: -70px;
+  bottom: -20px;
+}
+
+.descriptionText::before {
+  content: '';
+  border-bottom: 2px solid #40bdc9;
+  display: block;
+  height: 1px;
+  width: 100px;
+  float: left;
+  top: 32px;
+  left: -30px;
+  position: relative;
+}
+
+.descriptionText {
+  position: relative;
+}
+
+.descriptionText::after {
+  content: '';
+  position: relative;
+  border-bottom: 2px solid #40bdc9;
+  display: block;
+  height: 1px;
+  width: 100px;
+  float: right;
+  right: -30px;
+  top: 32px;
+}

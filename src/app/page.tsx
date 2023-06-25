@@ -5,7 +5,7 @@ import { Category } from '../components/home/Category';
 import styles from './page.module.css';
 
 const query = gql`
-  query CategoryQuery {
+  query HomePage($slug: String) {
     categories {
       name
       id
@@ -17,20 +17,31 @@ const query = gql`
         image
       }
     }
+
+    page(where: { slug: $slug }) {
+      heroBackground
+      heroText
+      heroTitle
+      id
+      name
+    }
   }
 `;
 
 export default function Home() {
   const { data } = useSuspenseQuery(query, {
     fetchPolicy: 'cache-first',
+    variables: {
+      slug: 'home',
+    },
   });
 
-  const { categories } = data as { categories: any[] };
+  const { page, categories } = data as any;
 
   return (
     <main className={styles.main}>
       <Box
-        backgroundImage="url('/banner.jpg')"
+        backgroundImage={`url('${page.heroBackground.url}')`}
         backgroundPosition='center'
         backgroundRepeat='no-repeat'
         backgroundSize='cover'
@@ -62,7 +73,7 @@ export default function Home() {
             position='relative'
             className={styles.bannerText}
           >
-            Fresh. Seasonal. Handmade. Philly&apos;s new craft bake shop.
+            {page.heroTitle}
           </Text>
           <Text
             fontFamily='roboto'
@@ -71,12 +82,12 @@ export default function Home() {
             textTransform='uppercase'
             className={styles.descriptionText}
           >
-            BAKERY - CAFÉ - BYOB
+            {page.heroText}
           </Text>
         </VStack>
       </Center>
       <VStack>
-        {categories.map((category) => (
+        {categories.map((category: any) => (
           <Category
             title={category.name}
             link={`/shop/${category.slug}`}
