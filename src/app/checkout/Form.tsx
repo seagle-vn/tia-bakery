@@ -8,6 +8,7 @@ import {
   RadioGroup,
   SimpleGrid,
   Stack,
+  Text,
   Textarea,
   chakra,
   useToast,
@@ -67,6 +68,10 @@ export const CheckoutForm: FunctionComponent = () => {
         status: 'error',
       });
     }
+  }
+
+  if (items.length <= 0) {
+    return <Text>Your cart is empty</Text>;
   }
 
   return (
@@ -264,7 +269,7 @@ export const CheckoutForm: FunctionComponent = () => {
             mt='2rem'
             type='submit'
             isLoading={isSubmitting}
-            isDisabled={!isDirty || !isValid}
+            isDisabled={!isDirty || !isValid || !items.length}
           >
             Place order
           </Button>
