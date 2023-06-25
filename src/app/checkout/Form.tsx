@@ -71,7 +71,18 @@ export const CheckoutForm: FunctionComponent = () => {
   }
 
   if (items.length <= 0) {
-    return <Text>Your cart is empty</Text>;
+    return (
+      <GridItem
+        mt={[5, null, 0]}
+        colSpan={{
+          md: 2,
+        }}
+        bg='white'
+        textAlign='center'
+      >
+        <Text margin='5rem auto'>Your cart is empty</Text>
+      </GridItem>
+    );
   }
 
   return (
