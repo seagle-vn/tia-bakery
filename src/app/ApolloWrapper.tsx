@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import {
   ApolloClient,
   ApolloLink,
@@ -11,8 +10,9 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
+import React from 'react';
 
-import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { setVerbosity } from 'ts-invariant';
 
 if (process.env.NODE_ENV === 'development') {
@@ -38,7 +38,7 @@ export function ApolloWrapper({
 
   function makeClient() {
     const httpLink = new HttpLink({
-      uri: 'https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clilmstwq011j01uj6qg0a5ox/master',
+      uri: 'https://api-ca-central-1.hygraph.com/v2/cljabf7co288y01t24ejkdc80/master',
       fetchOptions: { cache: 'no-store' },
     });
 

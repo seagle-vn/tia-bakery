@@ -1,16 +1,10 @@
 'use client';
 
-import {
-  ChakraProvider,
-  Container,
-  Spinner,
-  extendTheme,
-} from '@chakra-ui/react';
-import { Suspense } from 'react';
 import { CacheProvider } from '@chakra-ui/next-js';
-import { Amatic_SC, Roboto_Condensed, Grandiflora_One } from 'next/font/google';
-import { Navbar } from '../ui/Navbar';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { Amatic_SC, Grandiflora_One, Roboto_Condensed } from 'next/font/google';
 import { Footer } from '../ui/Footer';
+import { Navbar } from '../ui/Navbar';
 
 const colors = {
   primary: {
@@ -58,7 +52,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
       <CacheProvider>
         <ChakraProvider theme={theme}>
           <Navbar />
-          <Suspense fallback={<Spinner />}>{children}</Suspense>
+          {children}
           <Footer />
         </ChakraProvider>
       </CacheProvider>

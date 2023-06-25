@@ -21,11 +21,15 @@ const query = gql`
     product(where: { slug: $slug }) {
       id
       name
-      price
       slug
       image
       description {
         html
+      }
+      sizes {
+        id
+        name
+        price
       }
     }
   }
@@ -40,7 +44,9 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const { product } = data as any;
 
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState('small');
+  const [size, setSize] = useState('Small');
+
+  const price = product.sizes.find((s: any) => s.name === size)?.price ?? 30;
 
   return (
     <SimpleGrid
@@ -58,7 +64,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             {product.name}
           </Text>
           <Text fontSize='lg' fontWeight={600}>
-            {product.price.toFixed(2)} $
+            {price.toFixed(2)} $
           </Text>
           <Text
             dangerouslySetInnerHTML={{ __html: product.description.html }}
@@ -81,8 +87,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             <FormControl id='quantity'>
               <FormLabel>Select size</FormLabel>
               <Select onChange={(e) => setSize(e.target.value)}>
-                <option value='small'>Big size</option>
-                <option value='big'>Small size</option>
+                {product.sizes.map((size: any) => (
+                  <option value={size.name} key={size.id}>
+                    {size.name}
+                  </option>
+                ))}
               </Select>
             </FormControl>
           </HStack>

@@ -1,15 +1,21 @@
 'use client';
 
-import { Box, SimpleGrid, Skeleton, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  SimpleGrid,
+  Skeleton,
+  SkeletonText,
+  VStack,
+} from '@chakra-ui/react';
 
 export default function Loading() {
   return (
-    <Box py='4rem'>
+    <Box px='10%' py='4rem'>
       <SimpleGrid width='80%' margin='0 auto' columns={[1, 4]} spacing='4rem'>
         {new Array(8).fill(0).map((_, index) => (
           <VStack key={index}>
-            <Skeleton height='10rem' />
-            <Skeleton height='2rem' />
+            <Skeleton borderRadius='xl' width='full' height='10rem' />
+            <SkeletonText noOfLines={1} width='40%' height='2rem' />
           </VStack>
         ))}
       </SimpleGrid>

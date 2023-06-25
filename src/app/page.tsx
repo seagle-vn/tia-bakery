@@ -1,9 +1,32 @@
 'use client';
+import { gql, useSuspenseQuery } from '@apollo/client';
 import { Box, Center, Text, VStack } from '@chakra-ui/react';
-import styles from './page.module.css';
 import { Category } from '../components/home/Category';
+import styles from './page.module.css';
+
+const query = gql`
+  query CategoryQuery {
+    categories {
+      name
+      id
+      slug
+      products(first: 4) {
+        id
+        name
+        slug
+        image
+      }
+    }
+  }
+`;
 
 export default function Home() {
+  const { data } = useSuspenseQuery(query, {
+    fetchPolicy: 'cache-first',
+  });
+
+  const { categories } = data as { categories: any[] };
+
   return (
     <main className={styles.main}>
       <Box
@@ -53,9 +76,14 @@ export default function Home() {
         </VStack>
       </Center>
       <VStack>
-        <Category title='Birthday cakes' link='/' />
-        <Category title='Bake goods' link='/' />
-        <Category title='Feature products' link='/' />
+        {categories.map((category) => (
+          <Category
+            title={category.name}
+            link={`/shop/${category.slug}`}
+            key={category.id}
+            products={category.products}
+          />
+        ))}
       </VStack>
     </main>
   );

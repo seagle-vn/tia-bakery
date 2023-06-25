@@ -1,6 +1,6 @@
+import { Link } from '@chakra-ui/next-js';
 import { Box, Text } from '@chakra-ui/react';
 import styles from './ProductCard.module.css';
-import { Link } from '@chakra-ui/next-js';
 
 interface CategoryCardProps {
   link: string;
@@ -17,7 +17,7 @@ export function ProductCard({ image, title, link }: CategoryCardProps) {
       className={styles.card}
       borderRadius='1rem'
     >
-      <Link href='/'>
+      <Link href={link}>
         <div
           className={styles.image}
           style={{ backgroundImage: `url(${image})` }}

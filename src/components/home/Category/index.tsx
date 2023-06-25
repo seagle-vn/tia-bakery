@@ -1,8 +1,8 @@
-import { HStack, SimpleGrid, VStack, Text } from '@chakra-ui/react';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { Link } from '@chakra-ui/next-js';
+import { HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 import { ProductCard } from '../ProductCard';
-import { Link } from '@chakra-ui/next-js';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 const products = [
   {
@@ -32,9 +32,20 @@ const products = [
   },
 ];
 
-export const Category: FunctionComponent<{ title: string; link: string }> = ({
+interface CategoryProps {
+  title: string;
+  link: string;
+  products: {
+    image: { url: string };
+    name: string;
+    id: string;
+    slug: string;
+  }[];
+}
+export const Category: FunctionComponent<CategoryProps> = ({
   title,
   link,
+  products,
 }) => {
   return (
     <VStack my='2rem' w='80%'>
@@ -47,7 +58,7 @@ export const Category: FunctionComponent<{ title: string; link: string }> = ({
         >
           {title}
         </Text>
-        <Link href='/' color='primary.200'>
+        <Link href={link} color='primary.200'>
           <HStack alignItems='center' justifyContent='center'>
             <Text fontSize='1.2rem'>See all</Text>
             <ArrowForwardIcon boxSize={6} />
@@ -55,8 +66,13 @@ export const Category: FunctionComponent<{ title: string; link: string }> = ({
         </Link>
       </HStack>
       <SimpleGrid w='100%' spacing={10} columns={[1, 4]}>
-        {products.map((category) => (
-          <ProductCard key={category.title} {...category} />
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            image={product.image.url}
+            title={product.name}
+            link={`/products/${product.slug}`}
+          />
         ))}
       </SimpleGrid>
     </VStack>

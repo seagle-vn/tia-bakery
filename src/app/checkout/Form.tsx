@@ -10,6 +10,7 @@ import {
   Stack,
   Textarea,
   chakra,
+  useToast,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
@@ -33,6 +34,7 @@ export const CheckoutForm: FunctionComponent = () => {
   } = useForm<FormValues>({ mode: 'onChange', resolver: zodResolver(schema) });
   const { items, cartTotal } = useCart();
   const router = useRouter();
+  const toast = useToast();
 
   async function onSubmit(values: FormValues) {
     try {
@@ -48,12 +50,22 @@ export const CheckoutForm: FunctionComponent = () => {
           total: cartTotal,
         }),
       });
-      alert(
-        'We already received your message! We will contact you as soon as possible'
-      );
-      // router.push('/');
+      toast({
+        title:
+          "Your order was sent! We'll get back to you as soon as possible.",
+        position: 'top-right',
+        isClosable: true,
+        status: 'success',
+      });
+      router.push('/');
     } catch (err) {
-      console.log(err);
+      toast({
+        title:
+          'Something wrong happened! Please us contact us directly to order',
+        position: 'top-right',
+        isClosable: true,
+        status: 'error',
+      });
     }
   }
 

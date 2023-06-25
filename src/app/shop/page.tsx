@@ -17,7 +17,7 @@ const query = gql`
   }
 `;
 
-export default function ShopePage() {
+export default function ShopPage() {
   const { data } = useSuspenseQuery(query, {
     fetchPolicy: 'cache-first',
   });
