@@ -1,5 +1,13 @@
 import { Link } from '@chakra-ui/next-js';
-import { Badge, Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  HStack,
+  Heading,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { FunctionComponent, useRef } from 'react';
 import { useCart } from 'react-use-cart';
 import styles from './Navbar.module.css';
@@ -19,7 +27,8 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
       w='full'
     >
       <VStack>
-        <Text
+        <Heading
+          as='h1'
           fontSize='5.5rem'
           textShadow='2px 2px #ffffff'
           fontFamily='amatic'
@@ -28,7 +37,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
           letterSpacing='5px'
         >
           Tia bakery
-        </Text>
+        </Heading>
         <Text fontFamily='amatic' fontSize='26px' marginTop='-25px'>
           Cakes and joyfulness
         </Text>

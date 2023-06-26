@@ -7,7 +7,7 @@ import { ProductCard } from '../../components/shop/ProductCard';
 
 const query = gql`
   query ShopPage {
-    products {
+    products(first: 100) {
       id
       name
       image

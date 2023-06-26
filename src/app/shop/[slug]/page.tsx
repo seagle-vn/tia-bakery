@@ -16,7 +16,7 @@ const query = gql`
     category(where: { slug: $slug }) {
       name
       id
-      products {
+      products(first: 100) {
         id
         name
         slug
