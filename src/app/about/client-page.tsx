@@ -1,6 +1,8 @@
 'use client';
 import { gql, useSuspenseQuery } from '@apollo/client';
 import { Box, Center, Flex, Image, Text, VStack } from '@chakra-ui/react';
+import { Resize } from '@cloudinary/url-gen/actions/resize';
+import { cld } from '../../constants/cloudinary';
 import styles from './page.module.css';
 
 const query = gql`
@@ -28,10 +30,17 @@ export default function AboutClientPage() {
   });
   const { page } = data as any;
 
+  const url = cld
+    .image(page.heroBackground.public_id)
+    .quality('auto')
+    .format('auto')
+    .resize(Resize.scale().width(900).height(900))
+    .toURL();
+
   return (
     <main>
       <Box
-        backgroundImage={`url('${page.heroBackground.url}')`}
+        backgroundImage={`url('${url}')`}
         backgroundPosition='center'
         backgroundRepeat='no-repeat'
         backgroundSize='cover'
@@ -48,7 +57,8 @@ export default function AboutClientPage() {
         position='relative'
       >
         <VStack>
-          <Text as='h2'
+          <Text
+            as='h2'
             fontFamily='amatic'
             fontWeight='700'
             fontSize={{ base: '40px', md: '4rem' }}

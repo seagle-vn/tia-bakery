@@ -2,7 +2,9 @@
 
 import { gql, useSuspenseQuery } from '@apollo/client';
 import { Box, Center, Heading, Text, VStack } from '@chakra-ui/react';
+import { Resize } from '@cloudinary/url-gen/actions/resize';
 import { Category } from '../components/home/Category';
+import { cld } from '../constants/cloudinary';
 import styles from './page.module.css';
 
 const query = gql`
@@ -39,10 +41,17 @@ export default function HomeClientPage() {
 
   const { page, categories } = data as any;
 
+  const url = cld
+    .image(page.heroBackground.public_id)
+    .quality('auto')
+    .format('auto')
+    .resize(Resize.scale().width(900).height(900))
+    .toURL();
+
   return (
     <main className={styles.main}>
       <Box
-        backgroundImage={`url('${page.heroBackground.url}')`}
+        backgroundImage={`url('${url}')`}
         backgroundPosition='center'
         backgroundRepeat='no-repeat'
         backgroundSize='cover'
