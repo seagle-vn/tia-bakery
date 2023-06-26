@@ -16,7 +16,7 @@ export function ProductCard({ image, title, link }: CategoryCardProps) {
     .image(image)
     .quality('auto')
     .format('auto')
-    .resize(Resize.scale().width(900).height(900))
+    .resize(Resize.scale().width(354).height(304))
     .toURL();
   return (
     <Box
@@ -28,12 +28,11 @@ export function ProductCard({ image, title, link }: CategoryCardProps) {
     >
       <Link href={link}>
         <Image
-          width={900}
-          height={900}
+          width={354}
+          height={304}
           alt={title}
           className={styles.image}
           src={url}
-          // style={{ backgroundImage: `url(${url})` }}
         />
         <Box
           className={styles.overlay}

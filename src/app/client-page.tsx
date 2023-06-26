@@ -45,18 +45,15 @@ export default function HomeClientPage() {
     .image(page.heroBackground.public_id)
     .quality('auto')
     .format('auto')
-    .resize(Resize.scale().width(900).height(900))
+    .resize(Resize.scale().width(1920).height(900))
     .toURL();
 
   return (
     <main className={styles.main}>
       <Box
-        backgroundImage={`url('${url}')`}
-        backgroundPosition='center'
-        backgroundRepeat='no-repeat'
-        backgroundSize='cover'
+        className={styles.image}
+        style={{ backgroundImage: `url(${url})` }}
         height='425px'
-        width='100%'
       />
       <Center
         backgroundImage="url('/banner_text_background.png')"
