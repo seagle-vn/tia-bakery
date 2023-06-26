@@ -38,6 +38,7 @@ const SocialButton = ({
       _hover={{
         bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
       }}
+      target='_blank'
     >
       <VisuallyHidden>{label}</VisuallyHidden>
       {children}
@@ -52,7 +53,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
       fontWeight={'600'}
       textTransform='uppercase'
       letterSpacing={1}
-      fontSize={'lg'}
+      fontSize={'2rem'}
       mb={2}
     >
       {children}
@@ -94,7 +95,7 @@ export function Footer() {
             <Image
               borderRadius='50%'
               width={{ base: '13rem', md: '15rem' }}
-              height='13rem'
+              height={{ base: '13rem', md: '15rem' }}
               src='/logo.png'
               alt='Logo'
               marginLeft={{ base: '-2.5rem', md: '0' }}

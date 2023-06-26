@@ -1,7 +1,14 @@
 'use client';
 
 import { CacheProvider } from '@chakra-ui/next-js';
-import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
+import {
+  Alert,
+  Box,
+  ChakraProvider,
+  Link,
+  Text,
+  extendTheme,
+} from '@chakra-ui/react';
 import { Amatic_SC, Grandiflora_One, Roboto_Condensed } from 'next/font/google';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
@@ -52,6 +59,21 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
       <CacheProvider>
         <ChakraProvider theme={theme}>
           <Box width='full' overflowX='hidden'>
+            <Alert status='info' bg='#42ced1'>
+              <Text
+                fontFamily='roboto'
+                fontWeight={700}
+                margin='0 auto'
+                color='white'
+                fontSize='30px'
+                textAlign='center'
+              >
+                Free Delivery for Orders +$40 -
+                <Link ml='10px' color='#b5ff34e6' href='/shop'>
+                  Click Here
+                </Link>
+              </Text>
+            </Alert>
             <Navbar />
             {children}
             <Footer />
