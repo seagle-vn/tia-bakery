@@ -61,15 +61,15 @@ export default function Home() {
           <Text
             fontFamily='amatic'
             fontWeight='700'
-            fontSize='4rem'
+            fontSize={{ base: '40px', md: '4rem' }}
             color='primary.200'
             lineHeight='1.1'
             letterSpacing={1}
             borderTop='3px solid'
             borderTopColor='primary.200'
-            py='2rem'
+            py={{ base: '2rem', md: '2rem' }}
             textAlign='center'
-            maxWidth='35rem'
+            maxWidth={{ base: '80%', md: '35rem' }}
             position='relative'
             className={styles.bannerText}
           >
@@ -77,7 +77,7 @@ export default function Home() {
           </Text>
           <Text
             fontFamily='roboto'
-            fontSize='3rem'
+            fontSize={{ base: '2rem', md: '3rem' }}
             color='primary.200'
             textTransform='uppercase'
             className={styles.descriptionText}

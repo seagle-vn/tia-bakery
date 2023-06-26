@@ -3,7 +3,6 @@ import {
   Box,
   Container,
   Flex,
-  HStack,
   Image,
   Stack,
   Text,
@@ -85,17 +84,21 @@ export function Footer() {
   return (
     <Box backgroundColor='#FBD4D7'>
       <Container as={Stack} maxW={'80%'} py={10}>
-        <Flex w='100%' justifyContent='space-between' gap={8}>
-          <Stack alignItems='center' spacing={6}>
-            <HStack>
-              <Image
-                borderRadius='50%'
-                width='13rem'
-                height='13rem'
-                src='/logo.png'
-                alt='Logo'
-              />
-            </HStack>
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          w='100%'
+          justifyContent='space-between'
+          gap={8}
+        >
+          <Stack alignItems={{ base: 'start', md: 'center' }} spacing={6}>
+            <Image
+              borderRadius='50%'
+              width={{ base: '13rem', md: '15rem' }}
+              height='13rem'
+              src='/logo.png'
+              alt='Logo'
+              marginLeft={{ base: '-2.5rem', md: '0' }}
+            />
 
             <Stack direction={'row'} spacing={6}>
               <SocialButton label={'Twitter'} href={store.facebook}>
@@ -109,7 +112,7 @@ export function Footer() {
               </SocialButton>
             </Stack>
           </Stack>
-          <Stack fontFamily='grandiflora' mt='1rem' align={'flex-start'}>
+          <Stack fontFamily='grandiflora' mt='1rem' align='flex-start'>
             <ListHeader>Visit our store</ListHeader>
             <Text fontWeight='700' fontSize={'lg'}>
               {store.address}
@@ -125,7 +128,11 @@ export function Footer() {
               <a href={`mailto:${store.email}`}>{store.email}</a>
             </Text>
           </Stack>
-          <Stack fontFamily='grandiflora' mt='1rem' align={'flex-end'}>
+          <Stack
+            fontFamily='grandiflora'
+            mt='1rem'
+            align={{ base: 'flex-start', md: 'flex-end' }}
+          >
             <ListHeader>Open times</ListHeader>
             <Text fontWeight='700' fontSize={'lg'}>
               Mon - Fri: {store.openTime1}

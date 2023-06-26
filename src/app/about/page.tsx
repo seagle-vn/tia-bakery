@@ -1,6 +1,6 @@
 'use client';
 import { gql, useSuspenseQuery } from '@apollo/client';
-import { Box, Center, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import styles from './page.module.css';
 
 const query = gql`
@@ -51,15 +51,15 @@ export default function AboutPage() {
           <Text
             fontFamily='amatic'
             fontWeight='700'
-            fontSize='4rem'
+            fontSize={{ base: '40px', md: '4rem' }}
             color='primary.200'
             lineHeight='1.1'
             letterSpacing={1}
             borderTop='3px solid'
             borderTopColor='primary.200'
-            py='2rem'
+            py={{ base: '2rem', md: '2rem' }}
             textAlign='center'
-            maxWidth='80%'
+            maxWidth={{ base: '80%', md: '35rem' }}
             position='relative'
             className={styles.bannerText}
           >
@@ -67,24 +67,33 @@ export default function AboutPage() {
           </Text>
           <Text
             fontFamily='roboto'
-            fontSize='3rem'
+            fontSize={{ base: '2rem', md: '3rem' }}
             color='primary.200'
             textTransform='uppercase'
             className={styles.descriptionText}
+            textAlign='center'
           >
             {page.heroText}
           </Text>
         </VStack>
       </Center>
-      <HStack py='4rem' spacing='4rem' width='80%' margin='0 auto'>
+      <Flex
+        direction={{ base: 'column', md: 'row' }}
+        py='4rem'
+        px={{ base: '1rem' }}
+        width={{ base: '100%', md: '80%' }}
+        margin='0 auto'
+        alignItems={{ base: 'center' }}
+        gap={{ base: '2rem', md: '4rem' }}
+      >
         <Image
           borderRadius='50%'
           src={page.descriptionImage.url}
           alt='about image'
-          width='20rem'
+          width={{ base: '10rem', md: '20rem' }}
         />
         <div dangerouslySetInnerHTML={{ __html: page.description.html }}></div>
-      </HStack>
+      </Flex>
     </main>
   );
 }

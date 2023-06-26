@@ -50,26 +50,28 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   return (
     <SimpleGrid
-      my='4rem'
-      gap='5rem'
-      columns={2}
-      sx={{ paddingLeft: '15%', paddingRight: '15%' }}
+      my={{ base: '1rem', md: '4rem' }}
+      gap={{ base: '2rem', md: '5rem' }}
+      columns={[1, 2]}
+      px={{ base: '5%', md: '15%' }}
     >
-      <Box borderRadius='1rem'>
-        <Image src={product.image.url} alt={product.name} />
-      </Box>
+      <Image
+        borderRadius={{ base: '1rem', md: 'none' }}
+        src={product.image.url}
+        alt={product.name}
+      />
       <Box>
         <VStack spacing={1} alignItems='flex-start'>
-          <Text fontSize='3.75rem' fontWeight='bold'>
+          <Text fontSize={{ base: '2rem', md: '3.75rem' }} fontWeight='bold'>
             {product.name}
           </Text>
           <Text fontSize='lg' fontWeight={600}>
             {price.toFixed(2)} $
           </Text>
-          <Text
+          <Box
             dangerouslySetInnerHTML={{ __html: product.description.html }}
-            mt='3rem'
-            maxW='80%'
+            mt={{ base: '1rem', md: '3rem' }}
+            maxW={{ base: '100%', md: '80%' }}
           />
           <HStack mt='2rem' width='100%' spacing='15%'>
             <FormControl id='quantity'>
@@ -107,6 +109,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             quantity={quantity}
             mt='2rem'
             px='4rem'
+            width={{ base: '100%', md: '50%' }}
           />
         </VStack>
       </Box>

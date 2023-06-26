@@ -1,7 +1,7 @@
 'use client';
 
 import { CacheProvider } from '@chakra-ui/next-js';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Amatic_SC, Grandiflora_One, Roboto_Condensed } from 'next/font/google';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
@@ -51,9 +51,11 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
       </style>
       <CacheProvider>
         <ChakraProvider theme={theme}>
-          <Navbar />
-          {children}
-          <Footer />
+          <Box width='full' overflowX='hidden'>
+            <Navbar />
+            {children}
+            <Footer />
+          </Box>
         </ChakraProvider>
       </CacheProvider>
     </>
