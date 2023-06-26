@@ -29,7 +29,7 @@ export default function ShopPage() {
           <ProductCard
             key={product.id}
             name={product.name}
-            image={product.image.url}
+            image={product.image.public_id}
             price={product.price}
             slug={product.slug}
             id={product.id}

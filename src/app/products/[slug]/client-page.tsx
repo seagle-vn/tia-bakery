@@ -1,20 +1,22 @@
 'use client';
 
 import { gql, useSuspenseQuery } from '@apollo/client';
+import { Image } from '@chakra-ui/next-js';
 import {
   Box,
   FormControl,
   FormLabel,
   HStack,
-  Image,
-  NumberInput,
   Select,
   SimpleGrid,
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { Resize } from '@cloudinary/url-gen/actions/resize';
 import { useState } from 'react';
+import { cld } from '../../../constants/cloudinary';
 import { AddToCartButton } from '../../../ui/AddToCartButton';
+import { NumberInput } from '../../../ui/NumberInput';
 
 const query = gql`
   query PageProduct($slug: String) {
@@ -48,6 +50,13 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
 
   const price = product.sizes.find((s: any) => s.name === size)?.price ?? 30;
 
+  const url = cld
+    .image(product.image.public_id)
+    .quality('auto')
+    .format('auto')
+    .resize(Resize.scale().width(490).height(490))
+    .toURL();
+
   return (
     <SimpleGrid
       my={{ base: '1rem', md: '4rem' }}
@@ -56,6 +65,8 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
       px={{ base: '5%', md: '15%' }}
     >
       <Image
+        height={490}
+        width={490}
         borderRadius={{ base: '1rem', md: 'none' }}
         src={product.image.url}
         alt={product.name}
@@ -80,6 +91,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
                 onChange={(value) => {
                   setQuantity(Number(value));
                 }}
+                className='test'
                 defaultValue={1}
                 step={1}
                 min={1}

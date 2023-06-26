@@ -1,9 +1,11 @@
+'use client';
+
 import {
   Button,
   HStack,
   Input,
-  useNumberInput,
   NumberInputProps,
+  useNumberInput,
 } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 
@@ -27,7 +29,7 @@ export const NumberInput: FunctionComponent<
   const input = getInputProps();
 
   return (
-    <HStack maxW='320px'>
+    <HStack>
       <Button
         {...inc}
         onClick={(e) => {

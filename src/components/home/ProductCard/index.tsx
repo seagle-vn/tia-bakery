@@ -1,5 +1,8 @@
-import { Link } from '@chakra-ui/next-js';
+import { Image, Link } from '@chakra-ui/next-js';
 import { Box, Text } from '@chakra-ui/react';
+
+import { Resize } from '@cloudinary/url-gen/actions/resize';
+import { cld } from '../../../constants/cloudinary';
 import styles from './ProductCard.module.css';
 
 interface CategoryCardProps {
@@ -9,6 +12,12 @@ interface CategoryCardProps {
 }
 
 export function ProductCard({ image, title, link }: CategoryCardProps) {
+  const url = cld
+    .image(image)
+    .quality('auto')
+    .format('auto')
+    .resize(Resize.scale().width(900).height(900))
+    .toURL();
   return (
     <Box
       position='relative'
@@ -18,9 +27,13 @@ export function ProductCard({ image, title, link }: CategoryCardProps) {
       borderRadius='1rem'
     >
       <Link href={link}>
-        <div
+        <Image
+          width={900}
+          height={900}
+          alt={title}
           className={styles.image}
-          style={{ backgroundImage: `url(${image})` }}
+          src={url}
+          // style={{ backgroundImage: `url(${url})` }}
         />
         <Box
           className={styles.overlay}

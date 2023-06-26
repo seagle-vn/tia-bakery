@@ -1,6 +1,8 @@
-import { Link } from '@chakra-ui/next-js';
+import { Image, Link } from '@chakra-ui/next-js';
 import { Card, Flex, Text, VStack } from '@chakra-ui/react';
+import { Resize } from '@cloudinary/url-gen/actions/resize';
 import { FunctionComponent } from 'react';
+import { cld } from '../../../constants/cloudinary';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
@@ -14,16 +16,23 @@ export const ProductCard: FunctionComponent<ProductCardProps> = ({
   slug,
   image,
   name,
-  price,
-  id,
 }) => {
+  const url = cld
+    .image(image)
+    .quality('auto')
+    .format('auto')
+    .resize(Resize.scale().width(336).height(304))
+    .toURL();
   return (
     <VStack>
       <Card overflow='hidden' className={styles.card}>
         <Link height='100%' href={`/products/${slug}`}>
-          <div
+          <Image
             className={styles.image}
-            style={{ backgroundImage: `url(${image})` }}
+            width={336}
+            height={304}
+            src={url}
+            alt={name}
           />
         </Link>
       </Card>

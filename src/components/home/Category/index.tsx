@@ -8,7 +8,7 @@ interface CategoryProps {
   title: string;
   link: string;
   products: {
-    image: { url: string };
+    image: { url: string; public_id: string };
     name: string;
     id: string;
     slug: string;
@@ -41,7 +41,7 @@ export const Category: FunctionComponent<CategoryProps> = ({
         {products.map((product) => (
           <ProductCard
             key={product.id}
-            image={product.image.url}
+            image={product.image.public_id}
             title={product.name}
             link={`/products/${product.slug}`}
           />
