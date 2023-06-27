@@ -13,6 +13,22 @@ export const metadata = {
     follow: true,
     index: true,
   },
+  openGraph: {
+    url: 'https://www.url.ie/a',
+    title: 'Tia bakery',
+    description:
+      'Philadelphia Based Handmade, Freshly Prepared, Seasonally Inspired Craft Baked Goods',
+    images: [
+      {
+        url: `/api/og?title=${encodeURIComponent('Tia bakery')}`,
+        width: 800,
+        height: 600,
+        alt: 'Og Image Alt',
+        type: 'image/jpeg',
+      },
+    ],
+    siteName: 'SiteName',
+  },
 };
 
 export default function RootLayout({

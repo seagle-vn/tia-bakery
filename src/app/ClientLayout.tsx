@@ -70,7 +70,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
               >
                 Free Delivery for Orders +$40 -
                 <Link ml='10px' color='#b5ff34e6' href='/shop'>
-                  Click Here
+                  Order now
                 </Link>
               </Text>
             </Alert>
