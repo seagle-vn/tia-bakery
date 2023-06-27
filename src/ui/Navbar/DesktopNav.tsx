@@ -100,16 +100,15 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
               Basket
               {totalItems > 0 ? (
                 <Badge
-                  fontSize='0.8em'
                   bgColor='black'
                   color='white'
                   position='absolute'
-                  top='-15px'
+                  top='0px'
                   right='-28px'
                   borderRadius='50%'
                   size='lg'
                   py='5px'
-                  px='6px'
+                  px='8px'
                 >
                   {totalItems}
                 </Badge>

@@ -77,7 +77,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
             {product.name}
           </Text>
           <Text fontSize='lg' fontWeight={600}>
-            {price.toFixed(2)} $
+            {price.toFixed(2)} CA$
           </Text>
           <Box
             dangerouslySetInnerHTML={{ __html: product.description.html }}
