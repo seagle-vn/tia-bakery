@@ -13,6 +13,7 @@ export const metadata = {
     ],
     type: 'website',
   },
+  keywords: ['Tia bakery', 'London Ontario', 'Tia', 'cakes', 'bakery'],
 };
 
 export default function HomePage() {
