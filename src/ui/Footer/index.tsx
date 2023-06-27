@@ -1,11 +1,12 @@
 import { gql, useSuspenseQuery } from '@apollo/client';
+import { Link } from '@chakra-ui/next-js';
 import {
-  Box,
   Container,
   Flex,
   Image,
   Stack,
   Text,
+  VStack,
   VisuallyHidden,
   chakra,
   useColorModeValue,
@@ -83,7 +84,7 @@ export function Footer() {
 
   const { store } = data as any;
   return (
-    <Box backgroundColor='#FBD4D7'>
+    <VStack pb='1rem' backgroundColor='#FBD4D7'>
       <Container as={Stack} maxW={'80%'} py={10}>
         <Flex
           direction={{ base: 'column', md: 'row' }}
@@ -144,6 +145,16 @@ export function Footer() {
           </Stack>
         </Flex>
       </Container>
-    </Box>
+      <Text fontSize='14px' color='#6b7280'>
+        This website is made by{' '}
+        <Link
+          textDecor='underline'
+          target='_blank'
+          href='https://portfolio-seagle.vercel.app/'
+        >
+          seagle
+        </Link>
+      </Text>
+    </VStack>
   );
 }
