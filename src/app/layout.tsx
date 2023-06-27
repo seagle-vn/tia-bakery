@@ -1,5 +1,6 @@
 import './globals.css';
 
+import GoogleAnalytics from '../ui/GoogleAnalytics';
 import { ApolloWrapper } from './ApolloWrapper';
 import CartProvider from './CartProvider';
 import { ClientLayout } from './ClientLayout';
@@ -38,6 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <GoogleAnalytics GA_MEASUREMENT_ID='G-F0CPNL0L0C' />
       <body>
         <ApolloWrapper delay={1000}>
           <CartProvider>
