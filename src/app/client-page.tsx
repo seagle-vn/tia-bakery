@@ -51,9 +51,10 @@ export default function HomeClientPage() {
   return (
     <main className={styles.main}>
       <Box
-        className={styles.image}
+        backgroundSize='cover'
+        backgroundPosition='center'
         style={{ backgroundImage: `url(${url})` }}
-        height='425px'
+        height='500px'
       />
       <Center
         backgroundImage="url('/banner_text_background.png')"
