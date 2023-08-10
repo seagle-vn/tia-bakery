@@ -33,6 +33,7 @@ const query = gql`
         name
         price
       }
+      price
     }
   }
 `;
@@ -48,7 +49,10 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState('Small');
 
-  const price = product.sizes.find((s: any) => s.name === size)?.price ?? 30;
+  const price =
+    product.sizes.find((s: any) => s.name === size)?.price ??
+    product.price ??
+    30;
 
   const url = cld
     .image(product.image.public_id)
@@ -98,16 +102,19 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
                 max={100}
               />
             </FormControl>
-            <FormControl id='quantity'>
-              <FormLabel>Select size</FormLabel>
-              <Select onChange={(e) => setSize(e.target.value)}>
-                {product.sizes.map((size: any) => (
-                  <option value={size.name} key={size.id}>
-                    {size.name}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+            {product.sizes?.length ? (
+              <FormControl id='quantity'>
+                <FormLabel>Select size</FormLabel>(
+                <Select onChange={(e) => setSize(e.target.value)}>
+                  {product.sizes.map((size: any) => (
+                    <option value={size.name} key={size.id}>
+                      {size.name}
+                    </option>
+                  ))}
+                </Select>
+                )
+              </FormControl>
+            ) : null}
           </HStack>
           <AddToCartButton
             product={{
