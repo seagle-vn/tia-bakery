@@ -58,7 +58,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
     .image(product.image.public_id)
     .quality('auto')
     .format('auto')
-    .resize(Resize.scale().width(490).height(490))
+    .resize(Resize.scale().width(420).height(490))
     .toURL();
 
   return (
@@ -70,7 +70,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
     >
       <Image
         height={490}
-        width={490}
+        width={420}
         borderRadius={{ base: '1rem', md: 'none' }}
         src={product.image.url}
         alt={product.name}
@@ -104,7 +104,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
             </FormControl>
             {product.sizes?.length ? (
               <FormControl id='quantity'>
-                <FormLabel>Select size</FormLabel>(
+                <FormLabel>Select size</FormLabel>
                 <Select onChange={(e) => setSize(e.target.value)}>
                   {product.sizes.map((size: any) => (
                     <option value={size.name} key={size.id}>
@@ -112,7 +112,6 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
                     </option>
                   ))}
                 </Select>
-                )
               </FormControl>
             ) : null}
           </HStack>

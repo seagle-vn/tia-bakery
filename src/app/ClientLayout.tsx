@@ -68,7 +68,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
                 fontSize='30px'
                 textAlign='center'
               >
-                Free Delivery for Orders +$40 -
+                Free Delivery for Orders +$80 -
                 <Link ml='10px' color='#b5ff34e6' href='/shop'>
                   Order now
                 </Link>

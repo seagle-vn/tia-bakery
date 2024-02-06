@@ -69,8 +69,8 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
             backgroundPosition='center'
             backgroundSize='cover'
             backgroundRepeat='no-repeat'
-            width='13rem'
-            height='13rem'
+            width='19rem'
+            height='19rem'
             borderRadius='50%'
           ></Box>
         </Link>

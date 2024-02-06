@@ -37,7 +37,7 @@ export const Category: FunctionComponent<CategoryProps> = ({
           </HStack>
         </Link>
       </HStack>
-      <SimpleGrid w='100%' spacing={10} columns={[1, 4]}>
+      <SimpleGrid w='100%' spacing='6rem' columns={[1, 4]}>
         {products.map((product) => (
           <ProductCard
             key={product.id}

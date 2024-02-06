@@ -24,7 +24,7 @@ export default function ShopPage() {
 
   return (
     <Box py='4rem'>
-      <SimpleGrid width='80%' margin='0 auto' columns={[1, 4]} spacing='4rem'>
+      <SimpleGrid width='80%' margin='0 auto' columns={[1, 4]} spacing='8rem'>
         {(data as any).products.map((product: any) => (
           <ProductCard
             key={product.id}
