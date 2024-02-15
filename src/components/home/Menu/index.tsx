@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { FunctionComponent, useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import styles from './Menu.module.css';
 import { generateSlides } from './slides';
 
@@ -38,6 +39,12 @@ export const Menu: FunctionComponent<{ menus: Menu[] }> = ({ menus }) => {
         close={() => setBasicExampleOpen(false)}
         controller={{ closeOnBackdropClick: true }}
         slides={slides}
+        plugins={[Zoom]}
+        zoom={{
+          doubleTapDelay: 300,
+          doubleClickDelay: 300,
+          scrollToZoom: true,
+        }}
       />
       <SimpleGrid w='100%' spacing='6rem' columns={[1, 4]}>
         {menus.map(({ image, id }) => {
