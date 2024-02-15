@@ -70,7 +70,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
                 textAlign='center'
               >
                 Free Delivery for Orders +$80 -
-                <Link ml='10px' color='#b5ff34e6' href='/shop'>
+                <Link ml='10px' color='#b5ff34e6' href='/#menu'>
                   Order now
                 </Link>
               </Text>
