@@ -20,7 +20,7 @@ export const Category: FunctionComponent<CategoryProps> = ({
   products,
 }) => {
   return (
-    <VStack my='2rem' w='80%'>
+    <VStack my='2rem' w={{ base: '62%', lg: '80%' }}>
       <HStack w='100%' justifyContent='space-between'>
         <Text
           color='black'

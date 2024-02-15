@@ -1,0 +1,19 @@
+.image {
+  background-size: cover;
+  background-position: center;
+  transition: transform 500ms ease;
+  height: 100%;
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  left: 0rem;
+  bottom: 0rem;
+  border-radius: 1rem;
+}
+
+.card {
+  position: relative;
+  height: 25rem;
+  overflow: hidden;
+  cursor: pointer;
+}

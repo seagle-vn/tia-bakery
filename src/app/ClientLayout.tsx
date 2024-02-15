@@ -10,6 +10,7 @@ import {
   extendTheme,
 } from '@chakra-ui/react';
 import { Amatic_SC, Grandiflora_One, Roboto_Condensed } from 'next/font/google';
+import 'yet-another-react-lightbox/styles.css';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
 

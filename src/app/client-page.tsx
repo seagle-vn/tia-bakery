@@ -4,6 +4,7 @@ import { gql, useSuspenseQuery } from '@apollo/client';
 import { Box, Center, Heading, Text, VStack } from '@chakra-ui/react';
 import { Resize } from '@cloudinary/url-gen/actions/resize';
 import { Category } from '../components/home/Category';
+import { Menu } from '../components/home/Menu';
 import { cld } from '../constants/cloudinary';
 import styles from './page.module.css';
 
@@ -28,6 +29,11 @@ const query = gql`
       id
       name
     }
+
+    menus {
+      id
+      image
+    }
   }
 `;
 
@@ -39,7 +45,7 @@ export default function HomeClientPage() {
     },
   });
 
-  const { page, categories } = data as any;
+  const { page, categories, menus } = data as any;
 
   const url = cld
     .image(page.heroBackground.public_id)
@@ -96,6 +102,7 @@ export default function HomeClientPage() {
         </VStack>
       </Center>
       <VStack>
+        <Menu menus={menus} />
         {categories.map((category: any) => (
           <Category
             title={category.name}

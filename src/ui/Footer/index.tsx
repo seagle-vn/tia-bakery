@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const SocialButton = ({
   children,
@@ -104,7 +104,7 @@ export function Footer() {
 
             <Stack direction={'row'} spacing={6}>
               <SocialButton label={'Twitter'} href={store.facebook}>
-                <FaTwitter />
+                <FaFacebook />
               </SocialButton>
               <SocialButton label={'YouTube'} href={store.youtube}>
                 <FaYoutube />
