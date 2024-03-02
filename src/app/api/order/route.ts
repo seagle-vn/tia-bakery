@@ -1,45 +1,60 @@
-import formData from 'form-data';
-import Mailgun from 'mailgun.js';
+import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
-import { emailTemplate } from '../../../constants/email-template';
 
 export async function POST(request: NextRequest) {
+  const auth = await google.auth.getClient({
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    projectId: process.env.PROJECT_ID,
+    credentials: {
+      client_email: process.env.CLIENT_EMAIL,
+      private_key: (process.env.PRIVATE_KEY as string)
+        .split(String.raw`\n`)
+        .join('\n'),
+    },
+  });
+  const sheets = google.sheets({ version: 'v4', auth });
+
   try {
     const body = await request.json();
 
-    const mailgun = new Mailgun(formData);
-    const mg = mailgun.client({
-      username: 'api',
-      key: process.env.MAILGUN_API_KEY as string,
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: process.env.SHEET_ID as string,
+      range: 'A2:M2',
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        values: [
+          [
+            body.name,
+            body.phone,
+            body.address,
+            body.city,
+            body.postal_code,
+            formatDate(body.date),
+            body.notes,
+            body.whenToPay,
+            body.paymentMethod,
+            body.total,
+            JSON.stringify(
+              body.products.map(
+                ({ name, price, size, quantity, itemTotal }: any) => ({
+                  name,
+                  price,
+                  size,
+                  quantity,
+                  itemTotal,
+                })
+              ),
+              null,
+              4
+            ),
+            'FALSE',
+            formatDate(new Date().toISOString()),
+          ],
+        ],
+      },
     });
-    const emailToSend = {
-      from: process.env.ADDRESS_FROM,
-      to: process.env.ADDRESS_TO,
-      subject: 'Your bakery has an order',
-      html: emailTemplate
-        .replace('$$name$$', body.name)
-        .replace('$$phone$$', body.phone)
-        .replace('$$email$$', body.email)
-        .replace('$$address$$', body.address)
-        .replace('$$city$$', body.city)
-        .replace('$$postal_code$$', body.postal_code)
-        .replace('$$date$$', new Date(body.date).toISOString())
-        .replace('$$notes$$', body.notes)
-        .replace('$$whenToPay$$', body.whenToPay)
-        .replace('$$paymentMethod$$', body.paymentMethod)
-        .replace('$$total$$', body.total)
-        .replace(
-          '$$products$$',
-          JSON.stringify(body.products, null, '&nbsp;')
-            .split('\n')
-            .join('<br>&nbsp;&nbsp;')
-            .split('<br>&nbsp;&nbsp;}')
-            .join('<br>}')
-        ),
-    };
-
-    await mg.messages.create(process.env.MAILGUN_DOMAIN as string, emailToSend);
   } catch (e) {
+    console.log(e);
     return new NextResponse(
       JSON.stringify({ message: 'Something wrong happened' }),
       { status: 500 }
@@ -50,4 +65,11 @@ export async function POST(request: NextRequest) {
     JSON.stringify({ message: 'Placed order successfully' }),
     { status: 200 }
   );
+}
+
+function formatDate(str: string) {
+  const date = new Date(str);
+  return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}-${date.getFullYear()}`;
 }
