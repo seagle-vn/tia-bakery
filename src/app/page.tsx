@@ -2,7 +2,7 @@ import HomeClientPage from './client-page';
 
 export const metadata = {
   description:
-    'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+    'Online Cake Shop in London Ontario. Birthday Cake, Custom Cake, Wedding Cakeand Special Occasion Cake',
   openGraph: {
     images: [
       {

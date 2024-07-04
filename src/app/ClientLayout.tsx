@@ -69,7 +69,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
                 fontSize='30px'
                 textAlign='center'
               >
-                Free Delivery for Orders +$80 -
+                Call me at 266 700 3943 -
                 <Link ml='10px' color='#b5ff34e6' href='/#menu'>
                   Order now
                 </Link>
