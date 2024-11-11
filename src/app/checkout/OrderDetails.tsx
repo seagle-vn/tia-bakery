@@ -1,9 +1,7 @@
-import { Divider, Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import { Heading, Stack } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 import { useCart } from 'react-use-cart';
 import { CartItem } from '../../ui/CartItem';
-import { formatPrice } from '../../ui/CartItem/PriceTag';
-import { OrderSummaryItem } from '../../ui/OrderSummaryItem';
 
 export const OrderDetails: FunctionComponent = () => {
   const { items, cartTotal } = useCart();
@@ -29,7 +27,7 @@ export const OrderDetails: FunctionComponent = () => {
         ))}
       </Stack>
 
-      <Stack spacing='6'>
+      {/* <Stack spacing='6'>
         <OrderSummaryItem label='Subtotal' value={formatPrice(cartTotal)} />
         <Divider />
         <Flex justify='space-between'>
@@ -40,7 +38,7 @@ export const OrderDetails: FunctionComponent = () => {
             {formatPrice(cartTotal)}
           </Text>
         </Flex>
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 };

@@ -2,7 +2,6 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { Button, Flex, Link } from '@chakra-ui/react';
 import { useCart } from 'react-use-cart';
 import { CartProductMeta } from './CartProductMeta';
-import { PriceTag } from './PriceTag';
 import { QuantitySelect } from './QuantitySelect';
 
 type CartItemProps = {
@@ -50,7 +49,7 @@ export const CartItem = ({
         justify='flex-end'
         display={{ base: 'none', md: 'flex' }}
       >
-        <PriceTag price={price} currency='CAD' />
+        {/* <PriceTag price={price} currency='CAD' /> */}
         {displayRemoveButton ? (
           <Button
             onClick={() => removeItem(id)}
@@ -79,7 +78,7 @@ export const CartItem = ({
           }}
           defaultValue={quantity}
         />
-        <PriceTag price={price} currency='CAD' />
+        {/* <PriceTag price={price} currency='CAD' /> */}
       </Flex>
     </Flex>
   );
