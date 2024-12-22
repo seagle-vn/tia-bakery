@@ -79,7 +79,6 @@ export default function AboutClientPage() {
             fontFamily='roboto'
             fontSize={{ base: '2rem', md: '3rem' }}
             color='primary.200'
-            textTransform='uppercase'
             className={styles.descriptionText}
             textAlign='center'
           >
