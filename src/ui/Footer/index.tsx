@@ -115,7 +115,7 @@ export function Footer() {
             </Stack>
           </Stack>
           <Stack fontFamily='grandiflora' mt='1rem' align='flex-start'>
-            <ListHeader>Visit our store</ListHeader>
+            <ListHeader>Contact me</ListHeader>
             <Text fontWeight='700' fontSize={'lg'}>
               {store.address}
             </Text>
