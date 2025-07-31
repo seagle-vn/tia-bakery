@@ -9,7 +9,7 @@ import {
   Text,
   extendTheme,
 } from '@chakra-ui/react';
-import { Amatic_SC, Grandiflora_One, Roboto_Condensed } from 'next/font/google';
+import { Amatic_SC, Grandiflora_One, Roboto_Condensed, Poppins } from 'next/font/google';
 import 'yet-another-react-lightbox/styles.css';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
@@ -35,13 +35,21 @@ const grandiflora = Grandiflora_One({
   weight: '400',
   display: 'swap',
 });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+});
 
 export const theme = extendTheme({
   colors,
   fonts: {
+    heading: 'var(--font-poppins)',
+    body: 'var(--font-poppins)',
     amatic: 'var(--font-amatic)',
     roboto: 'var(--font-roboto)',
     grandiflora: 'var(--font-grandiflora)',
+    poppins: 'var(--font-poppins)',
   },
 });
 
@@ -54,6 +62,11 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
             --font-amatic: ${amaticSc.style.fontFamily};
             --font-roboto: ${roboto.style.fontFamily};
             --font-grandiflora: ${grandiflora.style.fontFamily};
+            --font-poppins: ${poppins.style.fontFamily};
+          }
+          
+          * {
+            font-family: var(--font-poppins);
           }
         `}
       </style>
@@ -62,8 +75,8 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
           <Box width='full' overflowX='hidden'>
             <Alert status='info' bg='#42ced1'>
               <Text
-                fontFamily='roboto'
-                fontWeight={700}
+                fontFamily='poppins'
+                fontWeight={200}
                 margin='0 auto'
                 color='white'
                 fontSize='30px'
@@ -71,7 +84,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
               >
                 Call me at 226 700 3943 -
                 <Link ml='10px' color='#b5ff34e6' href='/#menu'>
-                  Order Now
+                  Order Your Cake
                 </Link>
               </Text>
             </Alert>

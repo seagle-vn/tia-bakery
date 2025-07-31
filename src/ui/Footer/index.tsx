@@ -51,7 +51,7 @@ const SocialButton = ({
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Text
-      fontFamily='roboto'
+      fontFamily='poppins'
       fontWeight={'600'}
       textTransform='uppercase'
       letterSpacing={1}
@@ -129,7 +129,7 @@ export function Footer() {
               </SocialButton>
             </Stack>
           </Stack>
-          <Stack fontFamily='grandiflora' mt='1rem' align='flex-start'>
+          <Stack fontFamily='poppins' mt='1rem' align='flex-start'>
             <ListHeader>Contact me</ListHeader>
             <Text fontWeight='700' fontSize={'lg'}>
               {store.address}
@@ -146,7 +146,7 @@ export function Footer() {
             </Text>
           </Stack>
           <Stack
-            fontFamily='grandiflora'
+            fontFamily='poppins'
             mt='1rem'
             align={{ base: 'flex-start', md: 'flex-end' }}
           >

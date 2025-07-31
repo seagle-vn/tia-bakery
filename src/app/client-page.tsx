@@ -91,10 +91,13 @@ export default function HomeClientPage() {
             {page.heroTitle}
           </Heading>
           <Text
-            fontFamily='roboto'
-            fontSize={{ base: '2rem', md: '3rem' }}
+            fontFamily='poppins'
+            fontSize={{ base: '1.5rem', md: '2.5rem' }}
             color='primary.200'
             className={styles.descriptionText}
+            textAlign='center'
+            lineHeight='1.3'
+            maxW='80%'
           >
             {page.heroText}
           </Text>

@@ -26,22 +26,6 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
       pb='1rem'
       w='full'
     >
-      <VStack>
-        <Heading
-          as='h1'
-          fontSize='5.5rem'
-          textShadow='2px 2px #ffffff'
-          fontFamily='amatic'
-          color='primary.200'
-          fontWeight='bold'
-          letterSpacing='5px'
-        >
-          Tia bakery
-        </Heading>
-        <Text fontFamily='amatic' fontSize='26px' marginTop='-25px'>
-          Cakes and joyfulness
-        </Text>
-      </VStack>
       <HStack spacing='8rem' justifyContent='space-between'>
         <HStack spacing='3rem' width='8rem' justifyContent='space-around'>
           <Box>
@@ -86,7 +70,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
             />
           </Box>
         </Link>
-        <HStack spacing='3rem' width='8rem' justifyContent='space-around'>
+        <HStack spacing='3rem' width='12rem' justifyContent='space-around'>
           <Box>
             <Link
               href='/about'
@@ -94,6 +78,15 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
               _hover={{ color: 'primary.200' }}
             >
               About
+            </Link>
+          </Box>
+          <Box>
+            <Link
+              href='/faq'
+              className={styles.link}
+              _hover={{ color: 'primary.200' }}
+            >
+              FAQ
             </Link>
           </Box>
           <Box>
