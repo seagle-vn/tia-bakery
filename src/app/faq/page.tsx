@@ -34,7 +34,6 @@ export default function FAQPage() {
     fetchPolicy: 'cache-first',
   });
   const { faqs } = data as any;
-  console.log(faqs);
 
   return (
     <VStack minH="100vh" bg="white">
