@@ -43,7 +43,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
               className={styles.link}
               _hover={{ color: 'primary.200' }}
             >
-              Menu
+              Gallery
             </Link>
           </Box>
         </HStack>

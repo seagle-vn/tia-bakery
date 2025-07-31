@@ -83,7 +83,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
                 textAlign='center'
               >
                 Call me at 226 700 3943 -
-                <Link ml='10px' color='#b5ff34e6' href='/#menu'>
+                <Link ml='10px' color='#b5ff34e6' href='mailto:tiabakery2019@gmail.com'>
                   Order Your Cake
                 </Link>
               </Text>
