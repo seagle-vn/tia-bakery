@@ -6,7 +6,7 @@ import { CartProvider as BaseCartProvider } from 'react-use-cart';
 export default function CartProvider({ children, ...props }: any) {
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true));
+  useEffect(() => setMounted(true), []);
 
   if (mounted) {
     return <BaseCartProvider {...props}>{children}</BaseCartProvider>;

@@ -161,7 +161,7 @@ export default function FAQPage() {
                 lineHeight="1.6"
                 mb="1rem"
               >
-                We're here to help! Contact us directly for personalized assistance.
+                We&apos;re here to help! Contact us directly for personalized assistance.
               </Text>
               <Text
                 fontSize="1rem"
