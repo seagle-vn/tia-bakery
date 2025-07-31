@@ -65,14 +65,26 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
         </HStack>
         <Link href='/'>
           <Box
-            backgroundImage='/logo.png'
-            backgroundPosition='center'
-            backgroundSize='cover'
-            backgroundRepeat='no-repeat'
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
             width='19rem'
             height='19rem'
             borderRadius='50%'
-          ></Box>
+          >
+            <img
+              src='/logo.png'
+              alt='Tia Bakery Logo'
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                mixBlendMode: 'multiply',
+                filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
+                borderRadius: '50%'
+              }}
+            />
+          </Box>
         </Link>
         <HStack spacing='3rem' width='8rem' justifyContent='space-around'>
           <Box>

@@ -1,6 +1,7 @@
 import { gql, useSuspenseQuery } from '@apollo/client';
 import { Link } from '@chakra-ui/next-js';
 import {
+  Box,
   Container,
   Flex,
   Image,
@@ -93,14 +94,28 @@ export function Footer() {
           gap={8}
         >
           <Stack alignItems={{ base: 'start', md: 'center' }} spacing={6}>
-            <Image
+            <Box
               borderRadius='50%'
               width={{ base: '13rem', md: '15rem' }}
               height={{ base: '13rem', md: '15rem' }}
-              src='/logo.png'
-              alt='Logo'
+              display='flex'
+              alignItems='center'
+              justifyContent='center'
               marginLeft={{ base: '-2.5rem', md: '0' }}
-            />
+            >
+              <img
+                src='/logo.png'
+                alt='Logo'
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  mixBlendMode: 'multiply',
+                  filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
+                  borderRadius: '50%'
+                }}
+              />
+            </Box>
 
             <Stack direction={'row'} spacing={6}>
               <SocialButton label={'Twitter'} href={store.facebook}>
