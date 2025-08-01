@@ -131,15 +131,15 @@ export function Footer() {
           </Stack>
           <Stack fontFamily='poppins' mt='1rem' align='flex-start'>
             <ListHeader>Contact me</ListHeader>
-            <Text fontWeight='700' fontSize={'lg'}>
+            <Text fontSize={'lg'}>
               {store.address}
             </Text>
-            <Text fontWeight='700' fontSize={'lg'}>
+            <Text fontSize={'lg'}>
               {store.phone}
             </Text>
             <Text
               _hover={{ textDecoration: 'underline' }}
-              fontWeight='700'
+            
               fontSize={'lg'}
             >
               <a href={`mailto:${store.email}`}>{store.email}</a>
@@ -151,10 +151,10 @@ export function Footer() {
             align={{ base: 'flex-start', md: 'flex-end' }}
           >
             <ListHeader>Open times</ListHeader>
-            <Text fontWeight='700' fontSize={'lg'}>
+            <Text fontSize={'lg'}>
               Mon - Fri: {store.openTime1}
             </Text>
-            <Text fontWeight='700' fontSize={'lg'}>
+            <Text fontSize={'lg'}>
               Sat - Sun: {store.openTime2}
             </Text>
           </Stack>

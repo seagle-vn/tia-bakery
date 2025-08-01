@@ -1,10 +1,11 @@
 'use client';
 
 import { gql, useSuspenseQuery } from '@apollo/client';
+import { Link } from '@chakra-ui/next-js';
 import { Box, Container, Grid, Heading, Image, Text, VStack, HStack, Badge, Avatar } from '@chakra-ui/react';
 
 const query = gql`
-  query BlogPosts {
+  query BlogPosts($slug: String) {
     blogPosts {
       id
       title
@@ -12,6 +13,12 @@ const query = gql`
       date
       readTime
       image
+      slug
+    }
+    page(where: { slug: $slug }) {
+      heroBackground
+      heroText
+      heroTitle
     }
   }
 `;
@@ -19,15 +26,18 @@ const query = gql`
 export default function SharingPage() {
   const { data } = useSuspenseQuery(query, {
     fetchPolicy: 'cache-first',
+    variables: {
+      slug: 'blogpost',
+    },
   });
 
-  const { blogPosts } = data as any;
+  const { blogPosts, page } = data as any;
   return (
     <VStack minH="100vh" bg="white">
       {/* Banner Image */}
       <Box w="full" h="400px" position="relative">
         <Image
-          src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=400&fit=crop"
+          src={page?.heroBackground?.url}
           alt="Tia's Bakery Kitchen"
           w="full"
           h="full"
@@ -48,7 +58,7 @@ export default function SharingPage() {
                 fontFamily="poppins"
                 textAlign="center"
               >
-                Latest Posts
+                {page?.heroTitle}
               </Heading>
               <Text
                 fontSize="1.125rem"
@@ -57,28 +67,31 @@ export default function SharingPage() {
                 fontFamily="poppins"
                 textAlign="center"
               >
-                Discover baking tips, behind-the-scenes stories, and creative inspiration from my kitchen
+                {page?.heroText}
               </Text>
             </VStack>
 
             {/* Blog Grid */}
             <VStack spacing="2rem" w="full">
               {blogPosts?.map((post: any) => (
-                <Box
+                <Link
                   key={post.id}
-                  w="full"
-                  bg="white"
-                  borderRadius="1rem"
-                  boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
-                  overflow="hidden"
-                  transition="all 0.3s ease"
-                  cursor="pointer"
-                  _hover={{
-                    transform: "translateY(-4px)",
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
-                  }}
-                  onClick={() => console.log(`Opening blog post ${post.id}`)}
+                  href={`/blog-posts/${post.slug}`}
+                  _hover={{ textDecoration: 'none' }}
                 >
+                  <Box
+                    w="full"
+                    bg="white"
+                    borderRadius="1rem"
+                    boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+                    overflow="hidden"
+                    transition="all 0.3s ease"
+                    cursor="pointer"
+                    _hover={{
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
+                    }}
+                  >
                   <Grid
                     templateColumns={{ base: "1fr", md: "300px 1fr" }}
                     w="full"
@@ -125,7 +138,7 @@ export default function SharingPage() {
                           <Text fontFamily="poppins">•</Text>
                           <Text fontFamily="poppins">{post.date}</Text>
                           <Text fontFamily="poppins">•</Text>
-                          <Text fontFamily="poppins">{post.readTime}</Text>
+                          <Text fontFamily="poppins">{post.readTime} min read</Text>
                         </HStack>
 
                         {/* Excerpt */}
@@ -143,6 +156,7 @@ export default function SharingPage() {
                     </Box>
                   </Grid>
                 </Box>
+                </Link>
               ))}
             </VStack>
           </VStack>

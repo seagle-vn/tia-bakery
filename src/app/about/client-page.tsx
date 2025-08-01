@@ -4,6 +4,7 @@ import { Box, Center, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import { Resize } from '@cloudinary/url-gen/actions/resize';
 import { cld } from '../../constants/cloudinary';
 import styles from './page.module.css';
+import { decode } from 'he'; 
 
 const query = gql`
   query AboutPage($slug: String) {
@@ -29,6 +30,8 @@ export default function AboutClientPage() {
     },
   });
   const { page } = data as any;
+  const cleanHtml = decode(page.description.html); 
+
 
   const url = cld
     .image(page.heroBackground.public_id)
@@ -103,7 +106,7 @@ export default function AboutClientPage() {
           alt='about image'
           width={{ base: '10rem', md: '20rem' }}
         />
-        <div dangerouslySetInnerHTML={{ __html: page.description.html }}></div>
+        <div dangerouslySetInnerHTML={{ __html: cleanHtml }}></div>
       </Flex>
     </main>
   );
