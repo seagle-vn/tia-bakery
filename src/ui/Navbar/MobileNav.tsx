@@ -98,6 +98,10 @@ const NAV_ITEMS: Array<NavItem> = [
     href: '/about',
   },
   {
+    label: 'Sharing',
+    href: '/sharing',
+  },
+  {
     label: 'FAQ',
     href: '/faq',
   },

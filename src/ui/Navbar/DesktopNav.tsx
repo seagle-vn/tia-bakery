@@ -22,12 +22,12 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
     <VStack
       display={{ base: 'none', md: 'flex' }}
       justifyContent='center'
-      backgroundColor='#FBD4D7'
+      backgroundColor='#FFD4D7'
       pb='1rem'
       w='full'
     >
-      <HStack spacing='8rem' justifyContent='space-between'>
-        <HStack spacing='3rem' width='8rem' justifyContent='space-around'>
+      <HStack spacing='8rem' justifyContent='space-between' alignItems='center' position='relative'>
+        <HStack spacing='3rem' width='16rem' justifyContent='space-around'>
           <Box>
             <Link
               href='/'
@@ -46,31 +46,38 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
               Gallery
             </Link>
           </Box>
-        </HStack>
-        <Link href='/'>
-          <Box
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
-            width='19rem'
-            height='19rem'
-            borderRadius='50%'
-          >
-            <img
-              src='/logo.png'
-              alt='Tia Bakery Logo'
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                mixBlendMode: 'multiply',
-                filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
-                borderRadius: '50%'
-              }}
-            />
+          <Box>
+            <Link
+              href='/sharing'
+              className={styles.link}
+              _hover={{ color: 'primary.200' }}
+            >
+              Sharing
+            </Link>
           </Box>
-        </Link>
-        <HStack spacing='3rem' width='12rem' justifyContent='space-around'>
+        </HStack>
+        <Box flex='1' display='flex' marginLeft='3rem' justifyContent='center'>
+          <Link href='/'>
+            <Box
+              width='19rem'
+              height='19rem'
+            >
+              <img
+                src='/logo.png'
+                alt='Tia Bakery Logo'
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  mixBlendMode: 'multiply',
+                  filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
+                  borderRadius: '50%'
+                }}
+              />
+            </Box>
+          </Link>
+        </Box>
+        <HStack spacing='3rem' width='16rem' justifyContent='space-around'>
           <Box>
             <Link
               href='/about'
