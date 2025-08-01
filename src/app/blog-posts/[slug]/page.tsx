@@ -2,17 +2,17 @@
 
 import { gql, useSuspenseQuery } from '@apollo/client';
 import { Link } from '@chakra-ui/next-js';
-import { 
-  Box, 
-  Container, 
-  Heading, 
-  Text, 
-  VStack, 
-  HStack, 
-  Avatar, 
+import {
+  Avatar,
+  Box,
+  Container,
+  Heading,
+  HStack,
   Image,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
-import { decode } from 'he'; 
+import { decode } from 'he';
 
 const query = gql`
   query BlogPost($slug: String) {
@@ -42,7 +42,6 @@ export default function BlogPostPage({
   });
 
   const { blogPost } = data as any;
-  console.log({blogPost})
   const cleanHtml = decode(blogPost.content.html);
   
 
