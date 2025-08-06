@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import HomeClientPage from './client-page';
 
 export const metadata = {
@@ -17,5 +19,11 @@ export const metadata = {
 };
 
 export default function HomePage() {
-  return <HomeClientPage />;
+  return (
+    <>
+      <Analytics />
+      <SpeedInsights />
+      <HomeClientPage />
+    </>
+  );
 }
