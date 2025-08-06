@@ -1,17 +1,43 @@
 import axios from 'axios';
 
+// Simple in-memory cache for common questions
+const responseCache = new Map<string, { response: string; timestamp: number }>();
+const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
+
 export async function generateChatResponse(
   messages: Array<{ role: string; content: string }>
 ): Promise<string> {
+  // Create cache key from last user message
+  const lastMessage = messages[messages.length - 1]?.content?.toLowerCase() || '';
+  const cacheKey = lastMessage.substring(0, 100); // First 100 chars
+  
+  // Check cache first
+  const cached = responseCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    console.log('🎯 Using cached response');
+    return cached.response;
+  }
+
   try {
+    // Clean up messages and ensure proper format
+    const cleanMessages = messages.map(msg => ({
+      role: msg.role,
+      content: typeof msg.content === 'string' ? msg.content.trim() : String(msg.content).trim()
+    })).filter(msg => msg.content.length > 0);
+
+    console.log('🚀 Sending to Groq:', { 
+      messageCount: cleanMessages.length,
+      lastMessage: cleanMessages[cleanMessages.length - 1]?.content.substring(0, 100) + '...'
+    });
+
     const response = await axios.post(
       'https://api.groq.com/openai/v1/chat/completions',
       {
         model: 'llama3-8b-8192',
-        messages: messages,
-        max_tokens: 500,
-        temperature: 0.7,
-        top_p: 0.9,
+        messages: cleanMessages,
+        max_tokens: 300,
+        temperature: 0.3,
+        top_p: 0.8,
         stream: false
       },
       {
@@ -19,29 +45,23 @@ export async function generateChatResponse(
           'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
           'Content-Type': 'application/json',
         },
+        timeout: 30000 // 30 second timeout
       }
     );
 
-    const aiResponse = response.data.choices[0]?.message?.content;
+    const aiResponse = response.data.choices[0].message.content || 'I apologize, but I could not generate a response.';
     
-    if (!aiResponse) {
-      throw new Error('No response generated from Groq');
-    }
-
-    return aiResponse.trim();
+    // Cache the response
+    responseCache.set(cacheKey, {
+      response: aiResponse,
+      timestamp: Date.now()
+    });
+    
+    return aiResponse;
   } catch (error) {
     console.error('Groq API error:', error);
     
-    // Fallback response for different scenarios
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 429) {
-        return "I'm experiencing high demand right now. Please try again in a moment, or feel free to contact us directly for immediate assistance.";
-      } else if (error.response?.status === 401) {
-        return "I'm having authentication issues at the moment. Please contact us directly for assistance.";
-      }
-    }
-    
-    return "I apologize, but I'm experiencing technical difficulties right now. Please try again in a moment, or contact us directly for immediate assistance.";
+    return "I apologize, but I'm experiencing technical difficulties right now. Please try again in a moment, or contact us directly at hello@tiabakery.com or (555) 123-BAKE for immediate assistance.";
   }
 }
 

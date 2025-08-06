@@ -3,3 +3,16 @@ export const pageview = (GA_MEASUREMENT_ID: string, url: string) => {
     page_path: url,
   });
 };
+
+// Utility function to format chat messages
+export function formatMessageContent(content: string): string {
+  // Convert asterisks (*) to bullet points
+  // This handles various patterns of asterisks in the text
+  console.log('Original content:', content);
+  const formatted = content
+    .replace(/\*\s+/g, '• ') // Convert any * followed by space to bullet
+    .replace(/\n\s*\n/g, '\n\n') // Clean up extra line breaks
+    .trim(); // Remove leading/trailing whitespace
+  console.log('Formatted content:', formatted);
+  return formatted;
+}

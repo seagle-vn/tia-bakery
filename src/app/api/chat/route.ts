@@ -1,37 +1,40 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { generateEmbedding } from '@/lib/embeddings';
-import { searchDocuments } from '@/lib/supabase';
 import { generateChatResponse } from '@/lib/groq';
+import { searchDocuments } from '@/lib/supabase';
 import { ChatMessage } from '@/types';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const { message, history = [] }: { message: string; history: ChatMessage[] } = await request.json();
 
-    console.log('🔍 Generating embedding for query...');
-    const queryEmbedding = await generateEmbedding(message);
+    console.log('🔍 Generating embedding for query...', message);
+    const queryEmbedding = await generateEmbedding(message, true);
 
     console.log('📚 Searching for relevant documents...');
-    const documents = await searchDocuments(queryEmbedding, 0.6, 3);
+    // Lower threshold for better recall, get more documents
+    const documents = await searchDocuments(queryEmbedding, 0.3, 5);
 
     const context = documents
       .map(doc => doc.content)
       .join('\n\n');
 
-    const systemPrompt = `You are a helpful customer service assistant for our business. Use the following information from our business documents to answer the customer's question accurately and professionally.
+    const systemPrompt = `You are Tia's friendly bakery assistant. Use the provided business information to help customers with their questions about Tia Bakery.
 
 BUSINESS INFORMATION:
 ${context}
 
-INSTRUCTIONS:
-- Answer based ONLY on the provided business information
-- Be helpful, friendly, and professional
-- If the information isn't available in the context, politely say you don't have that specific information
-- Suggest contacting the business directly for complex issues
-- Keep responses concise but complete
-- Use a conversational tone
+KEY INSTRUCTIONS:
+- Answer ONLY using the provided business information above
+- Be warm, friendly, and enthusiastic about our bakery
+- If you don't have specific information, suggest contacting Tia directly
+- For orders: Always mention calling ahead, especially for custom cakes
+- Use specific details from the context when available (prices, hours, etc.)
+- Keep responses helpful but concise
+- End with a friendly closing when appropriate
 
-Customer question: ${message}`;
+Customer: ${message}
+Assistant:`;
 
     const messages = [
       { role: 'system', content: systemPrompt },

@@ -6,12 +6,18 @@ require('dotenv').config({ path: '.env' });
 
 // Debug: Check if API key is loaded
 console.log('🔍 Checking environment variables...');
+console.log('HUGGING_FACE_TOKEN:', process.env.HUGGINGFACE_API_KEY ? 'Found' : 'Missing');
 console.log('GROQ_API_KEY:', process.env.GROQ_API_KEY ? 'Found' : 'Missing');
 console.log('SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Found' : 'Missing');
 console.log('SUPABASE_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Found' : 'Missing');
 
+if (!process.env.HUGGINGFACE_API_KEY) {
+  console.error('❌ HUGGING_FACE_TOKEN not found in .env');
+  process.exit(1);
+}
+
 if (!process.env.GROQ_API_KEY) {
-  console.error('❌ GROQ_API_KEY not found in .env.local');
+  console.error('❌ GROQ_API_KEY not found in .env');
   process.exit(1);
 }
 
@@ -78,72 +84,87 @@ Q: Can I place orders online?
 A: Currently we take orders by phone or in-person. Online ordering coming soon!
 `;
 
-// Test API connection first
-async function testGroqAPI() {
+// Generate embedding using Hugging Face API for documents
+async function generateEmbedding(text) {
   try {
-    console.log('🧪 Testing Groq API connection...');
+    console.log('🔄 Generating document embedding with intfloat/e5-base-v2...');
     
     const response = await axios.post(
-      'https://api.groq.com/openai/v1/chat/completions',
-      {
-        model: 'llama3-8b-8192',
-        messages: [{ role: 'user', content: 'Hello' }],
-        max_tokens: 10
-      },
+      'https://api-inference.huggingface.co/models/intfloat/e5-base-v2',
+      { inputs: text },
       {
         headers: {
-          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.HUGGING_FACE_TOKEN}`,
+          'Content-Type': 'application/json'
         },
+        timeout: 30000
       }
     );
     
-    console.log('✅ Groq API working correctly');
-    return true;
+    if (response.data && Array.isArray(response.data)) {
+      console.log('✅ Document embedding generated successfully');
+      return response.data;
+    }
+    
+    throw new Error('Invalid response format from Hugging Face API');
   } catch (error) {
-    console.error('❌ Groq API test failed:', error.message);
-    return false;
+    console.warn('⚠️ Hugging Face API failed, falling back to local embedding:', error);
+    return createImprovedEmbedding(text);
   }
 }
 
-// Generate embedding using Groq for text processing and simple embedding
-async function generateEmbedding(text) {
-  try {
-    console.log('🔄 Generating embedding using Groq...');
+// Improved embedding with bakery-specific terms
+function createImprovedEmbedding(text, dimensions = 1536) {
+  const embedding = new Array(dimensions).fill(0);
+  
+  // Preprocess text
+  const processedText = text.toLowerCase()
+    .replace(/[^\w\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  
+  const words = processedText.split(' ').filter(w => w.length > 2);
+  
+  // Bakery-specific important terms with higher weights
+  const importantTerms = {
+    'bakery': 5, 'cake': 5, 'bread': 4, 'pastry': 4, 'custom': 4,
+    'order': 4, 'delivery': 3, 'fresh': 3, 'artisanal': 3,
+    'wedding': 4, 'birthday': 3, 'catering': 3, 'coffee': 3,
+    'hours': 4, 'contact': 4, 'phone': 4, 'email': 4,
+    'price': 4, 'cost': 4, 'gluten': 3, 'free': 3,
+    'tia': 5, 'specializes': 3, 'vanilla': 2, 'chocolate': 2
+  };
+  
+  // Create embedding with weighted terms
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    const weight = importantTerms[word] || 1;
     
-    // Use Groq to process and extract key features from text
-    const response = await axios.post(
-      'https://api.groq.com/openai/v1/chat/completions',
-      {
-        model: 'llama3-8b-8192',
-        messages: [{
-          role: 'user',
-          content: `Extract the key semantic features and concepts from this text for embedding purposes. Respond with a comma-separated list of important keywords and concepts: ${text.substring(0, 1000)}`
-        }],
-        max_tokens: 200,
-        temperature: 0.1
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
+    // Use multiple hash functions for better distribution
+    for (let hash = 0; hash < 3; hash++) {
+      let hashValue = 0;
+      for (let j = 0; j < word.length; j++) {
+        hashValue = ((hashValue * 31) + word.charCodeAt(j) + hash * 17) % dimensions;
       }
-    );
-
-    const keywords = response.data.choices[0].message.content;
-    
-    // Create a simple embedding from the text + keywords
-    const combinedText = text + ' ' + keywords;
-    const embedding = createSimpleEmbedding(combinedText);
-    
-    console.log('✅ Embedding generated successfully');
-    return embedding;
-  } catch (error) {
-    console.error('❌ Groq embedding generation failed:', error.message);
-    // Fallback to simple embedding without Groq processing
-    return createSimpleEmbedding(text);
+      
+      const value = Math.sin(hashValue / dimensions * Math.PI) * weight;
+      embedding[hashValue] += value;
+      
+      // Add position and context information
+      const positionWeight = 1 / Math.log(i + 2);
+      embedding[(hashValue + i) % dimensions] += value * positionWeight;
+    }
   }
+  
+  // Normalize
+  const magnitude = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
+  if (magnitude > 0) {
+    for (let i = 0; i < embedding.length; i++) {
+      embedding[i] /= magnitude;
+    }
+  }
+  
+  return embedding;
 }
 
 // Create a simple embedding from text using basic mathematical approach
@@ -226,12 +247,6 @@ async function uploadDocuments() {
     const supabaseWorking = await testSupabaseConnection();
     if (!supabaseWorking) {
       throw new Error('Supabase connection failed');
-    }
-
-    // Test API first
-    const apiWorking = await testGroqAPI();
-    if (!apiWorking) {
-      console.log('🔄 API test failed, but continuing with upload attempt...');
     }
 
     console.log('🚀 Starting document upload process...');

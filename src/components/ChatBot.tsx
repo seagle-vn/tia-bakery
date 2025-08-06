@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '@/types';
+import { formatMessageContent } from '@/lib/gtagHelper';
 
 export default function ChatBot() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -101,7 +102,7 @@ export default function ChatBot() {
                   ? 'bg-blue-600 text-white'
                   : 'bg-white text-gray-800 shadow-sm border'
               }`}>
-                <div className="whitespace-pre-wrap">{message.content}</div>
+                <div className="whitespace-pre-wrap">{formatMessageContent(message.content)}</div>
               </div>
             </div>
             
