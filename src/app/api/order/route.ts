@@ -36,12 +36,13 @@ export async function POST(request: NextRequest) {
             body.total,
             JSON.stringify(
               body.products.map(
-                ({ name, price, size, quantity, itemTotal }: any) => ({
+                ({ name, price, size, quantity, itemTotal, product_url }: any) => ({
                   name,
                   price,
                   size,
                   quantity,
                   itemTotal,
+                  product_url,
                 })
               ),
               null,

@@ -29,7 +29,12 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
     if (item) {
       updateItemQuantity(product.id, (item.quantity ?? 0) + quantity);
     } else {
-      addItem(product, quantity);
+      // Add product URL to cart item
+      const productWithUrl = {
+        ...product,
+        product_url: `https://www.tiabakery.ca/products/${product.slug}`
+      };
+      addItem(productWithUrl, quantity);
     }
     setTimeout(() => setLoading(false), 200);
   }
