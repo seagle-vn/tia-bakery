@@ -9,7 +9,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cache:setup": "node scripts/setup-cache.js",
+    "cache:stats": "node scripts/cache-stats.js stats",
+    "cache:cleanup": "node scripts/cache-stats.js cleanup"
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.12",
