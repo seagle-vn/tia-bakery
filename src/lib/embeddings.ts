@@ -80,7 +80,7 @@ function createImprovedEmbedding(text: string, dimensions: number = 1536): numbe
   const words = processedText.split(' ').filter(w => w.length > 1);
   
   // Expanded bakery-specific vocabulary with semantic groupings
-  const importantTerms = {
+  const importantTerms: Record<string, number> = {
     // Core business terms
     'bakery': 8, 'tia': 8, 'business': 6, 'company': 6,
     

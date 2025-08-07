@@ -2,7 +2,7 @@
 
 import { formatMessageContent } from '@/lib/gtagHelper';
 import { ChatMessage } from '@/types';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import styles from './FloatingChat.module.css';
 
 export default function FloatingChat() {
@@ -107,7 +107,7 @@ export default function FloatingChat() {
       {/* Chat Window */}
       <div className={`${styles.chatWindow} ${isOpen ? styles.open : ''}`}>
         <div className={styles.chatHeader}>
-          <h3>Tia's Assistant</h3>
+          <h3>Tia&apos;s Assistant</h3>
           <button className={styles.chatClose} onClick={toggleChat}>&times;</button>
         </div>
         
