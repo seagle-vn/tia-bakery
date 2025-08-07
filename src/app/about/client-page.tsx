@@ -30,8 +30,7 @@ export default function AboutClientPage() {
     },
   });
   const { page } = data as any;
-  const cleanHtml = decode(page.description.html); 
-
+  const cleanHtml = decode(page.description.html);
 
   const url = cld
     .image(page.heroBackground.public_id)

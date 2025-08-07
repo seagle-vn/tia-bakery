@@ -13,6 +13,7 @@ import { Amatic_SC, Grandiflora_One, Roboto_Condensed, Poppins } from 'next/font
 import 'yet-another-react-lightbox/styles.css';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
+import FloatingChat from '../components/FloatingChat';
 
 const colors = {
   primary: {
@@ -91,6 +92,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
             <Navbar />
             {children}
             <Footer />
+            <FloatingChat />
           </Box>
         </ChakraProvider>
       </CacheProvider>
