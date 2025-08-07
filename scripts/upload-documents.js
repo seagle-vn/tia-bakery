@@ -6,10 +6,19 @@ require('dotenv').config({ path: '.env' });
 
 // Debug: Check if API key is loaded
 console.log('🔍 Checking environment variables...');
-console.log('HUGGING_FACE_TOKEN:', process.env.HUGGINGFACE_API_KEY ? 'Found' : 'Missing');
+console.log(
+  'HUGGING_FACE_TOKEN:',
+  process.env.HUGGINGFACE_API_KEY ? 'Found' : 'Missing'
+);
 console.log('GROQ_API_KEY:', process.env.GROQ_API_KEY ? 'Found' : 'Missing');
-console.log('SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Found' : 'Missing');
-console.log('SUPABASE_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Found' : 'Missing');
+console.log(
+  'SUPABASE_URL:',
+  process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Found' : 'Missing'
+);
+console.log(
+  'SUPABASE_KEY:',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Found' : 'Missing'
+);
 
 if (!process.env.HUGGINGFACE_API_KEY) {
   console.error('❌ HUGGING_FACE_TOKEN not found in .env');
@@ -25,90 +34,139 @@ if (!process.env.GROQ_API_KEY) {
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  { 
-    auth: { persistSession: false }, 
-    realtime: { disabled: true } 
+  {
+    auth: { persistSession: false },
+    realtime: { disabled: true },
   }
 );
 
 const BUSINESS_DOCUMENTS = `
-COMPANY NAME: Tia Bakery
+About TIA Bakery
+Location: London, Ontario, Canada
+Business Type: Custom cake designer and bakery specializing in personalized cakes for special occasions
 
-ABOUT US:
-Welcome to Tia Bakery! We're a family-owned bakery specializing in fresh, artisanal breads, pastries, and custom cakes. Established in 2020, we pride ourselves on using only the finest ingredients and traditional baking methods.
+Custom cake design and creation
+Bento cakes (specialty focus)
+Special occasion cakes (birthdays, weddings, celebrations)
+Personalized cake artistry
 
-SERVICES:
-Fresh Bread: Daily baked sourdough, whole wheat, rye, and specialty breads
-Pastries: Croissants, danishes, muffins, and seasonal treats  
-Custom Cakes: Wedding cakes, birthday cakes, and special occasion desserts
-Catering: Office breakfast platters, party dessert tables
-Coffee & Beverages: Freshly brewed coffee, tea, and specialty drinks
+Contact Information & Online Presence
+Phone: 226-700-3943 (Primary contact for orders and design submissions)
+Website: www.tiabakery.ca
+Social Media:
 
-PRICING:
-Bread: $4-8 per loaf
-Pastries: $2-6 each
-Custom Cakes: Starting at $30 (price varies by size and design)
-Coffee: $2-5
-Catering: Contact for custom quotes
+Instagram: @tiabakery2019
 
-CONTACT INFORMATION:
-Email: hello@tiabakery.com
-Phone: (555) 123-BAKE
-Address: 123 Baker Street, Sweet Town, ST 12345
-Business Hours: 
-- Monday-Friday: 6AM-7PM
-- Saturday: 7AM-8PM  
-- Sunday: 8AM-5PM
-Website: www.tiabakery.com
+2,473 followers, 344 posts
+Bio: "📍 Custom Cake in London Ontario 🚚 Delivery or Pickup available 💌 DM to Place Your Order!"
 
-POLICIES:
-Return Policy: Fresh items can be returned within 24 hours with receipt
-Custom Orders: Require 48-72 hours advance notice
-Payment: We accept cash, credit cards, and mobile payments
-Allergies: Please inform us of any allergies - we work with nuts, dairy, and gluten
 
-FREQUENTLY ASKED QUESTIONS:
-Q: Do you take custom cake orders?
-A: Yes! We specialize in custom cakes for all occasions. Please call or visit us to discuss your needs.
+Facebook: "Tia Bakery" page
 
-Q: What time do you open?
-A: We open at 6AM Monday-Friday, 7AM Saturday, and 8AM Sunday.
+170 likes, 162 check-ins
+Description: "I make custom cakes for your special occasions"
 
-Q: Do you have gluten-free options?
-A: Yes, we offer a selection of gluten-free breads and pastries. Please ask our staff for current options.
+Contact Methods:
 
-Q: Do you deliver?
-A: We offer local delivery for orders over $25. Delivery fees apply.
+Phone/Text: 226-700-3943 (easiest way to place orders)
+Email: tiadang2021@gmail.com
 
-Q: Can I place orders online?
-A: Currently we take orders by phone or in-person. Online ordering coming soon!
+Services Offered
+
+Custom Cake Design: Personalized cakes with custom flavors, fillings, design themes, colors, and decorations
+Bento Cakes: Specialized small, customized cakes
+Design Consultation: Accepts reference images to understand customer vision
+Delivery Service: Available within London, Ontario and surrounding areas
+Pickup Service: Available from bakery location
+
+Frequently Asked Questions (FAQ)
+📋 Ordering & Customization
+Q: How far in advance should I place my order?
+A: We recommend placing your order at least 3-5 days in advance to allow time for design and preparation. For larger or more complex orders, booking 2-3 weeks ahead is ideal.
+Q: Do you offer cake tastings?
+A: I do not offer cake tastings. Instead, I focus on creating exceptional bento cakes customized to your specific flavour preferences.
+Q: Can I customize my cake?
+A: Absolutely! I specialize in custom cakes. You can choose flavors, fillings, design themes, colors, and decorations. You can also send reference images to help me understand your vision.
+Q: How do I submit my design ideas?
+A: For the easiest way to place an order, you can email me or text me through the phone number: 226-700-3943
+💰 Pricing & Payment
+Q: How much do custom cakes cost?
+A: Pricing varies depending on the size, complexity, and level of detail. For a detailed quote, please contact me with your specifications.
+Q: Do you require a deposit?
+A: To secure your order (for orders over $100), a deposit is required. The full payment is due upon pickup or delivery of the cake.
+Q: What payment methods do you accept?
+A: We accept cash, PayPal, Wise and e-transfer.
+Q: Are there any extra fees for rush orders?
+A: Yes, rush orders may incur an additional fee. Please contact me as soon as possible if you need a cake on short notice, and I'll do our best to accommodate.
+🚚 Pick-up & Delivery
+Q: Do you offer delivery?
+A: Yes, we offer delivery within London, Ontario and surrounding areas. Delivery fees vary based on distance from our bakery. You can also choose to pick up your order from our location.
+Q: Can you ship cakes outside of London, Ontario?
+A: Currently, we only deliver within London, Ontario, and its surrounding areas. Shipping cakes long distances can affect quality, so we limit our delivery range to maintain freshness.
+🔄 Return & Refund
+Q: Are refunds or exchanges allowed for custom cakes?
+A: No. All our cakes are made-to-order and personalized, so all sales are final. We do not offer refunds or exchanges once an order is picked up or delivered.
+Q: What if I'm not satisfied with the taste or design?
+A: Your satisfaction is our priority! If you have any concerns, please contact us immediately, and we'll work to resolve the issue.
+Key Policies & Information
+Order Timeline:
+
+Standard orders: 3-5 days advance notice
+Complex orders: 2-3 weeks advance notice
+
+Payment Structure:
+
+Deposit required for orders over $100
+Full payment due at pickup/delivery
+Accepted methods: Cash, PayPal, Wise, e-transfer
+
+Service Area: London, Ontario and surrounding areas only
+No Tastings Policy: Focus on customized bento cakes based on flavor preferences
+All Sales Final: No refunds or exchanges for custom orders
+
+
+How to Order
+
+Contact: Call/text 226-700-3943 or email tiadang2021@gmail.com
+Discuss: Share your design ideas, reference images, and specifications
+Quote: Receive custom pricing based on complexity and size
+Deposit: Pay deposit for orders over $100 to secure booking
+Timeline: Allow 3-5 days minimum (2-3 weeks for complex orders)
+Delivery/Pickup: Choose delivery (within service area) or pickup
+Final Payment: Complete payment upon delivery/pickup
+
+
+Note: This information is current as of August 2025. For the most up-to-date pricing and availability, contact TIA Bakery directly at 226-700-3943.
 `;
 
 // Generate embedding using Hugging Face API for documents
 async function generateEmbedding(text) {
   try {
     console.log('🔄 Generating document embedding with intfloat/e5-base-v2...');
-    
+
     const response = await axios.post(
       'https://api-inference.huggingface.co/models/intfloat/e5-base-v2',
       { inputs: text },
       {
         headers: {
-          'Authorization': `Bearer ${process.env.HUGGING_FACE_TOKEN}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${process.env.HUGGING_FACE_TOKEN}`,
+          'Content-Type': 'application/json',
         },
-        timeout: 30000
+        timeout: 30000,
       }
     );
-    
+
     if (response.data && Array.isArray(response.data)) {
       console.log('✅ Document embedding generated successfully');
       return response.data;
     }
-    
+
     throw new Error('Invalid response format from Hugging Face API');
   } catch (error) {
-    console.warn('⚠️ Hugging Face API failed, falling back to local embedding:', error);
+    console.warn(
+      '⚠️ Hugging Face API failed, falling back to local embedding:',
+      error
+    );
     return createImprovedEmbedding(text);
   }
 }
@@ -116,54 +174,77 @@ async function generateEmbedding(text) {
 // Improved embedding with bakery-specific terms
 function createImprovedEmbedding(text, dimensions = 1536) {
   const embedding = new Array(dimensions).fill(0);
-  
+
   // Preprocess text
-  const processedText = text.toLowerCase()
+  const processedText = text
+    .toLowerCase()
     .replace(/[^\w\s]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-  
-  const words = processedText.split(' ').filter(w => w.length > 2);
-  
+
+  const words = processedText.split(' ').filter((w) => w.length > 2);
+
   // Bakery-specific important terms with higher weights
   const importantTerms = {
-    'bakery': 5, 'cake': 5, 'bread': 4, 'pastry': 4, 'custom': 4,
-    'order': 4, 'delivery': 3, 'fresh': 3, 'artisanal': 3,
-    'wedding': 4, 'birthday': 3, 'catering': 3, 'coffee': 3,
-    'hours': 4, 'contact': 4, 'phone': 4, 'email': 4,
-    'price': 4, 'cost': 4, 'gluten': 3, 'free': 3,
-    'tia': 5, 'specializes': 3, 'vanilla': 2, 'chocolate': 2
+    bakery: 5,
+    cake: 5,
+    bread: 4,
+    pastry: 4,
+    custom: 4,
+    order: 4,
+    delivery: 3,
+    fresh: 3,
+    artisanal: 3,
+    wedding: 4,
+    birthday: 3,
+    catering: 3,
+    coffee: 3,
+    hours: 4,
+    contact: 4,
+    phone: 4,
+    email: 4,
+    price: 4,
+    cost: 4,
+    gluten: 3,
+    free: 3,
+    tia: 5,
+    specializes: 3,
+    vanilla: 2,
+    chocolate: 2,
   };
-  
+
   // Create embedding with weighted terms
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
     const weight = importantTerms[word] || 1;
-    
+
     // Use multiple hash functions for better distribution
     for (let hash = 0; hash < 3; hash++) {
       let hashValue = 0;
       for (let j = 0; j < word.length; j++) {
-        hashValue = ((hashValue * 31) + word.charCodeAt(j) + hash * 17) % dimensions;
+        hashValue =
+          (hashValue * 31 + word.charCodeAt(j) + hash * 17) % dimensions;
       }
-      
-      const value = Math.sin(hashValue / dimensions * Math.PI) * weight;
+
+      const value = Math.sin((hashValue / dimensions) * Math.PI) * weight;
       embedding[hashValue] += value;
-      
+
       // Add position and context information
       const positionWeight = 1 / Math.log(i + 2);
       embedding[(hashValue + i) % dimensions] += value * positionWeight;
     }
   }
-  
+
   // Normalize
-  const magnitude = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
+  const magnitude = Math.sqrt(
+    embedding.reduce((sum, val) => sum + val * val, 0)
+  );
   if (magnitude > 0) {
     for (let i = 0; i < embedding.length; i++) {
       embedding[i] /= magnitude;
     }
   }
-  
+
   return embedding;
 }
 
@@ -171,7 +252,7 @@ function createImprovedEmbedding(text, dimensions = 1536) {
 function createSimpleEmbedding(text, dimensions = 384) {
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const embedding = new Array(dimensions).fill(0);
-  
+
   // Create embedding based on word positions, lengths, and character codes
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
@@ -181,27 +262,31 @@ function createSimpleEmbedding(text, dimensions = 384) {
       embedding[index] += Math.sin(charCode / 127) * Math.cos(i / words.length);
     }
   }
-  
+
   // Normalize the embedding vector
-  const magnitude = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
+  const magnitude = Math.sqrt(
+    embedding.reduce((sum, val) => sum + val * val, 0)
+  );
   if (magnitude > 0) {
     for (let i = 0; i < embedding.length; i++) {
       embedding[i] /= magnitude;
     }
   }
-  
+
   return embedding;
 }
 
-
 function splitTextIntoChunks(text, chunkSize = 800) {
-  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
   const chunks = [];
   let currentChunk = '';
 
   for (const sentence of sentences) {
     const trimmedSentence = sentence.trim();
-    if ((currentChunk + trimmedSentence).length > chunkSize && currentChunk.length > 0) {
+    if (
+      (currentChunk + trimmedSentence).length > chunkSize &&
+      currentChunk.length > 0
+    ) {
       chunks.push(currentChunk.trim());
       currentChunk = trimmedSentence;
     } else {
@@ -213,25 +298,25 @@ function splitTextIntoChunks(text, chunkSize = 800) {
     chunks.push(currentChunk.trim());
   }
 
-  return chunks.filter(chunk => chunk.length > 50);
+  return chunks.filter((chunk) => chunk.length > 50);
 }
 
 // Test Supabase connection
 async function testSupabaseConnection() {
   try {
     console.log('🔍 Testing Supabase connection...');
-    
+
     // Test basic connection with a simple select
     const { data, error, count } = await supabase
       .from('document_chunks')
       .select('*', { count: 'exact', head: true });
-    
+
     if (error) {
       console.error('❌ Supabase connection failed:', error);
       console.error('Error details:', JSON.stringify(error, null, 2));
       return false;
     }
-    
+
     console.log('✅ Supabase connection working');
     console.log('📊 Current document count:', count || 0);
     return true;
@@ -250,7 +335,7 @@ async function uploadDocuments() {
     }
 
     console.log('🚀 Starting document upload process...');
-    
+
     const chunks = splitTextIntoChunks(BUSINESS_DOCUMENTS, 600);
     console.log(`📄 Created ${chunks.length} document chunks`);
 
@@ -258,11 +343,11 @@ async function uploadDocuments() {
       const chunk = chunks[i];
       console.log(`⚡ Processing chunk ${i + 1}/${chunks.length}...`);
       console.log(`📝 Chunk preview: ${chunk.substring(0, 100)}...`);
-      
+
       const embedding = await generateEmbedding(chunk);
-      
+
       console.log(`📊 Generated embedding of length: ${embedding.length}`);
-      
+
       // Prepare the data to insert
       const insertData = {
         content: chunk,
@@ -271,15 +356,15 @@ async function uploadDocuments() {
           chunk_index: i,
           document_name: 'business_info',
           upload_date: new Date().toISOString(),
-          word_count: chunk.split(' ').length
-        }
+          word_count: chunk.split(' ').length,
+        },
       };
-      
+
       console.log('📤 Inserting chunk data...');
       console.log('📝 Content length:', chunk.length);
       console.log('🔢 Embedding length:', embedding.length);
       console.log('📋 Metadata:', JSON.stringify(insertData.metadata, null, 2));
-      
+
       const { data, error } = await supabase
         .from('document_chunks')
         .insert(insertData)
@@ -294,15 +379,14 @@ async function uploadDocuments() {
         console.error('❌ Full error object:', JSON.stringify(error, null, 2));
         throw error;
       }
-      
+
       console.log('✅ Insert successful, returned data:', data);
-      
-      
+
       console.log(`✅ Successfully uploaded chunk ${i + 1}`);
-      
+
       // Add delay to respect rate limits
       console.log('⏳ Waiting 3 seconds...');
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     }
 
     console.log('✅ Document upload completed successfully!');
