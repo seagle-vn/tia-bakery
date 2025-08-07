@@ -10,7 +10,7 @@ export default function FloatingChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',
-      content: 'Hi! I\'m Tia\'s AI assistant! 👋 I\'m here to help you with any questions about custom cakes, flavors, ordering, or anything else about the bakery. How can I help you today?'
+      content: 'Hi! I&apos;m Tia&apos;s AI assistant! 👋 I&apos;m here to help you with any questions about custom cakes, flavors, ordering, or anything else about the bakery. How can I help you today?'
     }
   ]);
   const [input, setInput] = useState('');
@@ -64,7 +64,7 @@ export default function FloatingChat() {
     } catch (error) {
       const errorMessage: ChatMessage = {
         role: 'assistant',
-        content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment or contact us directly for assistance.'
+        content: 'I apologize, but I&apos;m having trouble connecting right now. Please try again in a moment or contact us directly for assistance.'
       };
       setMessages([...updatedMessages, errorMessage]);
     } finally {

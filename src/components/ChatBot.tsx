@@ -8,7 +8,7 @@ export default function ChatBot() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',
-      content: 'Hello! I\'m your AI assistant. I can help answer questions about our business, services, pricing, and policies. What would you like to know?'
+      content: 'Hello! I&apos;m your AI assistant. I can help answer questions about our business, services, pricing, and policies. What would you like to know?'
     }
   ]);
   const [input, setInput] = useState('');
@@ -59,7 +59,7 @@ export default function ChatBot() {
     } catch (error) {
       const errorMessage: ChatMessage = {
         role: 'assistant',
-        content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment or contact us directly for assistance.'
+        content: 'I apologize, but I&apos;m having trouble connecting right now. Please try again in a moment or contact us directly for assistance.'
       };
       setMessages([...updatedMessages, errorMessage]);
     } finally {
