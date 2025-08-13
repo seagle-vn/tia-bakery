@@ -104,7 +104,7 @@ export default function FloatingChat() {
       {/* Floating Button */}
       <button className={styles.aiAssistantButton} onClick={toggleChat}>
         <span className={styles.icon}>🤖</span>
-        <span>Ask AI Assistant</span>
+        <span>Ask My Assistant</span>
       </button>
 
       {/* Chat Window */}
