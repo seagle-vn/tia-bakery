@@ -41,7 +41,7 @@ export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
         <DrawerBody>
           <Stack spacing={{ base: '8', md: '10' }} flex='2'>
             <Heading fontSize='2xl' mt='4rem' fontWeight='extrabold'>
-              Shopping Cart ({items.length} items)
+              Quote ({items.length} items)
             </Heading>
 
             <Stack spacing='6'>
