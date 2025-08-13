@@ -65,7 +65,7 @@ export const CartDrawer: FunctionComponent<Omit<DrawerProps, 'children'>> = ({
         <DrawerFooter>
           <Link w='100%' href='/checkout'>
             <Button w='100%' colorScheme='blue' onClick={onClose}>
-              Submit Order
+              Submit Quote
             </Button>
           </Link>
         </DrawerFooter>

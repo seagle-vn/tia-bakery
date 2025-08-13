@@ -150,13 +150,28 @@ export function Footer() {
             mt='1rem'
             align={{ base: 'flex-start', md: 'flex-end' }}
           >
-            <ListHeader>Open times</ListHeader>
-            <Text fontSize={'lg'}>
-              Mon - Fri: {store.openTime1}
-            </Text>
-            <Text fontSize={'lg'}>
-              Sat - Sun: {store.openTime2}
-            </Text>
+            <ListHeader>Watch My Story</ListHeader>
+            <Box
+              width={{ base: '280px', md: '320px' }}
+              height={{ base: '157px', md: '180px' }}
+              borderRadius='8px'
+              overflow='hidden'
+              boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)'
+            >
+              <iframe
+                width='100%'
+                height='100%'
+                src={store.videoUrl || 'https://www.youtube.com/embed/BPLO7ZEYbAI'}
+                title='Tia Bakery Story'
+                frameBorder='0'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                allowFullScreen
+                style={{
+                  border: 'none',
+                  borderRadius: '8px'
+                }}
+              />
+            </Box>
           </Stack>
         </Flex>
       </Container>

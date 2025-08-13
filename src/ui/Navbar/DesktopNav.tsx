@@ -1,13 +1,5 @@
 import { Link } from '@chakra-ui/next-js';
-import {
-  Badge,
-  Box,
-  Button,
-  HStack,
-  Heading,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Badge, Box, Button, HStack, VStack } from '@chakra-ui/react';
 import { FunctionComponent, useRef } from 'react';
 import { useCart } from 'react-use-cart';
 import styles from './Navbar.module.css';
@@ -26,7 +18,12 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
       pb='1rem'
       w='full'
     >
-      <HStack spacing='8rem' justifyContent='space-between' alignItems='center' position='relative'>
+      <HStack
+        spacing='8rem'
+        justifyContent='space-between'
+        alignItems='center'
+        position='relative'
+      >
         <HStack spacing='3rem' width='16rem' justifyContent='space-around'>
           <Box>
             <Link
@@ -58,10 +55,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
         </HStack>
         <Box flex='1' display='flex' marginLeft='3rem' justifyContent='center'>
           <Link href='/'>
-            <Box
-              width='19rem'
-              height='19rem'
-            >
+            <Box width='19rem' height='19rem'>
               <img
                 src='/logo.png'
                 alt='Tia Bakery Logo'
@@ -71,7 +65,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
                   objectFit: 'contain',
                   mixBlendMode: 'multiply',
                   filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
-                  borderRadius: '50%'
+                  borderRadius: '50%',
                 }}
               />
             </Box>
@@ -109,7 +103,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
                 color: '#53B7D1',
               }}
             >
-              Basket
+              Quote
               {totalItems > 0 ? (
                 <Badge
                   bgColor='black'

@@ -2,7 +2,7 @@
 
 import { formatMessageContent } from '@/lib/gtagHelper';
 import { ChatMessage } from '@/types';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './FloatingChat.module.css';
 
 export default function FloatingChat() {
@@ -10,8 +10,9 @@ export default function FloatingChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',
-      content: 'Hi! I&apos;m Tia&apos;s AI assistant! 👋 I&apos;m here to help you with any questions about custom cakes, flavors, ordering, or anything else about the bakery. How can I help you today?'
-    }
+      content:
+        'Hi there! 👋 I am here to help you with any questions about custom cakes, flavors, ordering, or anything else about the bakery. How can I help you today?',
+    },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +45,7 @@ export default function FloatingChat() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: input,
-          history: messages.slice(-6) // Send recent history
+          history: messages.slice(-6), // Send recent history
         }),
       });
 
@@ -57,14 +58,15 @@ export default function FloatingChat() {
       const assistantMessage: ChatMessage = {
         role: 'assistant',
         content: data.response,
-        sources: data.sources
+        sources: data.sources,
       };
 
       setMessages([...updatedMessages, assistantMessage]);
     } catch (error) {
       const errorMessage: ChatMessage = {
         role: 'assistant',
-        content: 'I apologize, but I&apos;m having trouble connecting right now. Please try again in a moment or contact us directly for assistance.'
+        content:
+          'I apologize, but I&apos;m having trouble connecting right now. Please try again in a moment or contact us directly for assistance.',
       };
       setMessages([...updatedMessages, errorMessage]);
     } finally {
@@ -81,7 +83,11 @@ export default function FloatingChat() {
 
   const handleClickOutside = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (isOpen && !target.closest(`.${styles.chatWindow}`) && !target.closest(`.${styles.aiAssistantButton}`)) {
+    if (
+      isOpen &&
+      !target.closest(`.${styles.chatWindow}`) &&
+      !target.closest(`.${styles.aiAssistantButton}`)
+    ) {
       setIsOpen(false);
     }
   };
@@ -96,10 +102,7 @@ export default function FloatingChat() {
   return (
     <>
       {/* Floating Button */}
-      <button 
-        className={styles.aiAssistantButton} 
-        onClick={toggleChat}
-      >
+      <button className={styles.aiAssistantButton} onClick={toggleChat}>
         <span className={styles.icon}>🤖</span>
         <span>Ask AI Assistant</span>
       </button>
@@ -108,19 +111,29 @@ export default function FloatingChat() {
       <div className={`${styles.chatWindow} ${isOpen ? styles.open : ''}`}>
         <div className={styles.chatHeader}>
           <h3>Tia&apos;s Assistant</h3>
-          <button className={styles.chatClose} onClick={toggleChat}>&times;</button>
+          <button className={styles.chatClose} onClick={toggleChat}>
+            &times;
+          </button>
         </div>
-        
+
         <div className={styles.chatMessages}>
           {messages.map((message, index) => (
-            <div key={index} className={`${styles.message} ${message.role === 'assistant' ? styles.bot : styles.user}`}>
+            <div
+              key={index}
+              className={`${styles.message} ${
+                message.role === 'assistant' ? styles.bot : styles.user
+              }`}
+            >
               <div>{formatMessageContent(message.content)}</div>
               <div className={styles.messageTime}>
-                {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                {new Date().toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </div>
             </div>
           ))}
-          
+
           {isLoading && (
             <div className={`${styles.typingIndicator} ${styles.show}`}>
               <div className={styles.typingDots}>
@@ -132,11 +145,11 @@ export default function FloatingChat() {
           )}
           <div ref={messagesEndRef} />
         </div>
-        
+
         <div className={styles.chatInputContainer}>
           <div className={styles.chatInputWrapper}>
-            <textarea 
-              className={styles.chatInput} 
+            <textarea
+              className={styles.chatInput}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -144,8 +157,8 @@ export default function FloatingChat() {
               rows={1}
               disabled={isLoading}
             />
-            <button 
-              className={styles.chatSend} 
+            <button
+              className={styles.chatSend}
               onClick={sendMessage}
               disabled={isLoading || !input.trim()}
             >
@@ -156,4 +169,4 @@ export default function FloatingChat() {
       </div>
     </>
   );
-} 
+}

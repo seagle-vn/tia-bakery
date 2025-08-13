@@ -32,7 +32,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
       // Add product URL to cart item
       const productWithUrl = {
         ...product,
-        product_url: `https://www.tiabakery.ca/products/${product.slug}`
+        product_url: `https://www.tiabakery.ca/products/${product.slug}`,
       };
       addItem(productWithUrl, quantity);
     }
@@ -47,7 +47,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
       onClick={handleClick}
       isLoading={loading}
     >
-      Add to cart
+      Add to Quote
     </Button>
   );
 };
