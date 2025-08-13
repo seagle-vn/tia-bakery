@@ -4,7 +4,6 @@ import {
   Box,
   Container,
   Flex,
-  Image,
   Stack,
   Text,
   VStack,
@@ -74,6 +73,7 @@ const query = gql`
       openTime2
       phone
       youtube
+      videoUrl
     }
   }
 `;
@@ -84,6 +84,7 @@ export function Footer() {
   });
 
   const { store } = data as any;
+  console.log('Store data:', store);
   return (
     <VStack pb='1rem' backgroundColor='#FBD4D7'>
       <Container as={Stack} maxW={'80%'} py={10}>
@@ -112,7 +113,7 @@ export function Footer() {
                   objectFit: 'contain',
                   mixBlendMode: 'multiply',
                   filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
-                  borderRadius: '50%'
+                  borderRadius: '50%',
                 }}
               />
             </Box>
@@ -131,17 +132,9 @@ export function Footer() {
           </Stack>
           <Stack fontFamily='poppins' mt='1rem' align='flex-start'>
             <ListHeader>Contact me</ListHeader>
-            <Text fontSize={'lg'}>
-              {store.address}
-            </Text>
-            <Text fontSize={'lg'}>
-              {store.phone}
-            </Text>
-            <Text
-              _hover={{ textDecoration: 'underline' }}
-            
-              fontSize={'lg'}
-            >
+            <Text fontSize={'lg'}>{store.address}</Text>
+            <Text fontSize={'lg'}>{store.phone}</Text>
+            <Text _hover={{ textDecoration: 'underline' }} fontSize={'lg'}>
               <a href={`mailto:${store.email}`}>{store.email}</a>
             </Text>
           </Stack>
@@ -161,14 +154,14 @@ export function Footer() {
               <iframe
                 width='100%'
                 height='100%'
-                src={store.videoUrl || 'https://www.youtube.com/embed/BPLO7ZEYbAI'}
+                src={store.videoUrl ? store.videoUrl.replace('watch?v=', 'embed/') : 'https://www.youtube.com/embed/BPLO7ZEYbAI'}
                 title='Tia Bakery Story'
                 frameBorder='0'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                 allowFullScreen
                 style={{
                   border: 'none',
-                  borderRadius: '8px'
+                  borderRadius: '8px',
                 }}
               />
             </Box>
