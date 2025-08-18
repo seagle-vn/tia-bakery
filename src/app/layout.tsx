@@ -39,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <GoogleAnalytics GA_MEASUREMENT_ID='G-F0CPNL0L0C' />
+      <GoogleAnalytics GA_MEASUREMENT_ID='G-RX9QSRTKV2' />
       <body>
         <ApolloWrapper delay={1000}>
           <CartProvider>
