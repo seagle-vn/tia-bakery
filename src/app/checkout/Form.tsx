@@ -33,7 +33,7 @@ export const CheckoutForm: FunctionComponent = () => {
     getValues,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<FormValues>({ mode: 'onChange', resolver: zodResolver(schema) });
-  const { items, cartTotal } = useCart();
+  const { items, cartTotal, emptyCart } = useCart();
   const router = useRouter();
   const toast = useToast();
 
@@ -58,6 +58,7 @@ export const CheckoutForm: FunctionComponent = () => {
         isClosable: true,
         status: 'success',
       });
+      emptyCart(); // Clear the cart after successful order submission
       router.push('/');
     } catch (err) {
       toast({
