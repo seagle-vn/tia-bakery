@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.SHEET_ID as string,
-      range: 'A2:M2',
+      range: 'A2:N2',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [
@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
             ),
             'FALSE',
             formatDate(new Date().toISOString()),
+            body.email || '',
           ],
         ],
       },
