@@ -90,7 +90,7 @@ const NAV_ITEMS: Array<NavItem> = [
     href: '/',
   },
   {
-    label: 'Menu',
+    label: 'Gallery',
     href: '/shop',
   },
   {
