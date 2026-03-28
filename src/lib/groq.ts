@@ -61,7 +61,7 @@ export async function generateChatResponse(
   } catch (error) {
     console.error('Groq API error:', error);
     
-    return "I apologize, but I'm experiencing technical difficulties right now. Please try again in a moment, or contact us directly at hello@tiabakery.com or (555) 123-BAKE for immediate assistance.";
+    return "I apologize, but I'm experiencing technical difficulties right now. Please try again in a moment, or contact us directly at Orders@tiabakery.ca or (555) 123-BAKE for immediate assistance.";
   }
 }
 

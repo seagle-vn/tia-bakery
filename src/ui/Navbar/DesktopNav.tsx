@@ -57,7 +57,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
           <Link href='/'>
             <Box width='19rem' height='19rem'>
               <img
-                src='/logo.png'
+                src='/new_logo.png'
                 alt='Tia Bakery Logo'
                 style={{
                   width: '100%',

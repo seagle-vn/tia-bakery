@@ -168,7 +168,7 @@ export default function FAQPage() {
                 color="#6B7280"
                 lineHeight="1.6"
               >
-                Phone: 226 700 3943 | Email: tiabakery2019@gmail.com
+                Phone: 226 700 3943 | Email: Orders@tiabakery.ca
               </Text>
             </Box>
           </VStack>

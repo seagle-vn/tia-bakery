@@ -105,7 +105,7 @@ export function Footer() {
               marginLeft={{ base: '-2.5rem', md: '0' }}
             >
               <img
-                src='/logo.png'
+                src='/new_logo.png'
                 alt='Logo'
                 style={{
                   width: '100%',
