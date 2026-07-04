@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ButtonProps } from '@chakra-ui/react';
+import { Button, ButtonProps, useToast } from '@chakra-ui/react';
 import { FunctionComponent, useState } from 'react';
 import { useCart } from 'react-use-cart';
 
@@ -22,6 +22,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
 }) => {
   const { addItem, items, updateItemQuantity } = useCart();
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   function handleClick() {
     setLoading(true);
@@ -36,16 +37,37 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
       };
       addItem(productWithUrl, quantity);
     }
+
+    toast({
+      title: 'Added to quote',
+      description: `${product.name} has been added to your quote.`,
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+      position: 'bottom-right',
+    });
+
     setTimeout(() => setLoading(false), 200);
   }
 
   return (
     <Button
       {...props}
-      variant='solid'
-      colorScheme='blue'
+      bg='blue.400'
+      color='white'
+      borderRadius='full'
+      fontWeight='600'
       onClick={handleClick}
       isLoading={loading}
+      _hover={{
+        bg: 'blue.500',
+        transform: 'translateY(-2px)',
+        shadow: 'md',
+      }}
+      _active={{
+        bg: 'blue.600',
+        transform: 'translateY(0)',
+      }}
     >
       Add to Quote
     </Button>

@@ -30,6 +30,31 @@ const nextConfig = {
   experimental: {
     esmExternals: 'loose',
   },
+  // Redirects for old page routes to new single-page sections
+  async redirects() {
+    return [
+      {
+        source: '/shop',
+        destination: '/#gallery',
+        permanent: false,
+      },
+      {
+        source: '/about',
+        destination: '/#about',
+        permanent: false,
+      },
+      {
+        source: '/faq',
+        destination: '/#faq',
+        permanent: false,
+      },
+      {
+        source: '/checkout',
+        destination: '/#quote',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

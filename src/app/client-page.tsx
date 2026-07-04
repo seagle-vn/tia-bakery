@@ -1,12 +1,15 @@
 'use client';
 
-import { gql, useSuspenseQuery } from '@apollo/client';
-import { Box, Center, Heading, Text, VStack } from '@chakra-ui/react';
-import { Resize } from '@cloudinary/url-gen/actions/resize';
-import { Category } from '../components/home/Category';
-import { Menu } from '../components/home/Menu';
-import { cld } from '../constants/cloudinary';
-import styles from './page.module.css';
+import { gql, useQuery } from '@apollo/client';
+import { Box, Spinner, VStack, Text } from '@chakra-ui/react';
+import HeroSection from '../components/home/HeroSection';
+import TrustBanner from '../components/home/TrustBanner';
+import MenuSection from '../components/home/MenuSection';
+import GallerySection from '../components/home/GallerySection';
+import AboutSection from '../components/home/AboutSection';
+import WatchSection from '../components/home/WatchSection';
+import FAQSection from '../components/home/FAQSection';
+import QuoteSection from '../components/home/QuoteSection';
 
 const query = gql`
   query HomePage($slug: String) {
@@ -14,11 +17,14 @@ const query = gql`
       name
       id
       slug
-      products(first: 4) {
+      products(first: 8) {
         id
         name
         slug
         image
+        description {
+          text
+        }
       }
     }
 
@@ -26,94 +32,140 @@ const query = gql`
       heroBackground
       heroText
       heroTitle
+      aboutImage
       id
       name
     }
 
-    menus {
+    products(first: 20) {
       id
+      name
+      slug
       image
+      description {
+        text
+      }
     }
   }
 `;
 
 export default function HomeClientPage() {
-  const { data } = useSuspenseQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     fetchPolicy: 'cache-first',
     variables: {
       slug: 'home',
     },
   });
 
-  const { page, categories, menus } = data as any;
-
-  const url = cld
-    .image(page.heroBackground.public_id)
-    .quality('auto')
-    .format('auto')
-    .resize(Resize.scale().width(1920).height(900))
-    .toURL();
-
-  return (
-    <main className={styles.main}>
+  if (loading) {
+    return (
       <Box
-        backgroundSize='cover'
-        backgroundPosition='center'
-        style={{ backgroundImage: `url(${url})` }}
-        height='500px'
-      />
-      <Center
-        backgroundImage="url('/banner_text_background.png')"
-        backgroundPosition='center'
-        backgroundRepeat='no-repeat'
-        backgroundSize='cover'
-        py='4rem'
-        className={styles.banner}
-        position='relative'
+        minH="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bg="bg.primary"
       >
-        <VStack>
-          <Heading
-            as='h2'
-            fontFamily='amatic'
-            fontWeight='700'
-            fontSize={{ base: '40px', md: '4rem' }}
-            color='primary.200'
-            lineHeight='1.1'
-            letterSpacing={1}
-            borderTop='3px solid'
-            borderTopColor='primary.200'
-            py={{ base: '2rem', md: '2rem' }}
-            textAlign='center'
-            maxWidth={{ base: '80%', md: '35rem' }}
-            position='relative'
-            className={styles.bannerText}
+        <VStack spacing={4}>
+          <Spinner size="xl" color="blue.400" thickness="4px" />
+          <Text color="text.dark">Loading...</Text>
+        </VStack>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        minH="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bg="bg.primary"
+        p={6}
+      >
+        <VStack spacing={4} maxW="lg" textAlign="center">
+          <Text fontSize="2xl" fontWeight="bold" color="text.dark">
+            Error Loading Page
+          </Text>
+          <Text color="text.dark">{error.message}</Text>
+          <Box
+            p={4}
+            bg="red.50"
+            borderRadius="md"
+            borderWidth="1px"
+            borderColor="red.200"
+            maxW="100%"
+            overflow="auto"
           >
-            {page.heroTitle}
-          </Heading>
-          <Text
-            fontFamily='poppins'
-            fontSize={{ base: '1.5rem', md: '2.5rem' }}
-            color='primary.200'
-            className={styles.descriptionText}
-            textAlign='center'
-            lineHeight='1.3'
-            maxW='80%'
-          >
-            {page.heroText}
+            <Text fontSize="sm" fontFamily="mono" color="red.600">
+              {JSON.stringify(error, null, 2)}
+            </Text>
+          </Box>
+        </VStack>
+      </Box>
+    );
+  }
+
+  const { page, categories, products } = data as any;
+
+  if (!page || !page.heroBackground) {
+    return (
+      <Box
+        minH="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bg="bg.primary"
+        p={6}
+      >
+        <VStack spacing={4}>
+          <Text fontSize="2xl" fontWeight="bold" color="text.dark">
+            Page Not Found
+          </Text>
+          <Text color="text.dark">
+            The home page data could not be found in your CMS.
           </Text>
         </VStack>
-      </Center>
-      <VStack>
-        <Menu menus={menus} />
-        {categories.map((category: any) => (
-          <Category
-            title={category.name}
-            link={`/shop/${category.slug}`}
-            key={category.id}
-            products={category.products}
-          />
-        ))}
-      </VStack>
+      </Box>
+    );
+  }
+
+  // Prepare products with category information and sizes
+  const productsWithCategories = (products || []).map((product: any) => ({
+    ...product,
+    // Add logic to determine category based on product data
+    category: product.name.toLowerCase().includes('cupcake') || product.name.toLowerCase().includes('treat')
+      ? 'Treats'
+      : 'Signature Cakes',
+    sizes: [
+      { name: '6"', price: 45 },
+      { name: '8"', price: 65 },
+      { name: '10"', price: 85 },
+    ],
+  }));
+
+  return (
+    <main>
+      <HeroSection
+        heroImage={page.heroBackground.public_id}
+        heroTitle={page.heroTitle}
+        heroText={page.heroText}
+      />
+
+      <TrustBanner />
+
+      <MenuSection products={productsWithCategories} />
+
+      <GallerySection categories={categories || []} />
+
+      <AboutSection aboutImage={page.aboutImage?.public_id} />
+
+      <WatchSection />
+
+      <FAQSection />
+
+      <QuoteSection />
     </main>
   );
 }
