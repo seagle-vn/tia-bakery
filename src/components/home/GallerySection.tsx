@@ -142,7 +142,7 @@ function CategoryGallery({ category }: { category: Category }) {
         style={{
           display: 'grid',
           gridAutoFlow: 'column',
-          gridAutoColumns: 'minmax(230px, 1fr)',
+          gridAutoColumns: 'minmax(300px, 1fr)',
           gap: 'clamp(12px, 1.6vw, 18px)',
           overflowX: 'auto',
           paddingBottom: '12px',
@@ -154,39 +154,64 @@ function CategoryGallery({ category }: { category: Category }) {
 
           return (
             <div key={product.id} style={{ position: 'relative', scrollSnapAlign: 'start' }}>
-              <Link href={`/products/${product.slug}`} style={{ textDecoration: 'none' }}>
-                <Image
-                  src={optimizedImage}
-                  alt={product.name}
-                  width={460}
-                  height={345}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    aspectRatio: '4/3',
-                    borderRadius: '16px',
-                    boxShadow: '0 14px 30px -20px rgba(150, 90, 110, 0.55)',
-                    objectFit: 'cover',
-                  }}
-                  loading="lazy"
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    left: '12px',
-                    right: '12px',
-                    bottom: '12px',
-                    color: '#FFF',
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    lineHeight: 1.25,
-                    pointerEvents: 'none',
-                    textShadow: '0 1px 8px rgba(0, 0, 0, 0.55)',
-                  }}
-                >
-                  {product.name}
-                </span>
+              <Link href={`/products/${product.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
+                  <Image
+                    src={optimizedImage}
+                    alt={product.name}
+                    width={460}
+                    height={345}
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      aspectRatio: '4/3',
+                      objectFit: 'cover',
+                    }}
+                    loading="lazy"
+                  />
+                  {/* Dark gradient scrim */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '50%',
+                      background: 'linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 100%)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                  {/* Caption */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '16px',
+                      right: '16px',
+                      bottom: '16px',
+                      color: '#FFF',
+                      fontSize: '16px',
+                      fontWeight: 600,
+                      lineHeight: 1.3,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {product.name}
+                  </div>
+                </div>
               </Link>
+              {/* Box shadow wrapper */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  borderRadius: '16px',
+                  boxShadow: '0 14px 30px -20px rgba(150, 90, 110, 0.55)',
+                  pointerEvents: 'none',
+                }}
+              />
             </div>
           );
         })}

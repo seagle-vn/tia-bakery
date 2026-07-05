@@ -1,15 +1,15 @@
 'use client';
 
 import { gql, useQuery } from '@apollo/client';
-import { Box, Spinner, VStack, Text } from '@chakra-ui/react';
-import HeroSection from '../components/home/HeroSection';
-import TrustBanner from '../components/home/TrustBanner';
-import MenuSection from '../components/home/MenuSection';
-import GallerySection from '../components/home/GallerySection';
+import { Box, Spinner, Text, VStack } from '@chakra-ui/react';
 import AboutSection from '../components/home/AboutSection';
-import WatchSection from '../components/home/WatchSection';
 import FAQSection from '../components/home/FAQSection';
+import GallerySection from '../components/home/GallerySection';
+import HeroSection from '../components/home/HeroSection';
+import MenuSection from '../components/home/MenuSection';
 import QuoteSection from '../components/home/QuoteSection';
+import TrustBanner from '../components/home/TrustBanner';
+import WatchSection from '../components/home/WatchSection';
 
 const query = gql`
   query HomePage($slug: String) {
@@ -32,7 +32,6 @@ const query = gql`
       heroBackground
       heroText
       heroTitle
-      aboutImage
       id
       name
     }
@@ -44,6 +43,15 @@ const query = gql`
       image
       description {
         text
+      }
+    }
+
+    faqs(orderBy: category_ASC) {
+      id
+      category
+      question {
+        question
+        answer
       }
     }
   }
@@ -107,7 +115,7 @@ export default function HomeClientPage() {
     );
   }
 
-  const { page, categories, products } = data as any;
+  const { page, categories, products, faqs } = data as any;
 
   if (!page || !page.heroBackground) {
     return (
@@ -159,11 +167,11 @@ export default function HomeClientPage() {
 
       <GallerySection categories={categories || []} />
 
-      <AboutSection aboutImage={page.aboutImage?.public_id} />
+      <AboutSection />
 
       <WatchSection />
 
-      <FAQSection />
+      <FAQSection faqs={faqs || []} />
 
       <QuoteSection />
     </main>

@@ -96,13 +96,14 @@ export default function MenuSection({ products }: MenuSectionProps) {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: 'clamp(18px, 2.4vw, 26px)',
+          alignItems: 'stretch',
         }}
       >
         {signatureCakes.map((cake) => {
-          const optimizedImage = getOptimizedImage(cake.image.public_id, 672, 504);
+          const optimizedImage = getOptimizedImage(cake.image.public_id, 672, 378);
 
           return (
-            <Link key={cake.id} href={`/products/${cake.slug}`} style={{ textDecoration: 'none' }}>
+            <Link key={cake.id} href={`/products/${cake.slug}`} style={{ textDecoration: 'none', display: 'flex' }}>
               <div
                 style={{
                   background: '#FCF8EF',
@@ -111,14 +112,15 @@ export default function MenuSection({ products }: MenuSectionProps) {
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
+                  width: '100%',
                 }}
               >
                 <Image
                   src={optimizedImage}
                   alt={cake.name}
                   width={672}
-                  height={504}
-                  style={{ display: 'block', width: '100%', aspectRatio: '4/3', objectFit: 'cover' }}
+                  height={378}
+                  style={{ display: 'block', width: '100%', aspectRatio: '16/9', objectFit: 'cover' }}
                 />
                 <div
                   style={{
@@ -158,6 +160,11 @@ export default function MenuSection({ products }: MenuSectionProps) {
                         color: '#8A776E',
                         margin: '0 0 16px',
                         textAlign: 'center',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
                       }}
                     >
                       {cake.description.text}
@@ -219,58 +226,118 @@ export default function MenuSection({ products }: MenuSectionProps) {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: 'clamp(18px, 2.4vw, 26px)',
+          alignItems: 'stretch',
         }}
       >
         {treats.map((treat) => {
-          const optimizedImage = getOptimizedImage(treat.image.public_id, 460, 460);
+          const optimizedImage = getOptimizedImage(treat.image.public_id, 672, 378);
 
           return (
-            <Link key={treat.id} href={`/products/${treat.slug}`} style={{ textDecoration: 'none' }}>
+            <Link key={treat.id} href={`/products/${treat.slug}`} style={{ textDecoration: 'none', display: 'flex' }}>
               <div
                 style={{
                   background: '#FCF8EF',
                   border: '1.5px solid #F3DCE3',
                   borderRadius: '22px',
-                  padding: 'clamp(20px, 2.4vw, 26px)',
+                  overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
+                  width: '100%',
                 }}
               >
+                <Image
+                  src={optimizedImage}
+                  alt={treat.name}
+                  width={672}
+                  height={378}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    aspectRatio: '16/9',
+                    objectFit: 'cover',
+                  }}
+                  loading="lazy"
+                />
                 <div
                   style={{
-                    background: '#FBE3EC',
-                    border: '2px solid #C24D93',
-                    borderRadius: '12px',
-                    padding: '9px 14px',
-                    textAlign: 'center',
-                    marginBottom: '12px',
+                    padding: 'clamp(20px, 2.4vw, 26px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flex: 1,
                   }}
                 >
-                  <span
+                  <div
                     style={{
-                      fontWeight: 700,
-                      fontSize: '14px',
-                      letterSpacing: '0.8px',
-                      color: '#E58699',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {treat.name}
-                  </span>
-                </div>
-                {treat.description?.text && (
-                  <p
-                    style={{
-                      fontSize: '14px',
-                      lineHeight: 1.5,
-                      color: '#8A776E',
-                      margin: '0 0 14px',
+                      background: '#FBE3EC',
+                      border: '2px solid #C24D93',
+                      borderRadius: '12px',
+                      padding: '9px 14px',
                       textAlign: 'center',
+                      marginBottom: '12px',
                     }}
                   >
-                    {treat.description.text}
-                  </p>
-                )}
+                    <span
+                      style={{
+                        fontWeight: 700,
+                        fontSize: '14px',
+                        letterSpacing: '0.8px',
+                        color: '#E58699',
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      {treat.name}
+                    </span>
+                  </div>
+                  {treat.description?.text && (
+                    <p
+                      style={{
+                        fontSize: '14px',
+                        lineHeight: 1.5,
+                        color: '#8A776E',
+                        margin: '0 0 16px',
+                        textAlign: 'center',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {treat.description.text}
+                    </p>
+                  )}
+                  {treat.sizes && treat.sizes.length > 0 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginTop: 'auto' }}>
+                      {treat.sizes.map((size, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'baseline',
+                            justifyContent: 'space-between',
+                            gap: '12px',
+                            padding: '9px 4px',
+                            borderBottom: '1px dashed #EFD9E0',
+                          }}
+                        >
+                          <span style={{ fontSize: '15px', fontWeight: 600, color: '#7E6B62' }}>
+                            {size.name}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: '16px',
+                              fontWeight: 700,
+                              color: '#41B9D2',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            ${size.price}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </Link>
           );

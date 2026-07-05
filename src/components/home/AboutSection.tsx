@@ -8,9 +8,11 @@ interface AboutSectionProps {
 }
 
 export default function AboutSection({ aboutImage }: AboutSectionProps) {
+  // You can replace this with your baker's image URL
+  const defaultImage = '/new_logo.png';
   const optimizedImage = aboutImage
     ? getOptimizedImage(aboutImage, 800, 600)
-    : '/new_logo.png';
+    : defaultImage;
 
   return (
     <section

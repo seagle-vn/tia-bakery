@@ -15,7 +15,7 @@ export default function HeroSection({
   heroTitle,
   heroText,
 }: HeroSectionProps) {
-  const optimizedImage = getOptimizedImage(heroImage, 800, 1000);
+  const optimizedImage = getOptimizedImage(heroImage, 900, 600);
 
   return (
     <section
@@ -111,15 +111,16 @@ export default function HeroSection({
           <Image
             src={optimizedImage}
             alt="Signature cake"
-            width={800}
-            height={1000}
+            width={900}
+            height={600}
             style={{
               display: 'block',
               width: '100%',
               height: 'auto',
-              aspectRatio: '4/5',
+              aspectRatio: '3/2',
               borderRadius: '26px',
               boxShadow: '0 24px 60px -28px rgba(150, 90, 110, 0.55)',
+              objectFit: 'cover',
             }}
             priority
           />

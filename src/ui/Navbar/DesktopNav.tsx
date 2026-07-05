@@ -1,9 +1,6 @@
-import { Link } from '@chakra-ui/next-js';
-import { Badge, Box, Button, HStack, Text } from '@chakra-ui/react';
 import { FunctionComponent, useRef } from 'react';
 import { BsCart3 } from 'react-icons/bs';
 import { useCart } from 'react-use-cart';
-import styles from './Navbar.module.css';
 
 export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
   onCartOpen,
@@ -27,124 +24,154 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
   };
 
   return (
-    <Box
-      as='nav'
-      display={{ base: 'none', md: 'block' }}
-      position='sticky'
-      top={0}
-      zIndex={100}
-      backgroundColor='rgba(251, 246, 236, 0.9)'
-      backdropFilter='blur(12px)'
-      borderBottom='1px solid'
-      borderColor='border.light'
-      w='full'
+    <nav
+      style={{
+        display: 'none',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        background: '#FBF6EC',
+        borderBottom: '1px solid #F0DDE2',
+        width: '100%',
+      }}
     >
-      <HStack
-        maxW='1440px'
-        mx='auto'
-        px='6'
-        py='4'
-        justifyContent='space-between'
-        alignItems='center'
+      <div
+        style={{
+          maxWidth: '1440px',
+          margin: '0 auto',
+          padding: '18px 40px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '32px',
+        }}
       >
-        {/* Left Navigation Links */}
-        <HStack spacing='8' flex='1'>
-          <Link
-            href='#hero'
-            onClick={(e) => handleSmoothScroll(e, '#hero')}
-            className={styles.link}
-            fontSize='16px'
-            fontWeight='400'
-            color='text.dark'
-            _hover={{ color: 'blue.400', textDecoration: 'none' }}
-          >
-            Home
-          </Link>
-          <Link
-            href='#gallery'
-            onClick={(e) => handleSmoothScroll(e, '#gallery')}
-            className={styles.link}
-            fontSize='16px'
-            fontWeight='400'
-            color='text.dark'
-            _hover={{ color: 'blue.400', textDecoration: 'none' }}
-          >
-            Gallery
-          </Link>
-          <Link
-            href='#menu'
-            onClick={(e) => handleSmoothScroll(e, '#menu')}
-            className={styles.link}
-            fontSize='16px'
-            fontWeight='400'
-            color='text.dark'
-            _hover={{ color: 'blue.400', textDecoration: 'none' }}
-          >
-            Menu
-          </Link>
-        </HStack>
+        <style>{`
+          @media (min-width: 768px) {
+            nav { display: block !important; }
+          }
+        `}</style>
 
-        {/* Center Logo & Brand */}
-        <HStack spacing='3' flex='0 0 auto'>
-          <Link href='/' display='flex' alignItems='center'>
-            <Box
-              width='46px'
-              height='46px'
-              borderRadius='50%'
-              overflow='hidden'
-              boxShadow='sm'
+        {/* Left - Logo & Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                background: '#41B9D2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <img
-                src='/new_logo.png'
-                alt='Tia Bakery Logo'
+                src="/new_logo.png"
+                alt="Tia Bakery Logo"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
                 }}
               />
-            </Box>
-          </Link>
-          <Text
-            fontFamily='cormorant'
-            fontSize='26px'
-            fontWeight='600'
-            color='text.dark'
-            letterSpacing='0.5px'
+            </div>
+          </a>
+          <span
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: '28px',
+              fontWeight: 600,
+              color: '#2E9FBE',
+              letterSpacing: '0.5px',
+            }}
           >
             Tia Bakery
-          </Text>
-        </HStack>
+          </span>
+        </div>
 
-        {/* Right Navigation Links & Actions */}
-        <HStack spacing='8' flex='1' justifyContent='flex-end'>
-          <Link
-            href='#about'
+        {/* Center & Right - Navigation Links */}
+        <div style={{ display: 'flex', gap: '40px', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
+          <a
+            href="#menu"
+            onClick={(e) => handleSmoothScroll(e, '#menu')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            Menu
+          </a>
+          <a
+            href="#gallery"
+            onClick={(e) => handleSmoothScroll(e, '#gallery')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            Gallery
+          </a>
+          <a
+            href="#about"
             onClick={(e) => handleSmoothScroll(e, '#about')}
-            className={styles.link}
-            fontSize='16px'
-            fontWeight='400'
-            color='text.dark'
-            _hover={{ color: 'blue.400', textDecoration: 'none' }}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
           >
             About
-          </Link>
-          <Link
-            href='#faq'
+          </a>
+          <a
+            href="#faq"
             onClick={(e) => handleSmoothScroll(e, '#faq')}
-            className={styles.link}
-            fontSize='16px'
-            fontWeight='400'
-            color='text.dark'
-            _hover={{ color: 'blue.400', textDecoration: 'none' }}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
           >
             FAQ
-          </Link>
+          </a>
+          <a
+            href="#quote"
+            onClick={(e) => handleSmoothScroll(e, '#quote')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            Contact
+          </a>
 
           {/* CTA Button */}
-          <Button
-            as='a'
-            href='#quote'
+          <a
+            href="#quote"
             onClick={(e) => {
               e.preventDefault();
               const element = document.querySelector('#quote');
@@ -155,62 +182,34 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
                 window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
               }
             }}
-            bg='blue.400'
-            color='white'
-            px='6'
-            py='2.5'
-            borderRadius='full'
-            fontSize='15px'
-            fontWeight='600'
-            _hover={{
-              bg: 'blue.500',
-              transform: 'translateY(-2px)',
-              shadow: 'md',
+            style={{
+              background: '#41B9D2',
+              color: '#FFF',
+              padding: '15px 30px',
+              borderRadius: '999px',
+              fontSize: '16px',
+              fontWeight: 700,
+              textDecoration: 'none',
+              transition: 'all 0.2s',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 10px 22px -10px rgba(65, 185, 210, 0.9)',
             }}
-            _active={{
-              bg: 'blue.600',
-              transform: 'translateY(0)',
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#2E9FBE';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 15px 30px -15px rgba(65, 185, 210, 0.95)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#41B9D2';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 10px 22px -10px rgba(65, 185, 210, 0.9)';
             }}
           >
             Order Your Cake
-          </Button>
-
-          {/* Cart Button */}
-          <Button
-            ref={btnRef}
-            variant='ghost'
-            onClick={onCartOpen}
-            position='relative'
-            color='text.dark'
-            p='2'
-            minW='auto'
-            _hover={{
-              bg: 'transparent',
-              color: 'blue.400',
-            }}
-          >
-            <BsCart3 size={22} />
-            {totalItems > 0 && (
-              <Badge
-                bgColor='blue.400'
-                color='white'
-                position='absolute'
-                top='0'
-                right='0'
-                borderRadius='full'
-                fontSize='10px'
-                minW='18px'
-                h='18px'
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-              >
-                {totalItems}
-              </Badge>
-            )}
-          </Button>
-        </HStack>
-      </HStack>
-    </Box>
+          </a>
+        </div>
+      </div>
+    </nav>
   );
 };

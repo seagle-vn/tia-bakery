@@ -2,57 +2,51 @@
 
 import { useState } from 'react';
 
-interface FAQ {
-  id: string;
+interface Question {
   question: string;
   answer: string;
 }
 
-const FAQS: FAQ[] = [
-  {
-    id: '1',
-    question: 'How far in advance should I order my cake?',
-    answer:
-      'We recommend ordering at least 2-3 weeks in advance, especially for custom designs and wedding cakes. However, we can sometimes accommodate last-minute orders depending on our schedule.',
-  },
-  {
-    id: '2',
-    question: 'Do you offer delivery?',
-    answer:
-      'Yes! We offer local delivery within a 5-mile radius of our London location. Delivery fees vary based on distance and cake size.',
-  },
-  {
-    id: '3',
-    question: 'Can I schedule a tasting?',
-    answer:
-      'Absolutely! We offer tasting sessions for wedding and custom cake orders. Contact us to schedule an appointment.',
-  },
-  {
-    id: '4',
-    question: 'What flavors do you offer?',
-    answer:
-      'We offer a wide variety of cake flavors including vanilla, chocolate, red velvet, lemon, and seasonal specialties. Frosting options include buttercream, cream cheese, and fondant.',
-  },
-  {
-    id: '5',
-    question: 'Do you accommodate dietary restrictions?',
-    answer:
-      'Yes, we can create gluten-free and vegan options for many of our cakes. Please let us know your dietary needs when ordering.',
-  },
-  {
-    id: '6',
-    question: 'What is your cancellation policy?',
-    answer:
-      'Cancellations must be made at least 48 hours before pickup/delivery for a full refund. Orders cancelled within 48 hours are subject to a 50% cancellation fee.',
-  },
-];
+interface FAQ {
+  id: string;
+  category: string;
+  question: Question[];
+}
 
-export default function FAQSection() {
+interface FAQSectionProps {
+  faqs: FAQ[];
+}
+
+interface FlattenedFAQ {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+}
+
+export default function FAQSection({ faqs }: FAQSectionProps) {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
 
   const toggleFaq = (faqId: string) => {
     setOpenFaq(openFaq === faqId ? null : faqId);
   };
+
+  const flattenedFaqs: FlattenedFAQ[] = faqs.flatMap((faq) =>
+    faq.question.map((q, index) => ({
+      id: `${faq.id}-${index}`,
+      category: faq.category,
+      question: q.question,
+      answer: q.answer,
+    }))
+  );
+
+  const groupedByCategory = flattenedFaqs.reduce((acc, faq) => {
+    if (!acc[faq.category]) {
+      acc[faq.category] = [];
+    }
+    acc[faq.category].push(faq);
+    return acc;
+  }, {} as Record<string, FlattenedFAQ[]>);
 
   return (
     <section
@@ -92,87 +86,115 @@ export default function FAQSection() {
       </div>
 
       {/* FAQ Accordion */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-        {FAQS.map((faq) => {
-          const isOpen = openFaq === faq.id;
-
-          return (
-            <div
-              key={faq.id}
-              style={{
-                background: '#FCF8EF',
-                border: '1.5px solid #F3DCE3',
-                borderRadius: '18px',
-                overflow: 'hidden',
-              }}
-            >
-              {/* Question */}
-              <button
-                onClick={() => toggleFaq(faq.id)}
+      {flattenedFaqs.length === 0 ? (
+        <p style={{ textAlign: 'center', color: '#7E6B62', fontSize: '16px' }}>
+          No FAQs available yet. Check back soon!
+        </p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          {Object.entries(groupedByCategory).map(([category, categoryFaqs]) => (
+            <div key={category}>
+              {/* Category Header */}
+              <h3
                 style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '20px 24px',
-                  textAlign: 'left',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 600,
+                  fontSize: 'clamp(1.5rem, 3vw, 1.875rem)',
+                  color: '#2E9FBE',
+                  marginBottom: '16px',
+                  marginTop: 0,
                 }}
               >
-                <span
-                  style={{
-                    fontWeight: 600,
-                    color: '#7E6B62',
-                    paddingRight: '16px',
-                    fontSize: 'clamp(15px, 1.1vw, 16.5px)',
-                  }}
-                >
-                  {faq.question}
-                </span>
-                <svg
-                  style={{
-                    flexShrink: 0,
-                    width: '22px',
-                    height: '22px',
-                    color: '#41B9D2',
-                    transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.2s',
-                  }}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-              </button>
+                {category}
+              </h3>
 
-              {/* Answer */}
-              {isOpen && (
-                <div style={{ padding: '0 24px 20px 24px' }}>
-                  <p
-                    style={{
-                      color: '#8A776E',
-                      lineHeight: 1.65,
-                      fontSize: '15px',
-                      margin: 0,
-                    }}
-                  >
-                    {faq.answer}
-                  </p>
-                </div>
-              )}
+              {/* Questions in this category */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {categoryFaqs.map((faq) => {
+                  const isOpen = openFaq === faq.id;
+
+                  return (
+                    <div
+                      key={faq.id}
+                      style={{
+                        background: '#FCF8EF',
+                        border: '1.5px solid #F3DCE3',
+                        borderRadius: '18px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {/* Question */}
+                      <button
+                        onClick={() => toggleFaq(faq.id)}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '20px 24px',
+                          textAlign: 'left',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          fontFamily: 'inherit',
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            color: '#7E6B62',
+                            paddingRight: '16px',
+                            fontSize: 'clamp(15px, 1.1vw, 16.5px)',
+                          }}
+                        >
+                          {faq.question}
+                        </span>
+                        <svg
+                          style={{
+                            flexShrink: 0,
+                            width: '22px',
+                            height: '22px',
+                            color: '#41B9D2',
+                            transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+                            transition: 'transform 0.2s',
+                          }}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 4v16m8-8H4"
+                          />
+                        </svg>
+                      </button>
+
+                      {/* Answer */}
+                      {isOpen && (
+                        <div style={{ padding: '0 24px 20px 24px' }}>
+                          <p
+                            style={{
+                              color: '#8A776E',
+                              lineHeight: 1.65,
+                              fontSize: '15px',
+                              margin: 0,
+                              whiteSpace: 'pre-wrap',
+                            }}
+                          >
+                            {faq.answer}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
