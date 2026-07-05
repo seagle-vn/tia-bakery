@@ -2,6 +2,7 @@
 
 import { gql, useQuery } from '@apollo/client';
 import { Box, Spinner, Text, VStack } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import AboutSection from '../components/home/AboutSection';
 import FAQSection from '../components/home/FAQSection';
 import GallerySection from '../components/home/GallerySection';
@@ -10,6 +11,7 @@ import MenuSection from '../components/home/MenuSection';
 import QuoteSection from '../components/home/QuoteSection';
 import TrustBanner from '../components/home/TrustBanner';
 import WatchSection from '../components/home/WatchSection';
+import { getCakeBuilderData } from '@/lib/cakeBuilderData';
 
 const query = gql`
   query HomePage($slug: String) {
@@ -36,7 +38,12 @@ const query = gql`
       name
     }
 
-    products(first: 20) {
+    aboutPage: page(where: { slug: "about" }) {
+      id
+      descriptionImage
+    }
+
+    products(where: { isFeaturedProduct: true }, first: 20) {
       id
       name
       slug
@@ -44,6 +51,7 @@ const query = gql`
       description {
         text
       }
+      isFeaturedProduct
     }
 
     faqs(orderBy: category_ASC) {
@@ -64,6 +72,14 @@ export default function HomeClientPage() {
       slug: 'home',
     },
   });
+
+  const [cakeBuilder, setCakeBuilder] = useState<any>(null);
+
+  useEffect(() => {
+    getCakeBuilderData().then((data) => {
+      setCakeBuilder(data);
+    });
+  }, []);
 
   if (loading) {
     return (
@@ -115,7 +131,7 @@ export default function HomeClientPage() {
     );
   }
 
-  const { page, categories, products, faqs } = data as any;
+  const { page, categories, products, faqs, aboutPage } = data as any;
 
   if (!page || !page.heroBackground) {
     return (
@@ -142,8 +158,10 @@ export default function HomeClientPage() {
   // Prepare products with category information and sizes
   const productsWithCategories = (products || []).map((product: any) => ({
     ...product,
-    // Add logic to determine category based on product data
-    category: product.name.toLowerCase().includes('cupcake') || product.name.toLowerCase().includes('treat')
+    // Determine category based on product name
+    category: product.name.toLowerCase().includes('cupcake') ||
+              product.name.toLowerCase().includes('treat') ||
+              product.name.toLowerCase().includes('cookie')
       ? 'Treats'
       : 'Signature Cakes',
     sizes: [
@@ -163,11 +181,14 @@ export default function HomeClientPage() {
 
       <TrustBanner />
 
-      <MenuSection products={productsWithCategories} />
+      <MenuSection
+        products={productsWithCategories}
+        cakeBuilder={cakeBuilder}
+      />
 
       <GallerySection categories={categories || []} />
 
-      <AboutSection />
+      <AboutSection aboutImage={aboutPage?.descriptionImage?.public_id} />
 
       <WatchSection />
 

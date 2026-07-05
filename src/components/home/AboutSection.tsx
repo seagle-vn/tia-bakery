@@ -1,7 +1,7 @@
 'use client';
 
-import { Image } from '@chakra-ui/next-js';
 import { getOptimizedImage } from '@/lib/imageUtils';
+import { Image } from '@chakra-ui/next-js';
 
 interface AboutSectionProps {
   aboutImage?: string;
@@ -11,7 +11,7 @@ export default function AboutSection({ aboutImage }: AboutSectionProps) {
   // You can replace this with your baker's image URL
   const defaultImage = '/new_logo.png';
   const optimizedImage = aboutImage
-    ? getOptimizedImage(aboutImage, 800, 600)
+    ? getOptimizedImage(aboutImage, 600, 900)
     : defaultImage;
 
   return (
@@ -26,26 +26,33 @@ export default function AboutSection({ aboutImage }: AboutSectionProps) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: '1.3fr 1fr',
           gap: 'clamp(28px, 5vw, 64px)',
           alignItems: 'center',
         }}
+        className="about-section-grid"
       >
         {/* Left Column - Image */}
-        <Image
-          src={optimizedImage}
-          alt="Photo of the baker"
-          width={800}
-          height={600}
+        <div
           style={{
-            display: 'block',
-            width: '100%',
-            aspectRatio: '4/3',
             borderRadius: '24px',
+            overflow: 'hidden',
             boxShadow: '0 20px 50px -30px rgba(150, 90, 110, 0.55)',
-            objectFit: 'cover',
           }}
-        />
+        >
+          <Image
+            src={optimizedImage}
+            alt="Photo of the baker"
+            width={600}
+            height={900}
+            style={{
+              display: 'block',
+              width: '100%',
+              aspectRatio: '2/3',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
 
         {/* Right Column - Content */}
         <div>

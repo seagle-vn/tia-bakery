@@ -275,3 +275,26 @@ body {
     display: none !important;
   }
 }
+
+/* ============================================
+   CAKE BUILDER RESPONSIVE
+   ============================================ */
+
+/* Stack cards vertically on tablet and mobile */
+@media (max-width: 1024px) {
+  .cake-builder-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Stack columns inside cards on mobile */
+@media (max-width: 768px) {
+  .cake-builder-columns {
+    grid-template-columns: 1fr !important;
+    gap: clamp(20px, 2.5vw, 28px) !important;
+  }
+
+  .about-section-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
