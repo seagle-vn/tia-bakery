@@ -1,15 +1,14 @@
 'use client';
 import {
-  ApolloClient,
   ApolloLink,
   HttpLink,
-  SuspenseCache,
 } from '@apollo/client';
 import {
+  ApolloClient,
   ApolloNextAppProvider,
-  NextSSRInMemoryCache,
-  SSRMultipartLink,
-} from '@apollo/experimental-nextjs-app-support/ssr';
+  InMemoryCache,
+} from '@apollo/client-integration-nextjs';
+import { SSRMultipartLink } from '@apollo/client-react-streaming';
 import React from 'react';
 
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
@@ -31,7 +30,6 @@ export function ApolloWrapper({
   return (
     <ApolloNextAppProvider
       makeClient={makeClient}
-      makeSuspenseCache={makeSuspenseCache}
     >
       {children}
     </ApolloNextAppProvider>
@@ -69,7 +67,7 @@ export function ApolloWrapper({
         : ApolloLink.from([delayLink, httpLink]);
 
     return new ApolloClient({
-      cache: new NextSSRInMemoryCache({
+      cache: new InMemoryCache({
         dataIdFromObject(responseObject) {
           // Don't normalize objects that look like Cloudinary assets
           if (responseObject.__typename === 'Asset' ||
@@ -107,9 +105,5 @@ export function ApolloWrapper({
       }),
       link,
     });
-  }
-
-  function makeSuspenseCache() {
-    return new SuspenseCache();
   }
 }

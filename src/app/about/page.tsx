@@ -1,5 +1,7 @@
 import AboutClientPage from './client-page';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata() {
   return {
     title: 'About',

@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { Suspense } from 'react';
 import GoogleAnalytics from '../ui/GoogleAnalytics';
 import { ApolloWrapper } from './ApolloWrapper';
 import CartProvider from './CartProvider';
@@ -39,7 +40,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <GoogleAnalytics GA_MEASUREMENT_ID='G-RX9QSRTKV2' />
+      <Suspense fallback={null}>
+        <GoogleAnalytics GA_MEASUREMENT_ID='G-RX9QSRTKV2' />
+      </Suspense>
       <body>
         <ApolloWrapper delay={1000}>
           <CartProvider>

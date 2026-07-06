@@ -1,6 +1,7 @@
 'use client';
 
-import { gql, useSuspenseQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client/react';
 import { Link } from '@chakra-ui/next-js';
 import { Box, Container, Grid, Heading, Image, Text, VStack, HStack, Badge, Avatar } from '@chakra-ui/react';
 

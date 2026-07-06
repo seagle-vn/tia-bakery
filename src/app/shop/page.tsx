@@ -1,7 +1,7 @@
 'use client';
 
 import { gql } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { useSuspenseQuery } from '@apollo/client/react';
 import { Box, SimpleGrid } from '@chakra-ui/react';
 import { ProductCard } from '../../components/shop/ProductCard';
 

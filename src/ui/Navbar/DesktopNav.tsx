@@ -1,4 +1,5 @@
 import { FunctionComponent, useRef } from 'react';
+import Link from 'next/link';
 import { BsCart3 } from 'react-icons/bs';
 import { useCart } from 'react-use-cart';
 
@@ -54,7 +55,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
 
         {/* Left - Logo & Brand */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
             <div
               style={{
                 width: '52px',
@@ -77,7 +78,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
                 }}
               />
             </div>
-          </a>
+          </Link>
           <span
             style={{
               fontFamily: "'Cormorant Garamond', serif",

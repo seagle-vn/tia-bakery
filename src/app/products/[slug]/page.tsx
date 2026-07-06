@@ -22,16 +22,17 @@ const query = gql`
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   const client = createApolloClient();
 
-  const {
-    data: { product },
-  } = await client.query({
+  const { data } = await client.query({
     query,
-    variables: { slug: params.slug },
+    variables: { slug },
   });
+
+  const { product } = data as any;
 
   if (!product) return notFound();
 
@@ -61,6 +62,11 @@ export async function generateMetadata({
   };
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  return <ProductClientPage params={params} />;
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
+  return <ProductClientPage params={resolvedParams} />;
 }
