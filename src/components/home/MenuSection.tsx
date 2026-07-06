@@ -135,7 +135,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                   alt={cake.name}
                   width={672}
                   height={378}
-                  style={{ display: 'block', width: '100%', aspectRatio: '16/9', objectFit: 'cover' }}
+                  style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16/9', objectFit: 'cover' }}
                 />
                 <div
                   style={{
@@ -268,6 +268,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                   style={{
                     display: 'block',
                     width: '100%',
+                    height: 'auto',
                     aspectRatio: '16/9',
                     objectFit: 'cover',
                   }}
