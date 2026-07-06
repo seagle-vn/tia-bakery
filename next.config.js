@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ],
   },
+  // Turbopack configuration for Next.js 16+
+  // Empty config acknowledges Turbopack usage
+  // Turbopack handles Node.js module exclusion automatically
+  turbopack: {},
+  // Keep webpack config for backwards compatibility when using --webpack flag
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Don't resolve these modules on the client side
@@ -31,10 +36,6 @@ const nextConfig = {
       };
     }
     return config;
-  },
-  // Suppress the warnings about these modules
-  experimental: {
-    esmExternals: 'loose',
   },
   // Redirects for old page routes to new single-page sections
   async redirects() {
