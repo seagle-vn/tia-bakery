@@ -101,7 +101,7 @@ export default function AboutSection({ aboutImage }: AboutSectionProps) {
             }}
           >
             From delicate sponge cakes with whipping cream to rich golden buttercream creations,
-            cupcakes, bouquets, and bento cakes — I'd love to bring your vision to life with care
+            cupcakes, bouquets, and bento cakes — I&apos;d love to bring your vision to life with care
             and attention to detail.
           </p>
 

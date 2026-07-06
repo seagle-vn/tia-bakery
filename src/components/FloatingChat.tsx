@@ -2,7 +2,7 @@
 
 import { formatMessageContent } from '@/lib/gtagHelper';
 import { ChatMessage } from '@/types';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './FloatingChat.module.css';
 
 export default function FloatingChat() {
@@ -81,7 +81,7 @@ export default function FloatingChat() {
     }
   };
 
-  const handleClickOutside = (e: React.MouseEvent) => {
+  const handleClickOutside = useCallback((e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (
       isOpen &&
@@ -90,14 +90,14 @@ export default function FloatingChat() {
     ) {
       setIsOpen(false);
     }
-  };
+  }, [isOpen]);
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside as any);
+    document.addEventListener('click', handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside as any);
+      document.removeEventListener('click', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [handleClickOutside]);
 
   return (
     <>
