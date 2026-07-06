@@ -297,4 +297,15 @@ body {
   .about-section-grid {
     grid-template-columns: 1fr !important;
   }
+
+  .baker-image-container {
+    max-width: 360px !important;
+    margin: 0 auto !important;
+  }
+
+  .baker-image-container img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
 }

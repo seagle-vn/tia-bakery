@@ -1,19 +1,15 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Badge,
   Button,
   Collapse,
   HStack,
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FunctionComponent, useRef } from 'react';
-import { BsCart3 } from 'react-icons/bs';
-import { useCart } from 'react-use-cart';
+import { FunctionComponent } from 'react';
 import { CartDrawer } from '../CartDrawer';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
-import styles from './Navbar.module.css';
 
 export const Navbar: FunctionComponent = () => {
   const {
@@ -21,16 +17,11 @@ export const Navbar: FunctionComponent = () => {
     onOpen: onCartOpen,
     onClose: onCartClose,
   } = useDisclosure();
-  const btnRef = useRef<HTMLButtonElement>(null);
 
   const {
     isOpen: isMobileNavOpen,
-    onOpen: onMobileNavOpen,
-    onClose: onMobileNavClose,
     onToggle,
   } = useDisclosure();
-
-  const { totalItems } = useCart();
 
   return (
     <>
@@ -52,34 +43,35 @@ export const Navbar: FunctionComponent = () => {
           aria-label={'Toggle Navigation'}
         />
         <Button
-          ref={btnRef}
-          variant='link'
-          onClick={onCartOpen}
-          className={styles.link}
-          position='relative'
-          color='black'
+          onClick={() => {
+            const element = document.querySelector('#quote');
+            if (element) {
+              const headerOffset = 80;
+              const elementPosition = element.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+          }}
+          bg='#41B9D2'
+          color='white'
+          borderRadius='999px'
+          fontSize='14px'
+          fontWeight={700}
+          px='20px'
+          py='12px'
+          h='auto'
+          my='8px'
+          boxShadow='0 8px 18px -8px rgba(65, 185, 210, 0.9)'
           _hover={{
-            textDecoration: 'none',
-            color: '#53B7D1',
+            bg: '#2E9FBE',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 12px 24px -12px rgba(65, 185, 210, 0.95)',
+          }}
+          _active={{
+            bg: '#2E9FBE',
           }}
         >
-          <BsCart3 />
-          {totalItems > 0 ? (
-            <Badge
-              fontSize='10px'
-              bgColor='black'
-              color='white'
-              position='absolute'
-              top='0px'
-              right='-8px'
-              borderRadius='50%'
-              size='lg'
-              py='5px'
-              px='6px'
-            >
-              {totalItems}
-            </Badge>
-          ) : null}
+          Order Your Cake
         </Button>
       </HStack>
       <Collapse in={isMobileNavOpen} animateOpacity>
@@ -91,7 +83,6 @@ export const Navbar: FunctionComponent = () => {
       <CartDrawer
         isOpen={isCartOpen}
         onClose={onCartClose}
-        finalFocusRef={btnRef}
       />
     </>
   );

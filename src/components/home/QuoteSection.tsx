@@ -3,6 +3,7 @@
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useRef, useState } from 'react';
 import { useCart } from 'react-use-cart';
+import { SingleDatepicker } from 'chakra-dayzed-datepicker';
 
 type InspirationPhoto = {
   name: string;
@@ -23,9 +24,9 @@ export default function QuoteSection() {
     name: '',
     email: '',
     phone: '',
-    eventDate: '',
     details: '',
   });
+  const [eventDate, setEventDate] = useState<Date>(new Date());
   const [inspirationPhoto, setInspirationPhoto] = useState<InspirationPhoto | null>(null);
   const [inspirationPhotoError, setInspirationPhotoError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,6 +40,7 @@ export default function QuoteSection() {
       // Prepare order data
       const orderData = {
         ...formData,
+        eventDate: eventDate.toISOString().split('T')[0],
         inspirationPhoto,
         items: items.map((item) => ({
           name: item.name,
@@ -74,9 +76,9 @@ export default function QuoteSection() {
           name: '',
           email: '',
           phone: '',
-          eventDate: '',
           details: '',
         });
+        setEventDate(new Date());
         setInspirationPhoto(null);
         setInspirationPhotoError('');
         if (inspirationPhotoInputRef.current) {
@@ -464,20 +466,45 @@ export default function QuoteSection() {
                   <label htmlFor="eventDate" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#7E6B62', marginBottom: '6px' }}>
                     Event Date *
                   </label>
-                  <input
-                    type="date"
-                    id="eventDate"
+                  <SingleDatepicker
                     name="eventDate"
-                    value={formData.eventDate}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      width: '100%',
-                      padding: '12px 16px',
-                      borderRadius: '12px',
-                      border: '1.5px solid #F3DCE3',
-                      fontSize: '15px',
-                      fontFamily: 'inherit',
+                    date={eventDate}
+                    onDateChange={setEventDate}
+                    configs={{
+                      dateFormat: 'MM/dd/yyyy',
+                    }}
+                    propsConfigs={{
+                      inputProps: {
+                        style: {
+                          width: '100%',
+                          padding: '12px 16px',
+                          borderRadius: '12px',
+                          border: '1.5px solid #F3DCE3',
+                          fontSize: '15px',
+                          fontFamily: 'inherit',
+                        },
+                      },
+                      dayOfMonthBtnProps: {
+                        defaultBtnProps: {
+                          _hover: {
+                            background: '#41B9D2',
+                            color: 'white',
+                          },
+                        },
+                        selectedBtnProps: {
+                          background: '#41B9D2',
+                          color: 'white',
+                        },
+                        todayBtnProps: {
+                          borderColor: '#41B9D2',
+                        },
+                      },
+                      popoverCompProps: {
+                        popoverContentProps: {
+                          background: 'white',
+                          borderColor: '#F3DCE3',
+                        },
+                      },
                     }}
                   />
                 </div>

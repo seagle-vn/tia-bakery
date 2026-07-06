@@ -39,6 +39,7 @@ export default function AboutSection({ aboutImage }: AboutSectionProps) {
             overflow: 'hidden',
             boxShadow: '0 20px 50px -30px rgba(150, 90, 110, 0.55)',
           }}
+          className="baker-image-container"
         >
           <Image
             src={optimizedImage}

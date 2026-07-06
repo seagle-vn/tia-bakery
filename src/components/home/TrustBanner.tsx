@@ -13,13 +13,11 @@ export default function TrustBanner() {
           padding: '16px clamp(20px, 5vw, 56px)',
           display: 'flex',
           gap: 'clamp(10px, 2.4vw, 48px)',
-          flexWrap: 'nowrap',
-          overflowX: 'auto',
+          flexWrap: 'wrap',
           justifyContent: 'center',
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: 'clamp(13px, 1.6vw, 21px)',
           color: '#2E9FBE',
-          whiteSpace: 'nowrap',
         }}
       >
         <span>Made fresh to order</span>
