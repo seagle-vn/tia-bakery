@@ -1,10 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { useRef, useState } from 'react';
 import { useCart } from 'react-use-cart';
 
+type InspirationPhoto = {
+  name: string;
+  type: string;
+  size: number;
+  dataUrl: string;
+};
+
+const MAX_INSPIRATION_PHOTO_SIZE = 8 * 1024 * 1024;
+const INSPIRATION_PHOTO_MAX_WIDTH = 500;
+const INSPIRATION_PHOTO_MAX_HEIGHT = 500;
+const INSPIRATION_PHOTO_QUALITY = 0.72;
+
 export default function QuoteSection() {
-  const { items, emptyCart, cartTotal } = useCart();
+  const { items, emptyCart, cartTotal, removeItem } = useCart();
+  const inspirationPhotoInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,6 +26,8 @@ export default function QuoteSection() {
     eventDate: '',
     details: '',
   });
+  const [inspirationPhoto, setInspirationPhoto] = useState<InspirationPhoto | null>(null);
+  const [inspirationPhotoError, setInspirationPhotoError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -23,6 +39,7 @@ export default function QuoteSection() {
       // Prepare order data
       const orderData = {
         ...formData,
+        inspirationPhoto,
         items: items.map((item) => ({
           name: item.name,
           size: item.size,
@@ -60,6 +77,11 @@ export default function QuoteSection() {
           eventDate: '',
           details: '',
         });
+        setInspirationPhoto(null);
+        setInspirationPhotoError('');
+        if (inspirationPhotoInputRef.current) {
+          inspirationPhotoInputRef.current.value = '';
+        }
       }, 3000);
     } catch (error) {
       console.error('Error submitting quote:', error);
@@ -76,6 +98,47 @@ export default function QuoteSection() {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const handleInspirationPhoto = async (file?: File) => {
+    setInspirationPhotoError('');
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setInspirationPhoto(null);
+      setInspirationPhotoError('Please upload an image file.');
+      return;
+    }
+
+    if (file.size > MAX_INSPIRATION_PHOTO_SIZE) {
+      setInspirationPhoto(null);
+      setInspirationPhotoError('Please upload an image smaller than 8 MB.');
+      return;
+    }
+
+    try {
+      const dataUrl = await compressImageToDataUrl(file);
+      setInspirationPhoto({
+        name: file.name,
+        type: 'image/jpeg',
+        size: dataUrl.length,
+        dataUrl,
+      });
+    } catch (error) {
+      setInspirationPhoto(null);
+      setInspirationPhotoError('Unable to read this image. Please try another file.');
+    }
+  };
+
+  const clearInspirationPhoto = () => {
+    setInspirationPhoto(null);
+    setInspirationPhotoError('');
+    if (inspirationPhotoInputRef.current) {
+      inspirationPhotoInputRef.current.value = '';
+    }
   };
 
   return (
@@ -279,7 +342,30 @@ export default function QuoteSection() {
                               </p>
                             </div>
                           </div>
-                          <p style={{ fontWeight: 700, color: '#41B9D2', margin: 0 }}>${item.price}</p>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <p style={{ fontWeight: 700, color: '#41B9D2', margin: 0 }}>${item.price}</p>
+                            <button
+                              type="button"
+                              aria-label={`Remove ${item.name} from quote`}
+                              title="Remove from quote"
+                              onClick={() => removeItem(item.id)}
+                              style={{
+                                width: '32px',
+                                height: '32px',
+                                border: 'none',
+                                borderRadius: '999px',
+                                background: 'rgba(126, 107, 98, 0.08)',
+                                color: '#7E6B62',
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexShrink: 0,
+                              }}
+                            >
+                              <DeleteIcon aria-hidden="true" boxSize={3.5} />
+                            </button>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -420,6 +506,120 @@ export default function QuoteSection() {
                   />
                 </div>
 
+                {/* Inspiration Photo */}
+                <div>
+                  <label
+                    htmlFor="inspirationPhoto"
+                    style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 700,
+                      color: '#7E6B62',
+                      marginBottom: '8px',
+                    }}
+                  >
+                    Inspiration photo <span style={{ fontWeight: 400, color: '#A68F87' }}>(optional)</span>
+                  </label>
+                  <input
+                    ref={inspirationPhotoInputRef}
+                    type="file"
+                    id="inspirationPhoto"
+                    name="inspirationPhoto"
+                    accept="image/*"
+                    onChange={(event) => handleInspirationPhoto(event.target.files?.[0])}
+                    style={{ display: 'none' }}
+                  />
+                  <label
+                    htmlFor="inspirationPhoto"
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      handleInspirationPhoto(event.dataTransfer.files?.[0]);
+                    }}
+                    style={{
+                      width: 'min(100%, 360px)',
+                      minHeight: '178px',
+                      border: '2px dashed #B8B8B8',
+                      borderRadius: '18px',
+                      background: '#F7F7F7',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '24px',
+                    }}
+                  >
+                    {inspirationPhoto ? (
+                      <div>
+                        <div
+                          aria-label="Selected inspiration"
+                          role="img"
+                          style={{
+                            width: '88px',
+                            height: '88px',
+                            borderRadius: '12px',
+                            margin: '0 auto 10px',
+                            backgroundImage: `url(${inspirationPhoto.dataUrl})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                          }}
+                        />
+                        <p style={{ margin: '0 0 10px', color: '#6F6560', fontWeight: 600 }}>
+                          {inspirationPhoto.name}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            clearInspirationPhoto();
+                          }}
+                          style={{
+                            border: 'none',
+                            background: 'transparent',
+                            color: '#41B9D2',
+                            cursor: 'pointer',
+                            fontWeight: 700,
+                            textDecoration: 'underline',
+                          }}
+                        >
+                          Remove photo
+                        </button>
+                      </div>
+                    ) : (
+                      <div style={{ color: '#6F6F6F' }}>
+                        <svg
+                          aria-hidden="true"
+                          width="42"
+                          height="42"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#AFAFAF"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          style={{ marginBottom: '12px' }}
+                        >
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                          <circle cx="8.5" cy="8.5" r="1.5" />
+                          <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                        <p style={{ margin: '0 0 8px', fontSize: '17px', fontWeight: 600 }}>
+                          Drop a photo of the cake you love
+                        </p>
+                        <p style={{ margin: 0, fontSize: '14px' }}>
+                          or <span style={{ textDecoration: 'underline' }}>browse files</span>
+                        </p>
+                      </div>
+                    )}
+                  </label>
+                  {inspirationPhotoError ? (
+                    <p style={{ color: '#C24D93', fontSize: '12px', margin: '6px 0 0' }}>
+                      {inspirationPhotoError}
+                    </p>
+                  ) : null}
+                </div>
+
                 {/* Submit Button */}
                 <button
                   type="submit"
@@ -446,4 +646,39 @@ export default function QuoteSection() {
       </div>
     </section>
   );
+}
+
+function compressImageToDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const image = new Image();
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      image.src = reader.result as string;
+    };
+    reader.onerror = reject;
+
+    image.onload = () => {
+      const scale = Math.min(
+        INSPIRATION_PHOTO_MAX_WIDTH / image.width,
+        INSPIRATION_PHOTO_MAX_HEIGHT / image.height,
+        1
+      );
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.width * scale));
+      canvas.height = Math.max(1, Math.round(image.height * scale));
+
+      const context = canvas.getContext('2d');
+      if (!context) {
+        reject(new Error('Unable to prepare image.'));
+        return;
+      }
+
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL('image/jpeg', INSPIRATION_PHOTO_QUALITY));
+    };
+    image.onerror = reject;
+
+    reader.readAsDataURL(file);
+  });
 }

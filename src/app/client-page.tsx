@@ -74,11 +74,17 @@ export default function HomeClientPage() {
   });
 
   const [cakeBuilder, setCakeBuilder] = useState<any>(null);
+  const [cakeBuilderLoading, setCakeBuilderLoading] = useState(true);
 
   useEffect(() => {
-    getCakeBuilderData().then((data) => {
-      setCakeBuilder(data);
-    });
+    setCakeBuilderLoading(true);
+    getCakeBuilderData()
+      .then((data) => {
+        setCakeBuilder(data);
+      })
+      .finally(() => {
+        setCakeBuilderLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -184,6 +190,7 @@ export default function HomeClientPage() {
       <MenuSection
         products={productsWithCategories}
         cakeBuilder={cakeBuilder}
+        cakeBuilderLoading={cakeBuilderLoading}
       />
 
       <GallerySection categories={categories || []} />

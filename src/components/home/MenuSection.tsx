@@ -2,6 +2,7 @@
 
 import { getOptimizedImage } from '@/lib/imageUtils';
 import { Image } from '@chakra-ui/next-js';
+import { Spinner } from '@chakra-ui/react';
 import Link from 'next/link';
 import BuildYourCakeCard from './BuildYourCakeCard';
 
@@ -29,9 +30,10 @@ interface MenuSectionProps {
       toppingOptions: Array<{ id: string; name: string }>;
     }>;
   } | null;
+  cakeBuilderLoading?: boolean;
 }
 
-export default function MenuSection({ products, cakeBuilder }: MenuSectionProps) {
+export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading }: MenuSectionProps) {
   // Filter products by category
   const signatureCakes = products.filter((p) => p.category === 'Signature Cakes').slice(0, 3);
   const treats = products.filter((p) => p.category === 'Treats').slice(0, 4);
@@ -358,13 +360,14 @@ export default function MenuSection({ products, cakeBuilder }: MenuSectionProps)
       </div>
 
       {/* Build Your Cake - Full Width Section */}
-      {cakeBuilder && cakeBuilder.cakeTypes && cakeBuilder.cakeTypes.length > 0 && (
+      {(cakeBuilderLoading || (cakeBuilder && cakeBuilder.cakeTypes && cakeBuilder.cakeTypes.length > 0)) && (
         <div
           style={{
             marginLeft: 'calc(-1 * clamp(20px, 5vw, 56px))',
             marginRight: 'calc(-1 * clamp(20px, 5vw, 56px))',
             marginTop: 'clamp(50px, 6vw, 70px)',
             background: 'linear-gradient(to bottom, #FBF6EC 0%, #F9F3E8 100%)',
+            padding: 'clamp(40px, 6vw, 70px) clamp(20px, 5vw, 56px)',
           }}
         >
           <div
@@ -373,44 +376,59 @@ export default function MenuSection({ products, cakeBuilder }: MenuSectionProps)
               margin: '0 auto',
             }}
           >
-            <h3
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontWeight: 600,
-                fontSize: 'clamp(2rem, 4vw, 2.8rem)',
-                color: '#D4859E',
-                margin: '0 0 16px',
-                textAlign: 'center',
-              }}
-            >
-              {cakeBuilder.title}
-            </h3>
-            {cakeBuilder.subtitle && (
-              <p
+            {cakeBuilderLoading ? (
+              <div
                 style={{
-                  fontSize: 'clamp(14px, 1.8vw, 16px)',
-                  color: '#6D5F5A',
-                  textAlign: 'center',
-                  maxWidth: '740px',
-                  margin: '0 auto 40px',
-                  lineHeight: 1.6,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '300px',
                 }}
               >
-                {cakeBuilder.subtitle}
-              </p>
+                <Spinner size="xl" color="#41B9D2" thickness="4px" />
+              </div>
+            ) : (
+              <>
+                <h3
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontWeight: 600,
+                    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+                    color: '#D4859E',
+                    margin: '0 0 16px',
+                    textAlign: 'center',
+                  }}
+                >
+                  {cakeBuilder.title}
+                </h3>
+                {cakeBuilder.subtitle && (
+                  <p
+                    style={{
+                      fontSize: 'clamp(14px, 1.8vw, 16px)',
+                      color: '#6D5F5A',
+                      textAlign: 'center',
+                      maxWidth: '740px',
+                      margin: '0 auto 40px',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {cakeBuilder.subtitle}
+                  </p>
+                )}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: 'clamp(28px, 3.5vw, 48px)',
+                  }}
+                  className="cake-builder-grid"
+                >
+                  {cakeBuilder.cakeTypes.map((cakeType) => (
+                    <BuildYourCakeCard key={cakeType.id} cakeType={cakeType} />
+                  ))}
+                </div>
+              </>
             )}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 'clamp(28px, 3.5vw, 48px)',
-              }}
-              className="cake-builder-grid"
-            >
-              {cakeBuilder.cakeTypes.map((cakeType) => (
-                <BuildYourCakeCard key={cakeType.id} cakeType={cakeType} />
-              ))}
-            </div>
           </div>
         </div>
       )}
