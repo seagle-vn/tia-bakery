@@ -188,6 +188,7 @@ function CategoryGallery({ category }: { category: Category }) {
                     style={{
                       display: 'block',
                       width: '100%',
+                      height: 'auto',
                       aspectRatio: '4/3',
                       objectFit: 'cover',
                     }}
