@@ -398,9 +398,9 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                     textAlign: 'center',
                   }}
                 >
-                  {cakeBuilder.title}
+                  {cakeBuilder?.title}
                 </h3>
-                {cakeBuilder.subtitle && (
+                {cakeBuilder?.subtitle && (
                   <p
                     style={{
                       fontSize: 'clamp(14px, 1.8vw, 16px)',
@@ -422,7 +422,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                   }}
                   className="cake-builder-grid"
                 >
-                  {cakeBuilder.cakeTypes.map((cakeType) => (
+                  {cakeBuilder?.cakeTypes.map((cakeType) => (
                     <BuildYourCakeCard key={cakeType.id} cakeType={cakeType} />
                   ))}
                 </div>
