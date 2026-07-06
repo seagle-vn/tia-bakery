@@ -1,5 +1,6 @@
 'use client';
 
+import { getCakeBuilderData } from '@/lib/cakeBuilderData';
 import { gql, useQuery } from '@apollo/client';
 import { Box, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -11,7 +12,6 @@ import MenuSection from '../components/home/MenuSection';
 import QuoteSection from '../components/home/QuoteSection';
 import TrustBanner from '../components/home/TrustBanner';
 import WatchSection from '../components/home/WatchSection';
-import { getCakeBuilderData } from '@/lib/cakeBuilderData';
 
 const query = gql`
   query HomePage($slug: String) {
@@ -55,6 +55,10 @@ const query = gql`
         text
       }
       isFeaturedProduct
+      sizes {
+        name
+        price
+      }
     }
 
     faqs(orderBy: category_ASC) {
@@ -141,6 +145,7 @@ export default function HomeClientPage() {
   }
 
   const { page, categories, products, faqs, aboutPage } = data as any;
+  console.log({data})
 
   if (!page || !page.heroBackground) {
     return (
@@ -164,7 +169,7 @@ export default function HomeClientPage() {
     );
   }
 
-  // Prepare products with category information and sizes
+  // Prepare products with category information
   const productsWithCategories = (products || []).map((product: any) => ({
     ...product,
     // Determine category based on product name
@@ -173,11 +178,6 @@ export default function HomeClientPage() {
               product.name.toLowerCase().includes('cookie')
       ? 'Treats'
       : 'Signature Cakes',
-    sizes: [
-      { name: '6"', price: 45 },
-      { name: '8"', price: 65 },
-      { name: '10"', price: 85 },
-    ],
   }));
 
   return (

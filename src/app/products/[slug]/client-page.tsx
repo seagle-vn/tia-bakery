@@ -47,10 +47,10 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
   const { product } = data as any;
 
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState('Small');
+  const [size, setSize] = useState(product.sizes?.[0]?.name || 'Small');
 
   const price =
-    product.sizes.find((s: any) => s.name === size)?.price ??
+    product.sizes?.find((s: any) => s.name === size)?.price ??
     product.price ??
     30;
 

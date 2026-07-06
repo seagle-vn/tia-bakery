@@ -182,7 +182,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                         textOverflow: 'ellipsis',
                       }}
                     >
-                      {cake.description.text}
+                      {cake.description.text.replace(/\\n/g, ' ')}
                     </p>
                   )}
                   {cake.sizes && cake.sizes.length > 0 && (
@@ -318,7 +318,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                         textOverflow: 'ellipsis',
                       }}
                     >
-                      {treat.description.text}
+                      {treat.description.text.replace(/\\n/g, ' ')}
                     </p>
                   )}
                   {treat.sizes && treat.sizes.length > 0 && (

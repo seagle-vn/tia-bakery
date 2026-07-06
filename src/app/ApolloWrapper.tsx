@@ -14,6 +14,7 @@ import React from 'react';
 
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { setVerbosity } from 'ts-invariant';
+import { GRAPHQL_ENDPOINT } from '@/lib/apollo-client';
 
 if (process.env.NODE_ENV === 'development') {
   setVerbosity('debug');
@@ -38,7 +39,7 @@ export function ApolloWrapper({
 
   function makeClient() {
     const httpLink = new HttpLink({
-      uri: 'https://api-ca-central-1.hygraph.com/v2/cljabf7co288y01t24ejkdc80/master',
+      uri: GRAPHQL_ENDPOINT,
       fetchOptions: { cache: 'no-store' },
     });
 
@@ -68,7 +69,42 @@ export function ApolloWrapper({
         : ApolloLink.from([delayLink, httpLink]);
 
     return new ApolloClient({
-      cache: new NextSSRInMemoryCache(),
+      cache: new NextSSRInMemoryCache({
+        dataIdFromObject(responseObject) {
+          // Don't normalize objects that look like Cloudinary assets
+          if (responseObject.__typename === 'Asset' ||
+              (responseObject.public_id && responseObject.url)) {
+            return undefined;
+          }
+          // Use default normalization for everything else
+          return `${responseObject.__typename}:${responseObject.id}`;
+        },
+        typePolicies: {
+          Product: {
+            fields: {
+              image: {
+                read(existing) {
+                  return existing;
+                },
+              },
+            },
+          },
+          Page: {
+            fields: {
+              heroBackground: {
+                read(existing) {
+                  return existing;
+                },
+              },
+              descriptionImage: {
+                read(existing) {
+                  return existing;
+                },
+              },
+            },
+          },
+        },
+      }),
       link,
     });
   }
