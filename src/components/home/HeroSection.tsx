@@ -1,8 +1,8 @@
 'use client';
 
+import { getOptimizedImage } from '@/lib/imageUtils';
 import { Image } from '@chakra-ui/next-js';
 import Link from 'next/link';
-import { getOptimizedImage } from '@/lib/imageUtils';
 
 interface HeroSectionProps {
   heroImage: string;

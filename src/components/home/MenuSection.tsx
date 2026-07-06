@@ -135,7 +135,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                   alt={cake.name}
                   width={672}
                   height={378}
-                  style={{ display: 'block', width: '100%', aspectRatio: '16/9', objectFit: 'cover' }}
+                  style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16/9', objectFit: 'cover' }}
                 />
                 <div
                   style={{
@@ -268,6 +268,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                   style={{
                     display: 'block',
                     width: '100%',
+                    height: 'auto',
                     aspectRatio: '16/9',
                     objectFit: 'cover',
                   }}
@@ -365,7 +366,6 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
           style={{
             marginLeft: 'calc(-1 * clamp(20px, 5vw, 56px))',
             marginRight: 'calc(-1 * clamp(20px, 5vw, 56px))',
-            background: 'linear-gradient(to bottom, #FBF6EC 0%, #F9F3E8 100%)',
             padding: 'clamp(40px, 6vw, 70px) clamp(20px, 5vw, 56px)',
           }}
         >
@@ -398,9 +398,9 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                     textAlign: 'center',
                   }}
                 >
-                  {cakeBuilder.title}
+                  {cakeBuilder?.title}
                 </h3>
-                {cakeBuilder.subtitle && (
+                {cakeBuilder?.subtitle && (
                   <p
                     style={{
                       fontSize: 'clamp(14px, 1.8vw, 16px)',
@@ -422,7 +422,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
                   }}
                   className="cake-builder-grid"
                 >
-                  {cakeBuilder.cakeTypes.map((cakeType) => (
+                  {cakeBuilder?.cakeTypes.map((cakeType) => (
                     <BuildYourCakeCard key={cakeType.id} cakeType={cakeType} />
                   ))}
                 </div>

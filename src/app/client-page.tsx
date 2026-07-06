@@ -1,7 +1,8 @@
 'use client';
 
 import { getCakeBuilderData } from '@/lib/cakeBuilderData';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { Box, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import AboutSection from '../components/home/AboutSection';

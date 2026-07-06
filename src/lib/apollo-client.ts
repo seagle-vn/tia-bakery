@@ -1,13 +1,11 @@
-import { ApolloClient, HttpLink } from '@apollo/client';
-import { NextSSRInMemoryCache } from '@apollo/experimental-nextjs-app-support/ssr';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
 export const GRAPHQL_ENDPOINT =
   'https://api-ca-central-1.hygraph.com/v2/cljabf7co288y01t24ejkdc80/master';
 
 export function createApolloClient() {
   return new ApolloClient({
-    uri: GRAPHQL_ENDPOINT,
-    cache: new NextSSRInMemoryCache({
+    cache: new InMemoryCache({
       dataIdFromObject(responseObject) {
         // Don't normalize objects that look like Cloudinary assets
         if (responseObject.__typename === 'Asset' ||

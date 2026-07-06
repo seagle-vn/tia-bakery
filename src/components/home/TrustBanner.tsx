@@ -8,11 +8,12 @@ export default function TrustBanner() {
     >
       <div
         style={{
-          maxWidth: '1160px',
+          maxWidth: '100%',
           margin: '0 auto',
           padding: '16px clamp(20px, 5vw, 56px)',
           display: 'flex',
-          gap: 'clamp(10px, 2.4vw, 48px)',
+          columnGap: 'clamp(10px, 2.4vw, 48px)',
+          rowGap: '12px',
           flexWrap: 'wrap',
           justifyContent: 'center',
           fontFamily: "'Cormorant Garamond', serif",

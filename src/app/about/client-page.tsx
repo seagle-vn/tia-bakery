@@ -1,5 +1,6 @@
 'use client';
-import { gql, useSuspenseQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client/react';
 import { Box, Center, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import { Resize } from '@cloudinary/url-gen/actions/resize';
 import { cld } from '../../constants/cloudinary';

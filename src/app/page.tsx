@@ -2,6 +2,8 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import HomeClientPage from './client-page';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   description:
     'Online Cake Shop in London Ontario. Birthday Cake, Custom Cake, Wedding Cakeand Special Occasion Cake',
