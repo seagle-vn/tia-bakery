@@ -1,8 +1,8 @@
 'use client';
 
+import { getOptimizedImage } from '@/lib/imageUtils';
 import { Image } from '@chakra-ui/next-js';
 import Link from 'next/link';
-import { getOptimizedImage } from '@/lib/imageUtils';
 
 interface Product {
   id: string;
@@ -81,7 +81,19 @@ export default function GallerySection({ categories }: GallerySectionProps) {
               textDecoration: 'none',
               color: '#DB6E93',
               fontWeight: 700,
-              fontSize: '15px',
+              fontSize: '17px',
+              transition: 'all 0.3s ease',
+              display: 'inline-block',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#C24D93';
+              e.currentTarget.style.transform = 'translateX(4px)';
+              e.currentTarget.style.textDecoration = 'underline';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#DB6E93';
+              e.currentTarget.style.transform = 'translateX(0)';
+              e.currentTarget.style.textDecoration = 'none';
             }}
           >
             Start your order →
@@ -129,8 +141,20 @@ function CategoryGallery({ category }: { category: Category }) {
             textDecoration: 'none',
             color: '#DB6E93',
             fontWeight: 700,
-            fontSize: '14px',
+            fontSize: '15px',
             whiteSpace: 'nowrap',
+            transition: 'all 0.3s ease',
+            display: 'inline-block',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#C24D93';
+            e.currentTarget.style.transform = 'translateX(4px)';
+            e.currentTarget.style.textDecoration = 'underline';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = '#DB6E93';
+            e.currentTarget.style.transform = 'translateX(0)';
+            e.currentTarget.style.textDecoration = 'none';
           }}
         >
           See all →

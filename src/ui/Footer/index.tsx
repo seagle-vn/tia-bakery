@@ -181,8 +181,20 @@ export function Footer() {
               style={{
                 color: '#DB6E93',
                 textDecoration: 'none',
-                fontSize: '15px',
+                fontSize: '16px',
                 fontWeight: 700,
+                transition: 'all 0.3s ease',
+                display: 'inline-block',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#C24D93';
+                e.currentTarget.style.transform = 'translateX(4px)';
+                e.currentTarget.style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#DB6E93';
+                e.currentTarget.style.transform = 'translateX(0)';
+                e.currentTarget.style.textDecoration = 'none';
               }}
             >
               Order your cake →

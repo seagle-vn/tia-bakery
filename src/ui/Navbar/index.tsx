@@ -55,10 +55,10 @@ export const Navbar: FunctionComponent = () => {
           bg='#41B9D2'
           color='white'
           borderRadius='999px'
-          fontSize='14px'
+          fontSize='15px'
           fontWeight={700}
-          px='20px'
-          py='12px'
+          px='24px'
+          py='13px'
           h='auto'
           my='8px'
           boxShadow='0 8px 18px -8px rgba(65, 185, 210, 0.9)'

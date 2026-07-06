@@ -41,6 +41,9 @@ const query = gql`
     aboutPage: page(where: { slug: "about" }) {
       id
       descriptionImage
+      description {
+        html
+      }
     }
 
     products(where: { isFeaturedProduct: true }, first: 20) {
@@ -195,7 +198,10 @@ export default function HomeClientPage() {
 
       <GallerySection categories={categories || []} />
 
-      <AboutSection aboutImage={aboutPage?.descriptionImage?.public_id} />
+      <AboutSection
+        aboutImage={aboutPage?.descriptionImage?.public_id}
+        aboutDescriptionHtml={aboutPage?.description?.html}
+      />
 
       <WatchSection />
 

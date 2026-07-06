@@ -84,6 +84,18 @@ export default function HeroSection({
                 fontSize: '16px',
                 fontWeight: 700,
                 boxShadow: '0 10px 22px -10px rgba(65, 185, 210, 0.9)',
+                transition: 'all 0.2s ease',
+                display: 'inline-block',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#2E9FBE';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 15px 30px -15px rgba(65, 185, 210, 0.95)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#41B9D2';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 10px 22px -10px rgba(65, 185, 210, 0.9)';
               }}
             >
               Order Your Cake
@@ -99,6 +111,22 @@ export default function HeroSection({
                 fontSize: '16px',
                 fontWeight: 700,
                 border: '1.5px solid #F1B9C6',
+                transition: 'all 0.2s ease',
+                display: 'inline-block',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#FBE3EC';
+                e.currentTarget.style.color = '#C24D93';
+                e.currentTarget.style.borderColor = '#DB6E93';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 10px 22px -10px rgba(219, 110, 147, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#DB6E93';
+                e.currentTarget.style.borderColor = '#F1B9C6';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
               }}
             >
               Browse the Menu

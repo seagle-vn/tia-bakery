@@ -102,6 +102,14 @@ export default function QuoteSection() {
     }));
   };
 
+  const isFormValid = () => {
+    return (
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.phone.trim() !== ''
+    );
+  };
+
   const handleInspirationPhoto = async (file?: File) => {
     setInspirationPhotoError('');
 
@@ -650,7 +658,7 @@ export default function QuoteSection() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isFormValid()}
                   style={{
                     width: '100%',
                     padding: '14px 24px',
@@ -660,8 +668,24 @@ export default function QuoteSection() {
                     color: 'white',
                     fontSize: '16px',
                     fontWeight: 700,
-                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                    opacity: isSubmitting ? 0.7 : 1,
+                    cursor: (isSubmitting || !isFormValid()) ? 'not-allowed' : 'pointer',
+                    opacity: (isSubmitting || !isFormValid()) ? 0.5 : 1,
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 8px 18px -8px rgba(65, 185, 210, 0.9)',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting && isFormValid()) {
+                      e.currentTarget.style.background = '#2E9FBE';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 12px 24px -12px rgba(65, 185, 210, 0.95)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSubmitting && isFormValid()) {
+                      e.currentTarget.style.background = '#41B9D2';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 8px 18px -8px rgba(65, 185, 210, 0.9)';
+                    }
                   }}
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit Request'}

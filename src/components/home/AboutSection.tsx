@@ -2,17 +2,22 @@
 
 import { getOptimizedImage } from '@/lib/imageUtils';
 import { Image } from '@chakra-ui/next-js';
+import { decode } from 'he';
 
 interface AboutSectionProps {
   aboutImage?: string;
+  aboutDescriptionHtml?: string;
 }
 
-export default function AboutSection({ aboutImage }: AboutSectionProps) {
+export default function AboutSection({ aboutImage, aboutDescriptionHtml }: AboutSectionProps) {
   // You can replace this with your baker's image URL
   const defaultImage = '/new_logo.png';
   const optimizedImage = aboutImage
     ? getOptimizedImage(aboutImage, 600, 900)
     : defaultImage;
+  const fallbackDescription = `Tia Bakery is a home-based cake studio in London, Ontario, creating custom cakes for weddings, birthdays, and every celebration in between. Every order is made fresh to design — no two cakes alike.`;
+  const fallbackDescriptionTwo = `From delicate sponge cakes with whipping cream to rich golden buttercream creations, cupcakes, bouquets, and bento cakes — I&apos;d love to bring your vision to life with care and attention to detail.`;
+  const descriptionHtml = aboutDescriptionHtml ? decode(aboutDescriptionHtml) : '';
 
   return (
     <section
@@ -81,30 +86,40 @@ export default function AboutSection({ aboutImage }: AboutSectionProps) {
           >
             Every cake starts with your story
           </h2>
-          <p
-            style={{
-              fontSize: '16.5px',
-              lineHeight: 1.7,
-              color: '#7E6B62',
-              margin: '0 0 16px',
-            }}
-          >
-            Tia Bakery is a home-based cake studio in London, Ontario, creating custom cakes for
-            weddings, birthdays, and every celebration in between. Every order is made fresh to
-            design — no two cakes alike.
-          </p>
-          <p
-            style={{
-              fontSize: '16.5px',
-              lineHeight: 1.7,
-              color: '#7E6B62',
-              margin: '0 0 26px',
-            }}
-          >
-            From delicate sponge cakes with whipping cream to rich golden buttercream creations,
-            cupcakes, bouquets, and bento cakes — I&apos;d love to bring your vision to life with care
-            and attention to detail.
-          </p>
+          {aboutDescriptionHtml ? (
+            <div
+              style={{
+                fontSize: '16.5px',
+                lineHeight: 1.7,
+                color: '#7E6B62',
+                margin: '0 0 26px',
+              }}
+              dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+            />
+          ) : (
+            <>
+              <p
+                style={{
+                  fontSize: '16.5px',
+                  lineHeight: 1.7,
+                  color: '#7E6B62',
+                  margin: '0 0 16px',
+                }}
+              >
+                {fallbackDescription}
+              </p>
+              <p
+                style={{
+                  fontSize: '16.5px',
+                  lineHeight: 1.7,
+                  color: '#7E6B62',
+                  margin: '0 0 26px',
+                }}
+              >
+                {fallbackDescriptionTwo}
+              </p>
+            </>
+          )}
 
           {/* Stats */}
           <div style={{ display: 'flex', gap: 'clamp(20px, 4vw, 44px)', flexWrap: 'wrap' }}>
