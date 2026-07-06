@@ -366,7 +366,6 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
           style={{
             marginLeft: 'calc(-1 * clamp(20px, 5vw, 56px))',
             marginRight: 'calc(-1 * clamp(20px, 5vw, 56px))',
-            background: 'linear-gradient(to bottom, #FBF6EC 0%, #F9F3E8 100%)',
             padding: 'clamp(40px, 6vw, 70px) clamp(20px, 5vw, 56px)',
           }}
         >

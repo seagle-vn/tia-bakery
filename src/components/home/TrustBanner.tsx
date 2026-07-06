@@ -8,7 +8,7 @@ export default function TrustBanner() {
     >
       <div
         style={{
-          maxWidth: '1160px',
+          maxWidth: '100%',
           margin: '0 auto',
           padding: '16px clamp(20px, 5vw, 56px)',
           display: 'flex',
