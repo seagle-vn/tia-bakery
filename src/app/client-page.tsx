@@ -57,6 +57,7 @@ const query = gql`
       }
       isFeaturedProduct
       sizes {
+        id
         name
         price
       }
@@ -66,6 +67,7 @@ const query = gql`
       id
       category
       question {
+        id
         question
         answer
       }
@@ -146,7 +148,6 @@ export default function HomeClientPage() {
   }
 
   const { page, categories, products, faqs, aboutPage } = data as any;
-  console.log({data})
 
   if (!page || !page.heroBackground) {
     return (

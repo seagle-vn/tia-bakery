@@ -22,30 +22,25 @@ export async function POST(request: NextRequest) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.SHEET_ID as string,
-      range: 'A2:O2',
+      range: 'A2:J2',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [
           [
-            body.name,
-            body.phone,
-            body.address,
-            body.city,
-            body.postal_code,
-            eventDate ? formatDate(eventDate) : '',
-            notes,
-            body.whenToPay,
-            body.paymentMethod,
-            body.total,
-            JSON.stringify(
+            body.name,                                // Column A - Name
+            body.phone,                               // Column B - Phone
+            eventDate ? formatDate(eventDate) : '',   // Column C - Event date
+            notes,                                    // Column D - Notes/Details
+            body.total,                               // Column E - Total
+            JSON.stringify(                           // Column F - Products (JSON)
               products,
               null,
               4
             ),
-            'FALSE',
-            formatDate(new Date().toISOString()),
-            body.email || '',
-            body.inspirationPhoto?.dataUrl || '',
+            formatDate(new Date().toISOString()),     // Column G - Order date
+            body.email || '',                         // Column H - Email
+            '',                                       // Column I - Email sent status (added by script)
+            body.inspirationPhoto?.dataUrl || '',     // Column J - Base64 image
           ],
         ],
       },
