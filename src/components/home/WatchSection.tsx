@@ -16,15 +16,18 @@ const STORE_VIDEOS_QUERY = gql`
 const extractYouTubeId = (url: string): string => {
   if (!url) return '';
 
-  // Handle different YouTube URL formats
+  // Handle different YouTube URL formats including Shorts
   const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s]+)/,
+    /(?:youtube\.com\/watch\?v=)([^&\s]+)/, // Standard watch URL
+    /(?:youtu\.be\/)([^&\s]+)/, // Short URL
+    /(?:youtube\.com\/embed\/)([^&\s]+)/, // Embed URL
+    /(?:youtube\.com\/shorts\/)([^&\s]+)/, // Shorts URL
     /^([a-zA-Z0-9_-]{11})$/, // Direct video ID
   ];
 
   for (const pattern of patterns) {
     const match = url.match(pattern);
-    if (match) return match[1];
+    if (match && match[1]) return match[1];
   }
 
   return url; // Return as-is if no pattern matches
