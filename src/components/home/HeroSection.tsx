@@ -135,7 +135,14 @@ export default function HeroSection({
         </div>
 
         {/* Right Column - Image */}
-        <div style={{ animation: 'tiaUp 0.9s ease both' }}>
+        <div
+          style={{
+            animation: 'tiaUp 0.9s ease both',
+            borderRadius: '26px',
+            overflow: 'hidden',
+            boxShadow: '0 24px 60px -28px rgba(150, 90, 110, 0.55)',
+          }}
+        >
           <Image
             src={optimizedImage}
             alt="Signature cake"
@@ -146,8 +153,6 @@ export default function HeroSection({
               width: '100%',
               height: 'auto',
               aspectRatio: '3/2',
-              borderRadius: '26px',
-              boxShadow: '0 24px 60px -28px rgba(150, 90, 110, 0.55)',
               objectFit: 'cover',
             }}
             priority
