@@ -43,7 +43,7 @@ export default function RootLayout({
       <Suspense fallback={null}>
         <GoogleAnalytics GA_MEASUREMENT_ID='G-RX9QSRTKV2' />
       </Suspense>
-      <body>
+      <body suppressHydrationWarning>
         <ApolloWrapper delay={1000}>
           <CartProvider>
             <ClientLayout>{children}</ClientLayout>

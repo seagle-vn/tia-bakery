@@ -72,8 +72,8 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
       <Image
         height={490}
         width={420}
-        borderRadius={{ base: '1rem', md: 'none' }}
-        src={product.image.url}
+        borderRadius="22px"
+        src={url}
         alt={product.name}
       />
       <Box>
@@ -84,7 +84,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
           {/* <Text fontSize='lg' fontWeight={600}>
             {price.toFixed(2)} CA$
           </Text> */}
-          <Box
+           <Box
             dangerouslySetInnerHTML={{ __html: product.description.html }}
             mt={{ base: '1rem', md: '3rem' }}
             maxW={{ base: '100%', md: '80%' }}

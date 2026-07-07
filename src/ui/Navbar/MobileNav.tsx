@@ -1,12 +1,22 @@
 import { Link } from '@chakra-ui/next-js';
 import { Box, Stack, Text } from '@chakra-ui/react';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const MobileNav = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const handleSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
     targetId: string
   ) => {
     e.preventDefault();
+
+    if (pathname !== '/') {
+      router.push(`/${targetId}`);
+      return;
+    }
+
     const element = document.querySelector(targetId);
     if (element) {
       const headerOffset = 80;

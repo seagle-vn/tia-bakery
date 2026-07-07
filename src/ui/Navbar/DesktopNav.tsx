@@ -1,5 +1,6 @@
 import { FunctionComponent, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { BsCart3 } from 'react-icons/bs';
 import { useCart } from 'react-use-cart';
 
@@ -8,9 +9,17 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
 }) => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const { totalItems } = useCart();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
+
+    if (pathname !== '/') {
+      router.push(`/${targetId}`);
+      return;
+    }
+
     const element = document.querySelector(targetId);
     if (element) {
       const headerOffset = 100;
@@ -172,9 +181,15 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
 
           {/* CTA Button */}
           <a
-            href="#quote"
+            href={pathname === '/' ? '#quote' : '/#quote'}
             onClick={(e) => {
               e.preventDefault();
+
+              if (pathname !== '/') {
+                router.push('/#quote');
+                return;
+              }
+
               const element = document.querySelector('#quote');
               if (element) {
                 const headerOffset = 100;

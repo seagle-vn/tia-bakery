@@ -11,9 +11,9 @@ import {
 import { SSRMultipartLink } from '@apollo/client-react-streaming';
 import React from 'react';
 
+import { GRAPHQL_ENDPOINT } from '@/lib/apollo-client';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { setVerbosity } from 'ts-invariant';
-import { GRAPHQL_ENDPOINT } from '@/lib/apollo-client';
 
 if (process.env.NODE_ENV === 'development') {
   setVerbosity('debug');
@@ -72,6 +72,10 @@ export function ApolloWrapper({
           // Don't normalize objects that look like Cloudinary assets
           if (responseObject.__typename === 'Asset' ||
               (responseObject.public_id && responseObject.url)) {
+            return undefined;
+          }
+          // Don't normalize RichText objects (keep them embedded in their parent)
+          if (responseObject.__typename === 'RichText') {
             return undefined;
           }
           // Use default normalization for everything else

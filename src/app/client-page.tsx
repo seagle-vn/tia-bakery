@@ -172,6 +172,7 @@ export default function HomeClientPage() {
   }
 
   // Prepare products with category information
+  console.log('Products:', products);
   const productsWithCategories = (products || []).map((product: any) => ({
     ...product,
     // Determine category based on product name
