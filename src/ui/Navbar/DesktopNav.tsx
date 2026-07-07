@@ -78,31 +78,29 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
         `}</style>
 
         {/* Left - Logo & Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
-            <div
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <div
+            style={{
+              width: '52px',
+              height: '52px',
+              borderRadius: '50%',
+              overflow: 'hidden',
+              background: '#41B9D2',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <img
+              src="/new_logo.png"
+              alt="Tia Bakery Logo"
               style={{
-                width: '52px',
-                height: '52px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-                background: '#41B9D2',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
               }}
-            >
-              <img
-                src="/new_logo.png"
-                alt="Tia Bakery Logo"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                }}
-              />
-            </div>
-          </Link>
+            />
+          </div>
           <span
             style={{
               fontFamily: "'Cormorant Garamond', serif",
@@ -114,7 +112,7 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
           >
             Tia Bakery
           </span>
-        </div>
+        </Link>
 
         {/* Center & Right - Navigation Links */}
         <div style={{ display: 'flex', gap: '40px', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
