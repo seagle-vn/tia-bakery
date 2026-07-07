@@ -1,66 +1,10 @@
-import { gql, useSuspenseQuery } from '@apollo/client';
-import { Link } from '@chakra-ui/next-js';
-import {
-  Box,
-  Container,
-  Flex,
-  Stack,
-  Text,
-  VStack,
-  VisuallyHidden,
-  chakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { ReactNode } from 'react';
+'use client';
+
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
+import Image from 'next/image';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
-
-const SocialButton = ({
-  children,
-  label,
-  href,
-}: {
-  children: ReactNode;
-  label: string;
-  href: string;
-}) => {
-  return (
-    <chakra.button
-      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-      rounded={'full'}
-      w={8}
-      h={8}
-      cursor={'pointer'}
-      as={'a'}
-      href={href}
-      display={'inline-flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      transition={'background 0.3s ease'}
-      _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-      }}
-      target='_blank'
-    >
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
-  );
-};
-
-const ListHeader = ({ children }: { children: ReactNode }) => {
-  return (
-    <Text
-      fontFamily='poppins'
-      fontWeight={'600'}
-      textTransform='uppercase'
-      letterSpacing={1}
-      fontSize={'2rem'}
-      mb={2}
-    >
-      {children}
-    </Text>
-  );
-};
+import { usePathname, useRouter } from 'next/navigation';
 
 const query = gql`
   query StoreQuery {
@@ -69,115 +13,237 @@ const query = gql`
       facebook
       address
       instagram
-      openTime1
-      openTime2
       phone
       youtube
       videoUrl
+      videoUrl2
+      videoUrl3
     }
   }
 `;
 
 export function Footer() {
-  const { data } = useSuspenseQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     fetchPolicy: 'cache-first',
   });
+  const pathname = usePathname();
+  const router = useRouter();
+
+  if (loading) return null;
+  if (error) return null;
 
   const { store } = data as any;
-  console.log('Store data:', store);
-  return (
-    <VStack pb='1rem' backgroundColor='#FBD4D7'>
-      <Container as={Stack} maxW={'80%'} py={10}>
-        <Flex
-          direction={{ base: 'column', md: 'row' }}
-          w='100%'
-          justifyContent='space-between'
-          gap={8}
-        >
-          <Stack alignItems={{ base: 'start', md: 'center' }} spacing={6}>
-            <Box
-              borderRadius='50%'
-              width={{ base: '13rem', md: '15rem' }}
-              height={{ base: '13rem', md: '15rem' }}
-              display='flex'
-              alignItems='center'
-              justifyContent='center'
-              marginLeft={{ base: '-2.5rem', md: '0' }}
-            >
-              <img
-                src='/new_logo.png'
-                alt='Logo'
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                  mixBlendMode: 'multiply',
-                  filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
-                  borderRadius: '50%',
-                }}
-              />
-            </Box>
 
-            <Stack direction={'row'} spacing={6}>
-              <SocialButton label={'Twitter'} href={store.facebook}>
-                <FaFacebook />
-              </SocialButton>
-              <SocialButton label={'YouTube'} href={store.youtube}>
-                <FaYoutube />
-              </SocialButton>
-              <SocialButton label={'Instagram'} href={store.instagram}>
-                <FaInstagram />
-              </SocialButton>
-            </Stack>
-          </Stack>
-          <Stack fontFamily='poppins' mt='1rem' align='flex-start'>
-            <ListHeader>Contact me</ListHeader>
-            <Text fontSize={'lg'}>{store.address}</Text>
-            <Text fontSize={'lg'}>{store.phone}</Text>
-            <Text _hover={{ textDecoration: 'underline' }} fontSize={'lg'}>
-              <a href={`mailto:${store.email}`}>{store.email}</a>
-            </Text>
-          </Stack>
-          <Stack
-            fontFamily='poppins'
-            mt='1rem'
-            align={{ base: 'flex-start', md: 'flex-end' }}
-          >
-            <ListHeader>Watch My Story</ListHeader>
-            <Box
-              width={{ base: '280px', md: '320px' }}
-              height={{ base: '157px', md: '180px' }}
-              borderRadius='8px'
-              overflow='hidden'
-              boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)'
-            >
-              <iframe
-                width='100%'
-                height='100%'
-                src={store.videoUrl ? store.videoUrl.replace('watch?v=', 'embed/') : 'https://www.youtube.com/embed/BPLO7ZEYbAI'}
-                title='Tia Bakery Story'
-                frameBorder='0'
-                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                allowFullScreen
-                style={{
-                  border: 'none',
-                  borderRadius: '8px',
-                }}
-              />
-            </Box>
-          </Stack>
-        </Flex>
-      </Container>
-      <Text fontSize='14px' color='#6b7280'>
-        This website is made by{' '}
-        <Link
-          textDecor='underline'
-          target='_blank'
-          href='https://portfolio-seagle.vercel.app/'
+  return (
+    <footer style={{ background: '#F9D7DC', padding: 'clamp(48px, 6vw, 72px) clamp(20px, 5vw, 56px) clamp(32px, 4vw, 48px)' }}>
+      <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+        {/* Main Content - 3 Columns */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 'clamp(28px, 5vw, 64px)',
+            alignItems: 'start',
+            marginBottom: 'clamp(32px, 4vw, 48px)',
+          }}
         >
-          seagle
-        </Link>
-      </Text>
-    </VStack>
+          {/* Left Column - Logo & Tagline */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <div
+                style={{
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  background: '#41B9D2',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <Image src="/new_logo.png" alt="Tia Bakery Logo" width={52} height={52} style={{ objectFit: 'cover' }} />
+              </div>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: '30px',
+                  fontWeight: 600,
+                  color: '#2E9FBE',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Tia Bakery
+              </span>
+            </div>
+            <p style={{ fontSize: '15px', color: '#7E6B62', lineHeight: 1.6, margin: 0 }}>
+              Custom cakes crafted with love in London, Ontario — one celebration at a time.
+            </p>
+          </div>
+
+          {/* Center Column - Contact */}
+          <div>
+            <p
+              style={{
+                fontSize: '13px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                color: '#41B9D2',
+                marginBottom: '16px',
+              }}
+            >
+              CONTACT ME
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <a
+                href={`tel:${store.phone.replace(/\s/g, '')}`}
+                style={{ color: '#7E6B62', textDecoration: 'none', fontSize: '15px' }}
+              >
+                {store.phone}
+              </a>
+              <a href={`mailto:${store.email}`} style={{ color: '#7E6B62', textDecoration: 'none', fontSize: '15px' }}>
+                {store.email}
+              </a>
+              <p style={{ fontSize: '15px', color: '#7E6B62', margin: 0 }}>{store.address}</p>
+            </div>
+          </div>
+
+          {/* Right Column - Social & CTA */}
+          <div>
+            <p
+              style={{
+                fontSize: '13px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                color: '#41B9D2',
+                marginBottom: '16px',
+              }}
+            >
+              FOLLOW ALONG
+            </p>
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+              <a
+                href={store.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  background: '#41B9D2',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                <FaFacebook size={22} />
+              </a>
+              <a
+                href={store.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  background: '#41B9D2',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                <FaInstagram size={22} />
+              </a>
+              <a
+                href={store.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  background: '#41B9D2',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                <FaYoutube size={22} />
+              </a>
+            </div>
+            <a
+              href="#quote"
+              onClick={(e) => {
+                e.preventDefault();
+
+                if (pathname !== '/') {
+                  router.push('/#quote');
+                  return;
+                }
+
+                const element = document.querySelector('#quote');
+                if (element) {
+                  const headerOffset = 100;
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                  window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+              }}
+              style={{
+                color: '#DB6E93',
+                textDecoration: 'none',
+                fontSize: '16px',
+                fontWeight: 700,
+                transition: 'all 0.3s ease',
+                display: 'inline-block',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#C24D93';
+                e.currentTarget.style.transform = 'translateX(4px)';
+                e.currentTarget.style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#DB6E93';
+                e.currentTarget.style.transform = 'translateX(0)';
+                e.currentTarget.style.textDecoration = 'none';
+              }}
+            >
+              Order your cake →
+            </a>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div
+          style={{
+            borderTop: '1px solid #F0DDE2',
+            paddingTop: '20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '12px',
+          }}
+        >
+          <p style={{ fontSize: '13px', color: '#8A776E', margin: 0 }}>
+            © {new Date().getFullYear()} Tia Bakery. All rights reserved.
+          </p>
+          <p style={{ fontSize: '13px', color: '#8A776E', margin: 0 }}>Made with love in London, Ontario</p>
+        </div>
+      </div>
+    </footer>
   );
 }

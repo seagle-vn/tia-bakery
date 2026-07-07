@@ -1,17 +1,17 @@
 'use client';
 import {
-  ApolloClient,
   ApolloLink,
   HttpLink,
-  SuspenseCache,
 } from '@apollo/client';
 import {
+  ApolloClient,
   ApolloNextAppProvider,
-  NextSSRInMemoryCache,
-  SSRMultipartLink,
-} from '@apollo/experimental-nextjs-app-support/ssr';
+  InMemoryCache,
+} from '@apollo/client-integration-nextjs';
+import { SSRMultipartLink } from '@apollo/client-react-streaming';
 import React from 'react';
 
+import { GRAPHQL_ENDPOINT } from '@/lib/apollo-client';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { setVerbosity } from 'ts-invariant';
 
@@ -30,7 +30,6 @@ export function ApolloWrapper({
   return (
     <ApolloNextAppProvider
       makeClient={makeClient}
-      makeSuspenseCache={makeSuspenseCache}
     >
       {children}
     </ApolloNextAppProvider>
@@ -38,7 +37,7 @@ export function ApolloWrapper({
 
   function makeClient() {
     const httpLink = new HttpLink({
-      uri: 'https://api-ca-central-1.hygraph.com/v2/cljabf7co288y01t24ejkdc80/master',
+      uri: GRAPHQL_ENDPOINT,
       fetchOptions: { cache: 'no-store' },
     });
 
@@ -68,12 +67,47 @@ export function ApolloWrapper({
         : ApolloLink.from([delayLink, httpLink]);
 
     return new ApolloClient({
-      cache: new NextSSRInMemoryCache(),
+      cache: new InMemoryCache({
+        dataIdFromObject(responseObject) {
+          // Don't normalize objects that look like Cloudinary assets
+          if (responseObject.__typename === 'Asset' ||
+              (responseObject.public_id && responseObject.url)) {
+            return undefined;
+          }
+          // Don't normalize RichText objects (keep them embedded in their parent)
+          if (responseObject.__typename === 'RichText') {
+            return undefined;
+          }
+          // Use default normalization for everything else
+          return `${responseObject.__typename}:${responseObject.id}`;
+        },
+        typePolicies: {
+          Product: {
+            fields: {
+              image: {
+                read(existing) {
+                  return existing;
+                },
+              },
+            },
+          },
+          Page: {
+            fields: {
+              heroBackground: {
+                read(existing) {
+                  return existing;
+                },
+              },
+              descriptionImage: {
+                read(existing) {
+                  return existing;
+                },
+              },
+            },
+          },
+        },
+      }),
       link,
     });
-  }
-
-  function makeSuspenseCache() {
-    return new SuspenseCache();
   }
 }

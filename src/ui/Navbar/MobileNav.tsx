@@ -1,113 +1,115 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Link } from '@chakra-ui/next-js';
-import {
-  Collapse,
-  Flex,
-  Icon,
-  Stack,
-  Text,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Stack, Text } from '@chakra-ui/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export const MobileNav = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const targetId = window.location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(targetId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [pathname]);
+
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
+
+    if (pathname !== '/') {
+      router.push(`/${targetId}`);
+      return;
+    }
+
+    const element = document.querySelector(targetId);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <Stack
-      bg={useColorModeValue('white', 'gray.800')}
+      bg='bg.primary'
       p={4}
       display={{ md: 'none' }}
+      spacing={2}
+      borderBottom='1px solid'
+      borderColor='border.light'
     >
       {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
+        <Box key={navItem.label}>
+          <Link
+            href={navItem.href}
+            onClick={(e) => handleSmoothScroll(e, navItem.href)}
+            display='block'
+            py={3}
+            px={4}
+            borderRadius='md'
+            _hover={{
+              bg: 'bg.card',
+              textDecoration: 'none',
+            }}
+            _active={{
+              bg: 'pink.50',
+            }}
+          >
+            <Text fontWeight={500} color='text.dark' fontSize='16px'>
+              {navItem.label}
+            </Text>
+          </Link>
+        </Box>
       ))}
-    </Stack>
-  );
-};
-
-const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}
-        >
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}
-        >
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href ?? '/'}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse>
     </Stack>
   );
 };
 
 interface NavItem {
   label: string;
-  subLabel?: string;
-  children?: Array<NavItem>;
-  href?: string;
+  href: string;
 }
 
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: 'Home',
-    href: '/',
+    href: '#hero',
   },
   {
     label: 'Gallery',
-    href: '/shop',
+    href: '#gallery',
+  },
+  {
+    label: 'Menu',
+    href: '#menu',
   },
   {
     label: 'About',
-    href: '/about',
-  },
-  {
-    label: 'Sharing',
-    href: '/sharing',
+    href: '#about',
   },
   {
     label: 'FAQ',
-    href: '/faq',
+    href: '#faq',
   },
-
-  //   {
-  //     label: 'Hire Designers',
-  //     href: '#',
-  //   },
+  {
+    label: 'Contact',
+    href: '#quote',
+  },
 ];

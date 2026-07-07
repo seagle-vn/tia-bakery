@@ -1,6 +1,8 @@
 'use client';
 
-import { gql, useSuspenseQuery } from '@apollo/client';
+import { use } from 'react';
+import { gql } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client/react';
 import { Link } from '@chakra-ui/next-js';
 import {
   Avatar,
@@ -32,10 +34,12 @@ const query = gql`
 `;
 
 export default function BlogPostPage({
-  params: { slug },
+  params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = use(params);
+
   const { data } = useSuspenseQuery(query, {
     fetchPolicy: 'cache-first',
     variables: { slug },

@@ -1,32 +1,7 @@
-'use client';
+import CheckoutClientPage from './client-page';
 
-import { Box, SimpleGrid } from '@chakra-ui/react';
-import { CheckoutForm } from './Form';
-import { OrderDetails } from './OrderDetails';
+export const dynamic = 'force-dynamic';
 
 export default function CheckoutPage() {
-  return (
-    <Box
-      _dark={{
-        bg: '#111',
-      }}
-      px='10%'
-      py='4rem'
-    >
-      <Box shadow='lg' rounded='md' bg='gray.50' mt={[10, 0]}>
-        <SimpleGrid
-          display={{
-            base: 'initial',
-            md: 'grid',
-          }}
-          columns={{
-            md: 3,
-          }}
-        >
-          <CheckoutForm />
-          <OrderDetails />
-        </SimpleGrid>
-      </Box>
-    </Box>
-  );
+  return <CheckoutClientPage />;
 }

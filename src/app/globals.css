@@ -1,0 +1,311 @@
+/* ============================================
+   TIA BAKERY DESIGN SYSTEM
+   ============================================ */
+
+/* CSS Custom Properties - Color Palette */
+:root {
+  /* Background Colors */
+  --bg-primary: #FBF6EC;
+  --bg-secondary: #F9D7DC;
+  --bg-card: #FCF8EF;
+
+  /* Brand Colors - Blue/Teal */
+  --blue-primary: #41B9D2;
+  --blue-secondary: #2E9FBE;
+
+  /* Brand Colors - Pink/Rose */
+  --pink-primary: #DB6E93;
+  --pink-secondary: #C24D93;
+  --pink-light: #FBE3EC;
+
+  /* Text Colors */
+  --text-dark: #4A3B36;
+  --text-white: #FFFFFF;
+
+  /* Border Colors */
+  --border-light: #F0DDE2;
+  --border-medium: #F3DCE3;
+  --border-pink: #C24D93;
+
+  /* Shadow */
+  --shadow-sm: 0 2px 8px rgba(74, 59, 54, 0.08);
+  --shadow-md: 0 4px 16px rgba(74, 59, 54, 0.12);
+  --shadow-lg: 0 8px 24px rgba(74, 59, 54, 0.16);
+
+  /* Spacing - Fluid responsive values */
+  --spacing-xs: clamp(0.5rem, 1vw, 0.75rem);
+  --spacing-sm: clamp(0.75rem, 1.5vw, 1rem);
+  --spacing-md: clamp(1rem, 2vw, 1.5rem);
+  --spacing-lg: clamp(1.5rem, 3vw, 2rem);
+  --spacing-xl: clamp(2rem, 4vw, 3rem);
+  --spacing-2xl: clamp(3rem, 6vw, 5rem);
+
+  /* Border Radius */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* Typography - Fluid sizing */
+  --text-xs: clamp(0.75rem, 1vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 1.2vw, 1rem);
+  --text-base: clamp(1rem, 1.5vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1.8vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 2vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 2.5vw, 2rem);
+  --text-3xl: clamp(2rem, 3.5vw, 3rem);
+  --text-4xl: clamp(2.5rem, 4.5vw, 4rem);
+  --text-5xl: clamp(3rem, 6vw, 5rem);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for sticky header */
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes tiaUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-tia-up {
+  animation: tiaUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+/* Stagger delays for sequential animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Initial state for animated elements */
+.animate-tia-up,
+.animate-fade-in,
+.animate-slide-left,
+.animate-slide-right {
+  opacity: 0;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.container-narrow {
+  max-width: 1200px;
+}
+
+.container-tight {
+  max-width: 820px;
+}
+
+/* Smooth scroll snap for galleries */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-snap-item {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Aspect ratio utilities */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-16-10 {
+  aspect-ratio: 16 / 10;
+}
+
+.aspect-4-5 {
+  aspect-ratio: 4 / 5;
+}
+
+.aspect-9-16 {
+  aspect-ratio: 9 / 16;
+}
+
+/* Text utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Backdrop blur for sticky header */
+.backdrop-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--blue-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Mobile: < 768px (default) */
+/* Tablet: 768px - 1024px */
+/* Desktop: > 1024px */
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 100px;
+  }
+}
+
+/* ============================================
+   THIRD-PARTY OVERRIDES
+   ============================================ */
+
+/* Lightbox overrides */
+.yarl__container {
+  background-color: rgba(74, 59, 54, 0.95);
+}
+
+.yarl__button {
+  color: var(--text-white);
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   CAKE BUILDER RESPONSIVE
+   ============================================ */
+
+/* Stack cards vertically on tablet and mobile */
+@media (max-width: 1024px) {
+  .cake-builder-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Stack columns inside cards on mobile */
+@media (max-width: 768px) {
+  .cake-builder-columns {
+    grid-template-columns: 1fr !important;
+    gap: clamp(20px, 2.5vw, 28px) !important;
+  }
+
+  .about-section-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .baker-image-container {
+    max-width: 360px !important;
+    margin: 0 auto !important;
+  }
+
+  .baker-image-container img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}

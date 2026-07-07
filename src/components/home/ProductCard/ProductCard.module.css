@@ -13,6 +13,7 @@
   background-position: center;
   transition: transform 500ms ease;
   height: 100%;
+  width: auto;
   position: absolute;
   top: 0rem;
   right: 0rem;

@@ -16,41 +16,31 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
+    const products = getProducts(body);
+    const eventDate = body.date || body.eventDate || '';
+    const notes = body.notes || body.details || '';
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.SHEET_ID as string,
-      range: 'A2:N2',
+      range: 'A2:J2',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [
           [
-            body.name,
-            body.phone,
-            body.address,
-            body.city,
-            body.postal_code,
-            formatDate(body.date),
-            body.notes,
-            body.whenToPay,
-            body.paymentMethod,
-            body.total,
-            JSON.stringify(
-              body.products.map(
-                ({ name, price, size, quantity, itemTotal, product_url }: any) => ({
-                  name,
-                  price,
-                  size,
-                  quantity,
-                  itemTotal,
-                  product_url,
-                })
-              ),
+            body.name,                                // Column A - Name
+            body.phone,                               // Column B - Phone
+            eventDate ? formatDate(eventDate) : '',   // Column C - Event date
+            notes,                                    // Column D - Notes/Details
+            body.total,                               // Column E - Total
+            JSON.stringify(                           // Column F - Products (JSON)
+              products,
               null,
               4
             ),
-            'FALSE',
-            formatDate(new Date().toISOString()),
-            body.email || '',
+            formatDate(new Date().toISOString()),     // Column G - Order date
+            body.email || '',                         // Column H - Email
+            '',                                       // Column I - Email sent status (added by script)
+            body.inspirationPhoto?.dataUrl || '',     // Column J - Base64 image
           ],
         ],
       },
@@ -74,4 +64,19 @@ function formatDate(str: string) {
   return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, '0')}-${date.getFullYear()}`;
+}
+
+function getProducts(body: any) {
+  const products = body.products || body.items || [];
+
+  return products.map(
+    ({ name, price, size, quantity, itemTotal, product_url }: any) => ({
+      name,
+      price,
+      size,
+      quantity,
+      itemTotal,
+      product_url,
+    })
+  );
 }

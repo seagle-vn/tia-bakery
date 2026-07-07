@@ -1,0 +1,65 @@
+{
+  "active": true,
+  "title": "Build Your Cake",
+  "subtitle": "Choose your cake, then customise. Fillings & toppings are optional with an extra fee.",
+  "cakeTypes": [
+    {
+      "id": "sponge-cake",
+      "name": "SPONGE CAKE WITH WHIPPING CREAM",
+      "cakeFlavours": [
+        "Vanilla",
+        "Chocolate",
+        "Matcha",
+        "Coffee"
+      ],
+      "frostingFlavours": [
+        "Vanilla",
+        "Chocolate"
+      ],
+      "fillings": [
+        "Fresh fruit",
+        "Dark chocolate ganache",
+        "Berry jam"
+      ],
+      "toppings": [
+        "Fresh fruit",
+        "Dark / white chocolate dripping",
+        "Bows, pearls, flowers, butterflies"
+      ]
+    },
+    {
+      "id": "golden-cake",
+      "name": "GOLDEN CAKE WITH BUTTERCREAM",
+      "cakeFlavours": [
+        "Vanilla",
+        "Chocolate",
+        "Matcha",
+        "Coffee",
+        "Pistachio",
+        "Confetti",
+        "Cookies n cream",
+        "Red velvet",
+        "Carrot (no tiers)",
+        "Cream cheese (red velvet & carrot only)"
+      ],
+      "frostingFlavours": [
+        "Vanilla",
+        "Chocolate",
+        "Cream cheese (red velvet & carrot only)"
+      ],
+      "fillings": [
+        "Fresh fruit",
+        "Dark / white / matcha / coffee ganache",
+        "Berry jam",
+        "Custard: vanilla, choc, coffee, matcha, strawberry",
+        "Caramel",
+        "Lemon curd"
+      ],
+      "toppings": [
+        "Fresh fruit",
+        "Dark / white chocolate dripping",
+        "Bows, pearls, sprinkles, flowers, butterflies"
+      ]
+    }
+  ]
+}

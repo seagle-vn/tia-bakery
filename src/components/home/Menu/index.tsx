@@ -22,7 +22,7 @@ export const Menu: FunctionComponent<{ menus: Menu[] }> = ({ menus }) => {
   const [basicExampleOpen, setBasicExampleOpen] = useState(false);
   const slides = generateSlides(menus);
   return (
-    <VStack id='menu' my='2rem' w={{ base: '62%', lg: '80%' }}>
+    <VStack bg='rgb(251, 246, 236)' id='menu' my='2rem' w={{ base: '62%', lg: '80%' }}>
       <HStack w='100%' justifyContent='space-between'>
         <Text
           color='black'

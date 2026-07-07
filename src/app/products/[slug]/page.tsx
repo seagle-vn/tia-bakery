@@ -1,5 +1,5 @@
-import { ApolloClient, gql } from '@apollo/client';
-import { NextSSRInMemoryCache } from '@apollo/experimental-nextjs-app-support/ssr';
+import { createApolloClient } from '@/lib/apollo-client';
+import { gql } from '@apollo/client';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ProductClientPage } from './client-page';
@@ -10,7 +10,10 @@ const query = gql`
       id
       name
       slug
-      image
+      image 
+      description {
+        text
+      }
       seo
     }
   }
@@ -19,49 +22,51 @@ const query = gql`
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const client = new ApolloClient({
-    uri: 'https://api-ca-central-1.hygraph.com/v2/cljabf7co288y01t24ejkdc80/master',
-    cache: new NextSSRInMemoryCache(),
-  });
-  const {
-    data: { product },
-  } = await client.query({
+  const { slug } = await params;
+  const client = createApolloClient();
+
+  const { data } = await client.query({
     query,
-    variables: { slug: params.slug },
+    variables: { slug },
   });
+
+  const { product } = data as any;
 
   if (!product) return notFound();
 
-  const { url, width, height } = product.image || {};
-
-  return {
-    title: product.seo?.title || product.title,
-    description: product.seo?.description || product.description,
-    robots: {
-      index: false,
-      follow: false,
-      googleBot: {
+    return {
+      title: product.name,
+      description: product.description?.text || product.name,
+      robots: {
         index: false,
         follow: false,
+        googleBot: {
+          index: false,
+          follow: false,
+        },
       },
-    },
-    openGraph: url
-      ? {
-          images: [
-            {
-              url,
-              width,
-              height,
-              alt: product.seo?.title || product.title,
-            },
-          ],
-        }
-      : null,
+      openGraph: product.image?.url
+        ? {
+            images: [
+              {
+                url: product.image.url,
+                width: product.image.width || 1200,
+                height: product.image.height || 630,
+                alt: product.name,
+              },
+            ],
+          }
+        : null,
   };
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  return <ProductClientPage params={params} />;
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
+  return <ProductClientPage params={resolvedParams} />;
 }

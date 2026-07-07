@@ -9,47 +9,164 @@ import {
   Text,
   extendTheme,
 } from '@chakra-ui/react';
-import { Amatic_SC, Grandiflora_One, Poppins, Roboto_Condensed } from 'next/font/google';
+import { Nunito_Sans, Cormorant_Garamond } from 'next/font/google';
 import 'yet-another-react-lightbox/styles.css';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
 
 const colors = {
-  primary: {
-    200: '#53B7D1',
+  // Brand colors
+  blue: {
+    50: '#E6F7FA',
+    100: '#B3E8F2',
+    200: '#80D9EA',
+    300: '#4DCAE2',
+    400: '#41B9D2',
+    500: '#2E9FBE',
+    600: '#2685A0',
+    700: '#1E6B82',
+    800: '#165164',
+    900: '#0E3746',
+  },
+  pink: {
+    50: '#FEF0F5',
+    100: '#FBE3EC',
+    200: '#F5C7D9',
+    300: '#EFABC6',
+    400: '#E28FB3',
+    500: '#DB6E93',
+    600: '#C24D93',
+    700: '#A03B7A',
+    800: '#7E2961',
+    900: '#5C1748',
+  },
+  // Background colors
+  bg: {
+    primary: '#FBF6EC',
+    secondary: '#F9D7DC',
+    card: '#FCF8EF',
+  },
+  // Text colors
+  text: {
+    dark: '#4A3B36',
+    white: '#FFFFFF',
+  },
+  // Border colors
+  border: {
+    light: '#F0DDE2',
+    medium: '#F3DCE3',
+    pink: '#C24D93',
   },
 };
 
-const amaticSc = Amatic_SC({
+const nunitoSans = Nunito_Sans({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['300', '400', '600', '700'],
   display: 'swap',
 });
-const roboto = Roboto_Condensed({
+
+const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: '300',
-  display: 'swap',
-});
-const grandiflora = Grandiflora_One({
-  subsets: ['latin'],
-  weight: '400',
-  display: 'swap',
-});
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
   display: 'swap',
 });
 
 export const theme = extendTheme({
   colors,
   fonts: {
-    heading: 'var(--font-poppins)',
-    body: 'var(--font-poppins)',
-    amatic: 'var(--font-amatic)',
-    roboto: 'var(--font-roboto)',
-    grandiflora: 'var(--font-grandiflora)',
-    poppins: 'var(--font-poppins)',
+    heading: 'var(--font-cormorant)',
+    body: 'var(--font-nunito)',
+    nunito: 'var(--font-nunito)',
+    cormorant: 'var(--font-cormorant)',
+  },
+  radii: {
+    sm: '12px',
+    md: '16px',
+    lg: '22px',
+    xl: '24px',
+    full: '999px',
+  },
+  shadows: {
+    sm: '0 2px 8px rgba(74, 59, 54, 0.08)',
+    md: '0 4px 16px rgba(74, 59, 54, 0.12)',
+    lg: '0 8px 24px rgba(74, 59, 54, 0.16)',
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: '600',
+        borderRadius: 'full',
+      },
+      variants: {
+        primary: {
+          bg: 'blue.400',
+          color: 'white',
+          _hover: {
+            bg: 'blue.500',
+            transform: 'translateY(-2px)',
+            shadow: 'md',
+          },
+          _active: {
+            bg: 'blue.600',
+            transform: 'translateY(0)',
+          },
+        },
+        secondary: {
+          bg: 'transparent',
+          color: 'pink.500',
+          borderWidth: '2px',
+          borderColor: 'pink.500',
+          _hover: {
+            bg: 'pink.50',
+            transform: 'translateY(-2px)',
+            shadow: 'sm',
+          },
+          _active: {
+            bg: 'pink.100',
+            transform: 'translateY(0)',
+          },
+        },
+      },
+      defaultProps: {
+        variant: 'primary',
+      },
+    },
+    Card: {
+      baseStyle: {
+        container: {
+          bg: 'bg.card',
+          borderRadius: 'lg',
+          borderWidth: '1.5px',
+          borderColor: 'border.medium',
+        },
+      },
+    },
+    Input: {
+      variants: {
+        outline: {
+          field: {
+            borderColor: 'border.medium',
+            borderRadius: 'md',
+            _focus: {
+              borderColor: 'blue.400',
+              boxShadow: '0 0 0 1px var(--chakra-colors-blue-400)',
+            },
+          },
+        },
+      },
+    },
+    Textarea: {
+      variants: {
+        outline: {
+          borderColor: 'border.medium',
+          borderRadius: 'md',
+          _focus: {
+            borderColor: 'blue.400',
+            boxShadow: '0 0 0 1px var(--chakra-colors-blue-400)',
+          },
+        },
+      },
+    },
   },
 });
 
@@ -59,39 +176,21 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
       <style jsx global>
         {`
           :root {
-            --font-amatic: ${amaticSc.style.fontFamily};
-            --font-roboto: ${roboto.style.fontFamily};
-            --font-grandiflora: ${grandiflora.style.fontFamily};
-            --font-poppins: ${poppins.style.fontFamily};
+            --font-nunito: ${nunitoSans.style.fontFamily};
+            --font-cormorant: ${cormorantGaramond.style.fontFamily};
           }
-          
+
           * {
-            font-family: var(--font-poppins);
+            font-family: var(--font-nunito);
           }
         `}
       </style>
       <CacheProvider>
         <ChakraProvider theme={theme}>
           <Box width='full' overflowX='hidden'>
-            <Alert status='info' bg='#42ced1'>
-              <Text
-                fontFamily='poppins'
-                fontWeight={200}
-                margin='0 auto'
-                color='white'
-                fontSize='30px'
-                textAlign='center'
-              >
-                Call me at 226 700 3943 -
-                <Link ml='10px' color='#b5ff34e6' href='mailto:Orders@tiabakery.ca'>
-                  Order Your Cake
-                </Link>
-              </Text>
-            </Alert>
             <Navbar />
             {children}
             <Footer />
-            {/* <FloatingChat /> */}
           </Box>
         </ChakraProvider>
       </CacheProvider>

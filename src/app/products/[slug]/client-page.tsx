@@ -1,6 +1,7 @@
 'use client';
 
-import { gql, useSuspenseQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/client/react';
 import { Image } from '@chakra-ui/next-js';
 import {
   Box,
@@ -47,10 +48,10 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
   const { product } = data as any;
 
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState('Small');
+  const [size, setSize] = useState(product.sizes?.[0]?.name || 'Small');
 
   const price =
-    product.sizes.find((s: any) => s.name === size)?.price ??
+    product.sizes?.find((s: any) => s.name === size)?.price ??
     product.price ??
     30;
 
@@ -71,8 +72,8 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
       <Image
         height={490}
         width={420}
-        borderRadius={{ base: '1rem', md: 'none' }}
-        src={product.image.url}
+        borderRadius="22px"
+        src={url}
         alt={product.name}
       />
       <Box>
@@ -83,7 +84,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
           {/* <Text fontSize='lg' fontWeight={600}>
             {price.toFixed(2)} CA$
           </Text> */}
-          <Box
+           <Box
             dangerouslySetInnerHTML={{ __html: product.description.html }}
             mt={{ base: '1rem', md: '3rem' }}
             maxW={{ base: '100%', md: '80%' }}
@@ -120,7 +121,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
               id: product.id,
               name: product.name,
               price,
-              image: product.image.url,
+              image: url,
               slug: product.slug,
               size,
             }}

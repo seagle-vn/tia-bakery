@@ -1,128 +1,246 @@
-import { Link } from '@chakra-ui/next-js';
-import { Badge, Box, Button, HStack, VStack } from '@chakra-ui/react';
-import { FunctionComponent, useRef } from 'react';
+import { FunctionComponent, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { BsCart3 } from 'react-icons/bs';
 import { useCart } from 'react-use-cart';
-import styles from './Navbar.module.css';
 
 export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
   onCartOpen,
 }) => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const { totalItems } = useCart();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const targetId = window.location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(targetId);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [pathname]);
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+
+    if (pathname !== '/') {
+      router.push(`/${targetId}`);
+      return;
+    }
+
+    const element = document.querySelector(targetId);
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
-    <VStack
-      display={{ base: 'none', md: 'flex' }}
-      justifyContent='center'
-      backgroundColor='#FFD4D7'
-      pb='1rem'
-      w='full'
+    <nav
+      style={{
+        display: 'none',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        background: '#FBF6EC',
+        borderBottom: '1px solid #F0DDE2',
+        width: '100%',
+      }}
     >
-      <HStack
-        spacing='8rem'
-        justifyContent='space-between'
-        alignItems='center'
-        position='relative'
+      <div
+        style={{
+          maxWidth: '1440px',
+          margin: '0 auto',
+          padding: '18px 40px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '32px',
+        }}
       >
-        <HStack spacing='3rem' width='16rem' justifyContent='space-around'>
-          <Box>
-            <Link
-              href='/'
-              className={styles.link}
-              _hover={{ color: 'primary.200' }}
+        <style>{`
+          @media (min-width: 768px) {
+            nav { display: block !important; }
+          }
+        `}</style>
+
+        {/* Left - Logo & Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                background: '#41B9D2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              Home
-            </Link>
-          </Box>
-          <Box>
-            <Link
-              href='/shop'
-              className={styles.link}
-              _hover={{ color: 'primary.200' }}
-            >
-              Gallery
-            </Link>
-          </Box>
-          <Box>
-            <Link
-              href='/sharing'
-              className={styles.link}
-              _hover={{ color: 'primary.200' }}
-            >
-              Sharing
-            </Link>
-          </Box>
-        </HStack>
-        <Box flex='1' display='flex' marginLeft='3rem' justifyContent='center'>
-          <Link href='/'>
-            <Box width='19rem' height='19rem'>
               <img
-                src='/new_logo.png'
-                alt='Tia Bakery Logo'
+                src="/new_logo.png"
+                alt="Tia Bakery Logo"
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'contain',
-                  mixBlendMode: 'multiply',
-                  filter: 'contrast(1.2) brightness(1.1) saturate(1.1)',
-                  borderRadius: '50%',
+                  objectFit: 'cover',
                 }}
               />
-            </Box>
+            </div>
           </Link>
-        </Box>
-        <HStack spacing='3rem' width='16rem' justifyContent='space-around'>
-          <Box>
-            <Link
-              href='/about'
-              className={styles.link}
-              _hover={{ color: 'primary.200' }}
-            >
-              About
-            </Link>
-          </Box>
-          <Box>
-            <Link
-              href='/faq'
-              className={styles.link}
-              _hover={{ color: 'primary.200' }}
-            >
-              FAQ
-            </Link>
-          </Box>
-          <Box>
-            <Button
-              ref={btnRef}
-              variant='link'
-              onClick={onCartOpen}
-              className={styles.link}
-              position='relative'
-              color='black'
-              _hover={{
-                textDecoration: 'none',
-                color: '#53B7D1',
-              }}
-            >
-              Quote
-              {totalItems > 0 ? (
-                <Badge
-                  bgColor='black'
-                  color='white'
-                  position='absolute'
-                  top='0px'
-                  right='-28px'
-                  borderRadius='50%'
-                  size='lg'
-                  py='5px'
-                  px='8px'
-                >
-                  {totalItems}
-                </Badge>
-              ) : null}
-            </Button>
-          </Box>
-        </HStack>
-      </HStack>
-    </VStack>
+          <span
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: '28px',
+              fontWeight: 600,
+              color: '#2E9FBE',
+              letterSpacing: '0.5px',
+            }}
+          >
+            Tia Bakery
+          </span>
+        </div>
+
+        {/* Center & Right - Navigation Links */}
+        <div style={{ display: 'flex', gap: '40px', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
+          <a
+            href="#menu"
+            onClick={(e) => handleSmoothScroll(e, '#menu')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            Menu
+          </a>
+          <a
+            href="#gallery"
+            onClick={(e) => handleSmoothScroll(e, '#gallery')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            Gallery
+          </a>
+          <a
+            href="#about"
+            onClick={(e) => handleSmoothScroll(e, '#about')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            About
+          </a>
+          <a
+            href="#faq"
+            onClick={(e) => handleSmoothScroll(e, '#faq')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            FAQ
+          </a>
+          <a
+            href="#quote"
+            onClick={(e) => handleSmoothScroll(e, '#quote')}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#7E6B62',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#41B9D2')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#7E6B62')}
+          >
+            Contact
+          </a>
+
+          {/* CTA Button */}
+          <a
+            href={pathname === '/' ? '#quote' : '/#quote'}
+            onClick={(e) => {
+              e.preventDefault();
+
+              if (pathname !== '/') {
+                router.push('/#quote');
+                return;
+              }
+
+              const element = document.querySelector('#quote');
+              if (element) {
+                const headerOffset = 100;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+              }
+            }}
+            style={{
+              background: '#41B9D2',
+              color: '#FFF',
+              padding: '15px 30px',
+              borderRadius: '999px',
+              fontSize: '16px',
+              fontWeight: 700,
+              textDecoration: 'none',
+              transition: 'all 0.2s',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 10px 22px -10px rgba(65, 185, 210, 0.9)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#2E9FBE';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 15px 30px -15px rgba(65, 185, 210, 0.95)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#41B9D2';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 10px 22px -10px rgba(65, 185, 210, 0.9)';
+            }}
+          >
+            Order Your Cake
+          </a>
+        </div>
+      </div>
+    </nav>
   );
 };
