@@ -1,10 +1,49 @@
-export default function WatchSection() {
-  // Sample YouTube video IDs - replace these with your actual video IDs
-  const videos = [
-    { id: 'dQw4w9WgXcQ', title: 'Cake Making Process' },
-    { id: 'dQw4w9WgXcQ', title: 'Behind the Scenes' },
-    { id: 'dQw4w9WgXcQ', title: 'Custom Cake Tutorial' },
+'use client';
+
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
+
+const STORE_VIDEOS_QUERY = gql`
+  query StoreVideosQuery {
+    store(where: { slug: "london" }) {
+      videoUrl
+      videoUrl2
+      videoUrl3
+    }
+  }
+`;
+
+const extractYouTubeId = (url: string): string => {
+  if (!url) return '';
+
+  // Handle different YouTube URL formats
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s]+)/,
+    /^([a-zA-Z0-9_-]{11})$/, // Direct video ID
   ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+
+  return url; // Return as-is if no pattern matches
+};
+
+export default function WatchSection() {
+  const { data, loading, error } = useQuery(STORE_VIDEOS_QUERY, {
+    fetchPolicy: 'cache-first',
+  });
+
+  const videos = [
+    { id: extractYouTubeId(data?.store?.videoUrl || ''), title: 'Cake Making Process' },
+    { id: extractYouTubeId(data?.store?.videoUrl2 || ''), title: 'Behind the Scenes' },
+    { id: extractYouTubeId(data?.store?.videoUrl3 || ''), title: 'Custom Cake Tutorial' },
+  ].filter(video => video.id); // Filter out empty video IDs
+
+  if (loading) return null;
+  if (error) return null;
+  if (videos.length === 0) return null;
 
   return (
     <section

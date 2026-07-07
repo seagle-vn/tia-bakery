@@ -14,6 +14,9 @@ const query = gql`
       instagram
       phone
       youtube
+      videoUrl
+      videoUrl2
+      videoUrl3
     }
   }
 `;
