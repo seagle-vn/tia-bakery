@@ -78,15 +78,15 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
       {/* Pricing Disclaimer */}
       <div
         style={{
-          maxWidth: '640px',
           margin: '0 auto clamp(34px, 4.5vw, 52px)',
           background: '#F9D7DC',
           borderRadius: '14px',
-          padding: '13px 22px',
+          padding: '18px 32px',
           textAlign: 'center',
-          fontSize: '14.5px',
+          fontSize: '20px',
           fontWeight: 600,
           color: '#2E9FBE',
+          lineHeight: 1.4,
         }}
       >
         Listed prices are <strong>starting prices</strong> — the final price varies with your
