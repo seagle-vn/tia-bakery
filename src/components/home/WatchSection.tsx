@@ -3,6 +3,14 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 
+interface StoreVideosData {
+  store: {
+    videoUrl: string;
+    videoUrl2: string;
+    videoUrl3: string;
+  };
+}
+
 const STORE_VIDEOS_QUERY = gql`
   query StoreVideosQuery {
     store(where: { slug: "london" }) {
@@ -34,7 +42,7 @@ const extractYouTubeId = (url: string): string => {
 };
 
 export default function WatchSection() {
-  const { data, loading, error } = useQuery(STORE_VIDEOS_QUERY, {
+  const { data, loading, error } = useQuery<StoreVideosData>(STORE_VIDEOS_QUERY, {
     fetchPolicy: 'cache-first',
   });
 
