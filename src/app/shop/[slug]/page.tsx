@@ -83,7 +83,6 @@ export default function ProductPage({
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
           gap: 'clamp(20px, 3vw, 32px)',
-          marginBottom: 'clamp(40px, 5vw, 60px)',
         }}
       >
         {category.products.map((product: any) => (
@@ -96,39 +95,6 @@ export default function ProductPage({
             id={product.id}
           />
         ))}
-      </div>
-
-      {/* Order CTA Button */}
-      <div style={{ textAlign: 'center' }}>
-        <Link
-          href="/#quote"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            textDecoration: 'none',
-            background: '#41B9D2',
-            color: '#FFF',
-            padding: '15px 32px',
-            borderRadius: '999px',
-            fontSize: '16px',
-            fontWeight: 700,
-            boxShadow: '0 10px 22px -10px rgba(65, 185, 210, 0.9)',
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#2E9FBE';
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 15px 30px -15px rgba(65, 185, 210, 0.95)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#41B9D2';
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 10px 22px -10px rgba(65, 185, 210, 0.9)';
-          }}
-        >
-          Order this style →
-        </Link>
       </div>
     </main>
   );

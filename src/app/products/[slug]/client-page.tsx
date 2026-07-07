@@ -17,7 +17,6 @@ const query = gql`
       image
       description {
         html
-        text
       }
       sizes {
         id
