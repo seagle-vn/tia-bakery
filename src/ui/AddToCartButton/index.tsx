@@ -3,6 +3,7 @@
 import { Button, ButtonProps, useToast } from '@chakra-ui/react';
 import { FunctionComponent, useState } from 'react';
 import { useCart } from 'react-use-cart';
+import { useRouter } from 'next/navigation';
 
 type AddToCartButtonProps = ButtonProps & {
   product: {
@@ -23,6 +24,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
   const { addItem, items, updateItemQuantity } = useCart();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const router = useRouter();
 
   function handleClick() {
     setLoading(true);
@@ -39,13 +41,15 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
     }
 
     toast({
-      title: 'Added to quote',
-      description: `${product.name} has been added to your quote.`,
+      title: 'Added to quote!',
       status: 'success',
       duration: 2000,
       isClosable: true,
       position: 'bottom-right',
     });
+
+    // Navigate to homepage quote section
+    router.push('/#quote');
 
     setTimeout(() => setLoading(false), 200);
   }

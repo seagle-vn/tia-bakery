@@ -97,6 +97,24 @@ export default function HomeClientPage() {
       });
   }, []);
 
+  // Handle hash navigation for scrolling to sections
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash;
+      // Wait for content to load
+      const timeoutId = setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 300);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [loading]);
+
   if (loading) {
     return (
       <Box

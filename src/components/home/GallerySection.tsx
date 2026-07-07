@@ -75,8 +75,18 @@ export default function GallerySection({ categories }: GallerySectionProps) {
               Recent bakes
             </h2>
           </div>
-          <Link
+          <a
             href="#quote"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.querySelector('#quote');
+              if (element) {
+                const headerOffset = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+              }
+            }}
             style={{
               textDecoration: 'none',
               color: '#DB6E93',
@@ -84,6 +94,7 @@ export default function GallerySection({ categories }: GallerySectionProps) {
               fontSize: '17px',
               transition: 'all 0.3s ease',
               display: 'inline-block',
+              cursor: 'pointer',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = '#C24D93';
@@ -97,7 +108,7 @@ export default function GallerySection({ categories }: GallerySectionProps) {
             }}
           >
             Start your order →
-          </Link>
+          </a>
         </div>
 
         {/* Category Galleries */}
