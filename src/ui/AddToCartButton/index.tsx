@@ -15,10 +15,12 @@ type AddToCartButtonProps = ButtonProps & {
     slug: string;
   };
   quantity: number;
+  style?: React.CSSProperties;
 };
 export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
   product,
   quantity,
+  style,
   ...props
 }) => {
   const { addItem, items, updateItemQuantity } = useCart();
@@ -57,6 +59,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
   return (
     <Button
       {...props}
+      style={style}
       bg='blue.400'
       color='white'
       borderRadius='full'
