@@ -109,7 +109,7 @@ export default function MenuSection({ products, cakeBuilder, cakeBuilderLoading 
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: 'clamp(18px, 2.4vw, 26px)',
           alignItems: 'stretch',
         }}

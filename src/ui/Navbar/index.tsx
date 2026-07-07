@@ -7,11 +7,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { CartDrawer } from '../CartDrawer';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 
 export const Navbar: FunctionComponent = () => {
+  const pathname = usePathname();
+  const router = useRouter();
   const {
     isOpen: isCartOpen,
     onOpen: onCartOpen,
@@ -44,6 +47,11 @@ export const Navbar: FunctionComponent = () => {
         />
         <Button
           onClick={() => {
+            if (pathname !== '/') {
+              router.push('/#quote');
+              return;
+            }
+
             const element = document.querySelector('#quote');
             if (element) {
               const headerOffset = 80;

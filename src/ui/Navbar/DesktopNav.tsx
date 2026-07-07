@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef } from 'react';
+import { FunctionComponent, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { BsCart3 } from 'react-icons/bs';
@@ -11,6 +11,21 @@ export const DesktopNav: FunctionComponent<{ onCartOpen: () => void }> = ({
   const { totalItems } = useCart();
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const targetId = window.location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(targetId);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [pathname]);
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();

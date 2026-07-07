@@ -4,6 +4,7 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import Image from 'next/image';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { usePathname, useRouter } from 'next/navigation';
 
 const query = gql`
   query StoreQuery {
@@ -25,6 +26,8 @@ export function Footer() {
   const { data, loading, error } = useQuery(query, {
     fetchPolicy: 'cache-first',
   });
+  const pathname = usePathname();
+  const router = useRouter();
 
   if (loading) return null;
   if (error) return null;
@@ -182,6 +185,22 @@ export function Footer() {
             </div>
             <a
               href="#quote"
+              onClick={(e) => {
+                e.preventDefault();
+
+                if (pathname !== '/') {
+                  router.push('/#quote');
+                  return;
+                }
+
+                const element = document.querySelector('#quote');
+                if (element) {
+                  const headerOffset = 100;
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                  window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+              }}
               style={{
                 color: '#DB6E93',
                 textDecoration: 'none',
@@ -189,6 +208,7 @@ export function Footer() {
                 fontWeight: 700,
                 transition: 'all 0.3s ease',
                 display: 'inline-block',
+                cursor: 'pointer',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = '#C24D93';

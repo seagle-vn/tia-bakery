@@ -121,7 +121,7 @@ export function ProductClientPage({ params }: { params: { slug: string } }) {
               id: product.id,
               name: product.name,
               price,
-              image: product.image.url,
+              image: url,
               slug: product.slug,
               size,
             }}

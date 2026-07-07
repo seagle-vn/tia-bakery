@@ -1,10 +1,26 @@
 import { Link } from '@chakra-ui/next-js';
 import { Box, Stack, Text } from '@chakra-ui/react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export const MobileNav = () => {
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const targetId = window.location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(targetId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [pathname]);
 
   const handleSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
