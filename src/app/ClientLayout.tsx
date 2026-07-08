@@ -191,7 +191,7 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
 
             {/* Chat Widget */}
             <iframe
-              src="http://localhost:3000/embed/9cbf5730-174b-4783-8c78-f5dc939be834?transparent=true"
+              src="https://www.askbox.app/embed/9cbf5730-174b-4783-8c78-f5dc939be834?transparent=true"
               width="400"
               height="600"
               frameBorder="0"
