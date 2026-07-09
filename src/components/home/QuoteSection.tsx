@@ -358,7 +358,11 @@ export default function QuoteSection() {
                               type="button"
                               aria-label={`Remove ${item.name} from quote`}
                               title="Remove from quote"
-                              onClick={() => removeItem(item.id)}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeItem(item.id);
+                              }}
                               style={{
                                 width: '32px',
                                 height: '32px',
@@ -371,6 +375,15 @@ export default function QuoteSection() {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 flexShrink: 0,
+                                position: 'relative',
+                                zIndex: 10,
+                                pointerEvents: 'auto',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = 'rgba(126, 107, 98, 0.15)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'rgba(126, 107, 98, 0.08)';
                               }}
                             >
                               <DeleteIcon aria-hidden="true" boxSize={3.5} />
