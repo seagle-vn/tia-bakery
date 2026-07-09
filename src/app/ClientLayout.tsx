@@ -2,14 +2,11 @@
 
 import { CacheProvider } from '@chakra-ui/next-js';
 import {
-  Alert,
   Box,
   ChakraProvider,
-  Link,
-  Text,
-  extendTheme,
+  extendTheme
 } from '@chakra-ui/react';
-import { Nunito_Sans, Cormorant_Garamond } from 'next/font/google';
+import { Cormorant_Garamond, Nunito_Sans } from 'next/font/google';
 import 'yet-another-react-lightbox/styles.css';
 import { Footer } from '../ui/Footer';
 import { Navbar } from '../ui/Navbar';
@@ -191,6 +188,24 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
             <Navbar />
             {children}
             <Footer />
+
+            {/* Chat Widget */}
+            <iframe
+              src="https://www.askbox.app/embed/9cbf5730-174b-4783-8c78-f5dc939be834?transparent=true"
+              width="400"
+              height="600"
+              frameBorder="0"
+              allow="clipboard-write"
+              style={{
+                position: 'fixed',
+                bottom: '24px',
+                right: '24px',
+                border: 'none',
+                zIndex: 9999,
+                background: 'transparent'
+              }}
+              title="Tia bakery Chat Widget"
+            />
           </Box>
         </ChakraProvider>
       </CacheProvider>
