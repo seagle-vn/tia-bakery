@@ -6,6 +6,7 @@ import {
   ChakraProvider,
   extendTheme
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { Cormorant_Garamond, Nunito_Sans } from 'next/font/google';
 import 'yet-another-react-lightbox/styles.css';
 import { Footer } from '../ui/Footer';
@@ -167,7 +168,28 @@ export const theme = extendTheme({
   },
 });
 
+const CHAT_EMBED_ORIGIN = 'https://www.askbox.app';
+
 export function ClientLayout({ children }: React.PropsWithChildren) {
+  // The chat widget iframe is transparent, so while it's collapsed to just the
+  // bubble the rest of its box would still intercept taps on the page beneath
+  // it (e.g. the quote form on mobile). The embed posts an `askbox:resize`
+  // message reporting its open/closed state; shrink the iframe to the bubble
+  // while minimized and expand it only when the chat is open.
+  const [chatMinimized, setChatMinimized] = useState(true);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== CHAT_EMBED_ORIGIN) return;
+      const data = event.data || {};
+      if (data.type !== 'askbox:resize') return;
+      setChatMinimized(Boolean(data.minimized));
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   return (
     <>
       <style jsx global>
@@ -192,17 +214,21 @@ export function ClientLayout({ children }: React.PropsWithChildren) {
             {/* Chat Widget */}
             <iframe
               src="https://www.askbox.app/embed/9cbf5730-174b-4783-8c78-f5dc939be834?transparent=true"
-              width="400"
-              height="600"
               frameBorder="0"
               allow="clipboard-write"
+              allowTransparency
               style={{
                 position: 'fixed',
                 bottom: '24px',
                 right: '24px',
+                width: chatMinimized ? '96px' : '400px',
+                height: chatMinimized ? '96px' : '600px',
+                maxWidth: 'calc(100vw - 48px)',
+                maxHeight: 'calc(100vh - 48px)',
                 border: 'none',
                 zIndex: 9999,
-                background: 'transparent'
+                background: 'transparent',
+                transition: 'width 0.2s ease, height 0.2s ease'
               }}
               title="Tia bakery Chat Widget"
             />

@@ -17,6 +17,24 @@ export default function HeroSection({
 }: HeroSectionProps) {
   const optimizedImage = getOptimizedImage(heroImage, 900, 600);
 
+  // Match the smooth-scroll behavior used by the navbar links. A plain hash
+  // anchor doesn't reliably scroll on mobile (fixed header + client routing),
+  // so scroll manually with the same header offset the nav uses.
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
+
+    const element = document.querySelector(targetId);
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section
       id="home"
@@ -75,6 +93,7 @@ export default function HeroSection({
           <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
             <Link
               href="#quote"
+              onClick={(e) => handleSmoothScroll(e, '#quote')}
               style={{
                 textDecoration: 'none',
                 background: '#41B9D2',
@@ -102,6 +121,7 @@ export default function HeroSection({
             </Link>
             <Link
               href="#menu"
+              onClick={(e) => handleSmoothScroll(e, '#menu')}
               style={{
                 textDecoration: 'none',
                 background: 'transparent',
