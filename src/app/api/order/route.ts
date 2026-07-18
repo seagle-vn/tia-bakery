@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
             formatDate(new Date().toISOString()),     // Column G - Order date
             body.email || '',                         // Column H - Email
             '',                                       // Column I - Email sent status (added by script)
-            body.inspirationPhoto?.dataUrl || '',     // Column J - Base64 image
+            body.inspirationPhotoUrl || '',           // Column J - Supabase image URL
           ],
         ],
       },

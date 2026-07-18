@@ -4,12 +4,12 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { useRef, useState } from 'react';
 import { useCart } from 'react-use-cart';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+import { uploadImageToSupabase, compressImageToBlob } from '@/lib/supabase';
 
 type InspirationPhoto = {
   name: string;
-  type: string;
-  size: number;
-  dataUrl: string;
+  url: string; // Changed from dataUrl to url
+  previewUrl: string; // Local preview before upload
 };
 
 const MAX_INSPIRATION_PHOTO_SIZE = 8 * 1024 * 1024;
@@ -29,6 +29,7 @@ export default function QuoteSection() {
   const [eventDate, setEventDate] = useState<Date>(new Date());
   const [inspirationPhoto, setInspirationPhoto] = useState<InspirationPhoto | null>(null);
   const [inspirationPhotoError, setInspirationPhotoError] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -41,7 +42,7 @@ export default function QuoteSection() {
       const orderData = {
         ...formData,
         eventDate: eventDate.toISOString().split('T')[0],
-        inspirationPhoto,
+        inspirationPhotoUrl: inspirationPhoto?.url || '', // Send URL instead of full object
         items: items.map((item) => ({
           name: item.name,
           size: item.size,
@@ -79,6 +80,9 @@ export default function QuoteSection() {
           details: '',
         });
         setEventDate(new Date());
+        if (inspirationPhoto?.previewUrl) {
+          URL.revokeObjectURL(inspirationPhoto.previewUrl);
+        }
         setInspirationPhoto(null);
         setInspirationPhotoError('');
         if (inspirationPhotoInputRef.current) {
@@ -130,20 +134,44 @@ export default function QuoteSection() {
     }
 
     try {
-      const dataUrl = await compressImageToDataUrl(file);
+      setIsUploadingImage(true);
+
+      // Create local preview URL
+      const previewUrl = URL.createObjectURL(file);
+
+      // Compress image to blob
+      const compressedBlob = await compressImageToBlob(
+        file,
+        INSPIRATION_PHOTO_MAX_WIDTH,
+        INSPIRATION_PHOTO_MAX_HEIGHT,
+        INSPIRATION_PHOTO_QUALITY
+      );
+
+      // Upload to Supabase and get URL
+      const url = await uploadImageToSupabase(compressedBlob, file.name);
+
       setInspirationPhoto({
         name: file.name,
-        type: 'image/jpeg',
-        size: dataUrl.length,
-        dataUrl,
+        url,
+        previewUrl,
       });
     } catch (error) {
+      console.error('Image upload error:', error);
       setInspirationPhoto(null);
-      setInspirationPhotoError('Unable to read this image. Please try another file.');
+      setInspirationPhotoError(
+        error instanceof Error
+          ? `Upload failed: ${error.message}`
+          : 'Unable to upload this image. Please try another file.'
+      );
+    } finally {
+      setIsUploadingImage(false);
     }
   };
 
   const clearInspirationPhoto = () => {
+    if (inspirationPhoto?.previewUrl) {
+      URL.revokeObjectURL(inspirationPhoto.previewUrl);
+    }
     setInspirationPhoto(null);
     setInspirationPhotoError('');
     if (inspirationPhotoInputRef.current) {
@@ -598,7 +626,30 @@ export default function QuoteSection() {
                       padding: '24px',
                     }}
                   >
-                    {inspirationPhoto ? (
+                    {isUploadingImage ? (
+                      <div style={{ color: '#6F6F6F', textAlign: 'center' }}>
+                        <div
+                          style={{
+                            width: '48px',
+                            height: '48px',
+                            margin: '0 auto 12px',
+                            border: '4px solid #E0E0E0',
+                            borderTop: '4px solid #41B9D2',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite',
+                          }}
+                        />
+                        <p style={{ margin: 0, fontSize: '15px', fontWeight: 600 }}>
+                          Uploading image...
+                        </p>
+                        <style jsx>{`
+                          @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                          }
+                        `}</style>
+                      </div>
+                    ) : inspirationPhoto ? (
                       <div>
                         <div
                           aria-label="Selected inspiration"
@@ -608,7 +659,7 @@ export default function QuoteSection() {
                             height: '88px',
                             borderRadius: '12px',
                             margin: '0 auto 10px',
-                            backgroundImage: `url(${inspirationPhoto.dataUrl})`,
+                            backgroundImage: `url(${inspirationPhoto.previewUrl})`,
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
                           }}
@@ -712,37 +763,3 @@ export default function QuoteSection() {
   );
 }
 
-function compressImageToDataUrl(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const image = new Image();
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      image.src = reader.result as string;
-    };
-    reader.onerror = reject;
-
-    image.onload = () => {
-      const scale = Math.min(
-        INSPIRATION_PHOTO_MAX_WIDTH / image.width,
-        INSPIRATION_PHOTO_MAX_HEIGHT / image.height,
-        1
-      );
-      const canvas = document.createElement('canvas');
-      canvas.width = Math.max(1, Math.round(image.width * scale));
-      canvas.height = Math.max(1, Math.round(image.height * scale));
-
-      const context = canvas.getContext('2d');
-      if (!context) {
-        reject(new Error('Unable to prepare image.'));
-        return;
-      }
-
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      resolve(canvas.toDataURL('image/jpeg', INSPIRATION_PHOTO_QUALITY));
-    };
-    image.onerror = reject;
-
-    reader.readAsDataURL(file);
-  });
-}
