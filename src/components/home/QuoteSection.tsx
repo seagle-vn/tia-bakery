@@ -381,7 +381,6 @@ export default function QuoteSection() {
                             </div>
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <p style={{ fontWeight: 700, color: '#41B9D2', margin: 0 }}>${item.price}</p>
                             <button
                               type="button"
                               aria-label={`Remove ${item.name} from quote`}
@@ -419,21 +418,6 @@ export default function QuoteSection() {
                           </div>
                         </div>
                       ))}
-                    </div>
-                    <div
-                      style={{
-                        marginTop: '12px',
-                        paddingTop: '12px',
-                        borderTop: '1px solid #F3DCE3',
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 600, color: '#7E6B62' }}>Estimated Total:</span>
-                        <span style={{ fontSize: '20px', fontWeight: 700, color: '#41B9D2' }}>${cartTotal}</span>
-                      </div>
-                      <p style={{ fontSize: '12px', color: '#8A776E', marginTop: '4px' }}>
-                        Final price may vary based on customization
-                      </p>
                     </div>
                   </div>
                 )}
